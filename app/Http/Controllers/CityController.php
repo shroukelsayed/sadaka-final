@@ -41,7 +41,7 @@ class CityController extends Controller {
 		$city = new City();
 
 		$city->name = $request->input("name");
-
+		$city->governorate_id = 1;
 		$city->save();
 
 		return redirect()->route('cities.index')->with('message', 'Item created successfully.');

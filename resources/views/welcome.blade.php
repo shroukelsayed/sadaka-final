@@ -9,6 +9,7 @@
 
                 <div class="panel-body">
                     Your Application's Landing Page.
+                     @lang('validation.string')
                 </div>
             </div>
         </div>

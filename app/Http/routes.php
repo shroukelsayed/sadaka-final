@@ -40,3 +40,8 @@ Route::resource("charity_documents","CharityDocumentController");
 Route::resource("charity_addresses","CharityAddressController");
 Route::resource("cities","CityController");
 Route::resource("governorates","GovernorateController");
+
+Route::get('/{locale}', function ($locale) {
+	App::setLocale($locale);
+    return view('welcome');
+});

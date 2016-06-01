@@ -405,7 +405,7 @@
 
         <!-- Main content -->
                
-        <div class="container" style="width: 900px;height: 500px;">
+        <div class="container" style="width: 900px;">
           @yield('header')
           @yield('content')
         </div>

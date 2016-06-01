@@ -4,6 +4,9 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\UserInfo;
+use App\User;
+use App\City;
+use App\Governorate;
 use Illuminate\Http\Request;
 
 class UserInfoController extends Controller {
@@ -39,15 +42,12 @@ class UserInfoController extends Controller {
 	public function store(Request $request)
 	{
 		$user_info = new UserInfo();
-
+		$user_info->firstName = $request->input("firstName");
+		$user_info->lastName = $request->input("lastName");
 		$user_info->nationalid = $request->input("nationalid");
         $user_info->address = $request->input("address");
         $user_info->birthdate = $request->input("birthdate");
-        $user_info->gender = $request->input("gender");
-        $user_info->user_id = 2;
-        $user_info->city_id = 1;
-        $user_info->governorate_id = 1;
-
+        $user_info->user_id = 1;
 		$user_info->save();
 
 		return redirect()->route('user_infos.index')->with('message', 'Item created successfully.');
@@ -62,8 +62,10 @@ class UserInfoController extends Controller {
 	public function show($id)
 	{
 		$user_info = UserInfo::findOrFail($id);
-
-		return view('user_infos.show', compact('user_info'));
+		$user= User::findOrFail($id);
+		$city= City::findOrFail($id);
+		$gov= Governorate::findOrFail($id);
+		return view('user_infos.show', compact('gov','city','user','user_info'));
 	}
 
 	/**
@@ -72,11 +74,13 @@ class UserInfoController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit(Request $request, $id)
 	{
 		$user_info = UserInfo::findOrFail($id);
-
-		return view('user_infos.edit', compact('user_info'));
+		$user= User::findOrFail($id);
+		$city= City::findOrFail($id);
+		$gov= Governorate::findOrFail($id);
+		return view('user_infos.edit', compact('gov','city','user','user_info'));
 	}
 
 	/**
@@ -89,15 +93,26 @@ class UserInfoController extends Controller {
 	public function update(Request $request, $id)
 	{
 		$user_info = UserInfo::findOrFail($id);
-
+		$user= User::findOrFail($id);
+		$city_id=$user_info['city_id'];
+		$gov_id=$user_info['governorate_id'];
+		$gov= Governorate::findOrFail($gov_id);
+		$city= City::findOrFail($city_id);
 		$user_info->nationalid = $request->input("nationalid");
         $user_info->address = $request->input("address");
+        $user_info->firstName = $request->input("firstName");
+        $user_info->lastName = $request->input("lastName");
+    	$city->name=$request->input("cityname");
+        $user->email=$request->input("email");;
         $user_info->birthdate = $request->input("birthdate");
-        $user_info->gender = $request->input("gender");
-
+        $user->phone = $request->input("phone");
+        $user->name = $request->input("username");
 		$user_info->save();
+		$user->save();
+		$city->save();
+		$gov->save();
 
-		return redirect()->route('user_infos.index')->with('message', 'Item updated successfully.');
+		return redirect()->route('user_infos.show', $user_info->id)->with('message', 'Item updated successfully.');
 	}
 
 	/**

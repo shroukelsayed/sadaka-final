@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layouts.adminlayout')
 @section('css')
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/css/bootstrap-datepicker.css" rel="stylesheet">
 @endsection
@@ -6,6 +6,17 @@
     <div class="page-header">
         <h1><i class="glyphicon glyphicon-edit"></i> Compaigns / Edit #{{$compaign->id}}</h1>
     </div>
+
+    <style>
+      
+    select{
+
+        width:400px;
+        height:30px;
+
+    }
+
+    </style>
 @endsection
 
 @section('content')
@@ -34,14 +45,14 @@
                     </div>
                     <div class="form-group @if($errors->has('startdate')) has-error @endif">
                        <label for="startdate-field">Startdate</label>
-                    <input type="text" id="startdate-field" name="startdate" class="form-control" value="{{ $compaign->startdate }}"/>
+                    <input  type="text" id="startdate-field" name="startdate" class="form-control" value="{{ $compaign->startdate }}"/>
                        @if($errors->has("startdate"))
                         <span class="help-block">{{ $errors->first("startdate") }}</span>
                        @endif
                     </div>
                     <div class="form-group @if($errors->has('enddate')) has-error @endif">
                        <label for="enddate-field">Enddate</label>
-                    <input type="text" id="enddate-field" name="enddate" class="form-control" value="{{ $compaign->enddate }}"/>
+                    <input  type="text" id="enddate-field" name="enddate" class="form-control" value="{{ $compaign->enddate }}"/>
                        @if($errors->has("enddate"))
                         <span class="help-block">{{ $errors->first("enddate") }}</span>
                        @endif
@@ -52,6 +63,27 @@
                        @if($errors->has("budget"))
                         <span class="help-block">{{ $errors->first("budget") }}</span>
                        @endif
+                    </div>
+
+                    <div class="form-group">
+                      <label for="amount">Governrate </label>
+                      <br>
+                      <select name="governrate" id="modify_modal_level">
+                          @foreach ($governrates as $key => $value)
+                              <option value="{{ $key+1 }}">{{ $compaign->governorate->name }}</option>
+                          @endforeach
+                      </select>
+                    </div>
+
+
+                    <div class="form-group">
+                      <label for="amount">City </label>
+                      <br>
+                      <select name="city" id="modify_modal_level">
+                          @foreach ($city as $key => $value)
+                              <option value="{{ $key+1 }}">{{ $compaign->city->name }}</option>
+                          @endforeach
+                      </select>
                     </div>
                     <div class="form-group @if($errors->has('description')) has-error @endif">
                        <label for="description-field">Description</label>

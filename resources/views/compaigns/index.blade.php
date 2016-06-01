@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layouts.adminlayout')
 
 @section('header')
     <div class="page-header clearfix">
@@ -33,11 +33,11 @@
                             <tr>
                                 <td>{{$compaign->id}}</td>
                                 <td>{{$compaign->title}}</td>
-                    <td>{{$compaign->location}}</td>
-                    <td>{{$compaign->startdate}}</td>
-                    <td>{{$compaign->enddate}}</td>
-                    <td>{{$compaign->budget}}</td>
-                    <td>{{$compaign->description}}</td>
+                                <td>{{$compaign->location}}</td>
+                                <td>{{$compaign->startdate}}</td>
+                                <td>{{$compaign->enddate}}</td>
+                                <td>{{$compaign->budget}}</td>
+                                <td>{{$compaign->description}}</td>
                                 <td class="text-right">
                                     <a class="btn btn-xs btn-primary" href="{{ route('compaigns.show', $compaign->id) }}"><i class="glyphicon glyphicon-eye-open"></i> View</a>
                                     <a class="btn btn-xs btn-warning" href="{{ route('compaigns.edit', $compaign->id) }}"><i class="glyphicon glyphicon-edit"></i> Edit</a>

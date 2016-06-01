@@ -42,22 +42,22 @@ class Person extends Model
 
     public function blood(){
 
-        return $this->belongsTo(Blood::class);
+        return $this->hasOne(Blood::class);
     }
 
     public function medicine(){
 
-        return $this->belongsTo(Medicine::class);
+        return $this->hasOne(Medicine::class);
     }
 
     public function money(){
 
-        return $this->belongsTo(Money::class);
+        return $this->hasOne(Money::class);
     }
 
     public function other(){
 
-        return $this->belongsTo(Other::class);
+        return $this->hasOne(Other::class);
     }
 	
 	public function userpeople(){

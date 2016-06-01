@@ -42,10 +42,12 @@ class PersonInfoController extends Controller {
 
 		$person_info->name = $request->input("name");
         $person_info->address = $request->input("address");
-        $person_info->birthDate = $request->input("birthDate");
+        $person_info->birthDate = $request->input("birthdate");
         $person_info->gender = $request->input("gender");
         $person_info->maritalstatus = $request->input("maritalstatus");
         $person_info->phone = $request->input("phone");
+        $person_info->city_id = 1;
+        $person_info->governorate_id = 1;
 
 		$person_info->save();
 

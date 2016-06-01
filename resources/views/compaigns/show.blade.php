@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layouts.adminlayout')
 @section('header')
 <div class="page-header">
         <h1>Compaigns / Show #{{$compaign->id}}</h1>
@@ -11,6 +11,14 @@
             </div>
         </form>
     </div>
+
+    <style>
+        
+        select{
+
+            width:150px;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -20,28 +28,47 @@
             <form action="#">
                 <div class="form-group">
                     <label for="nome">ID</label>
-                    <p class="form-control-static"></p>
+                    <p class="form-control-static">{{$compaign->id}}</p>
                 </div>
                 <div class="form-group">
                      <label for="title">TITLE</label>
                      <p class="form-control-static">{{$compaign->title}}</p>
                 </div>
-                    <div class="form-group">
+                <div class="form-group">
                      <label for="location">LOCATION</label>
                      <p class="form-control-static">{{$compaign->location}}</p>
                 </div>
-                    <div class="form-group">
+                <div class="form-group">
                      <label for="startdate">STARTDATE</label>
                      <p class="form-control-static">{{$compaign->startdate}}</p>
-                </div>
+                    </div>
                     <div class="form-group">
                      <label for="enddate">ENDDATE</label>
                      <p class="form-control-static">{{$compaign->enddate}}</p>
-                </div>
+                    </div>
                     <div class="form-group">
                      <label for="budget">BUDGET</label>
                      <p class="form-control-static">{{$compaign->budget}}</p>
-                </div>
+                    </div>
+
+                     <div class="form-group">
+                      <label for="amount">Governrate </label>
+                      <br>
+                      <select disabled name="governrate" id="modify_modal_level">
+                      <option>{{ $compaign->governorate->name }}</option>  
+                      </select>
+                    </div>
+
+
+                    <div class="form-group">
+                      <label for="amount">City </label>
+                      <br>
+                      <select disabled name="city" id="modify_modal_level"> 
+                          <option>{{ $compaign->city->name }}</option>
+                      </select>
+                    </div>
+                
+                    
                     <div class="form-group">
                      <label for="description">DESCRIPTION</label>
                      <p class="form-control-static">{{$compaign->description}}</p>

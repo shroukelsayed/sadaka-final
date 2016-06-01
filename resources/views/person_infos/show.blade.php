@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layouts.adminlayout')
 @section('header')
 <div class="page-header">
         <h1>PersonInfos / Show #{{$person_info->id}}</h1>
@@ -20,7 +20,7 @@
             <form action="#">
                 <div class="form-group">
                     <label for="nome">ID</label>
-                    <p class="form-control-static"></p>
+                    <p class="form-control-static">{{$person_info->id}}</p>
                 </div>
                 <div class="form-group">
                      <label for="name">NAME</label>
@@ -46,6 +46,24 @@
                      <label for="phone">PHONE</label>
                      <p class="form-control-static">{{$person_info->phone}}</p>
                 </div>
+                     <div class="form-group">
+                     <label for="Donation Type">Donation Type</label>
+                     
+                     @foreach($person_info->people as $p)
+                         <p class="form-control-static">
+                            {{$p->donationType->type}}</p>
+                     @endforeach
+                </div> 
+
+               
+                     <div class="form-group">
+                     <label for="Amount">Blood Type</label>
+                     
+                     @foreach($person_info->people as $b)
+                         <p class="form-control-static">
+                            {{$b->blood->bloodtype}}</p>
+                     @endforeach
+                </div>  
             </form>
 
             <a class="btn btn-link" href="{{ route('person_infos.index') }}"><i class="glyphicon glyphicon-backward"></i>  Back</a>

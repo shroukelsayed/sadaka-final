@@ -18,18 +18,9 @@ class CharityController extends Controller {
 	 */
 	public function index()
 	{
-		// $charities = Charity::orderBy('id', 'desc')->paginate(10);
-		$personinfo= PersonInfo::find('1');
-		// var_dump($personinfo->people);die;
-		$people=$personinfo->people;
-		// var_dump($people);die;
-		foreach ($people as $p) {
-			var_dump($p->donationType);die;	
-		}
-		
-		echo"<pre>";var_dump($people->donationType()->type);
-		// $types=DonationType::all();
-		return view('charities.index', compact('personinfo','people'));
+
+		$personinfo= PersonInfo::all();
+		return view('people.index', compact('personinfo'));
 	}
 
 	/**

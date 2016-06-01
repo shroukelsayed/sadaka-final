@@ -2,7 +2,8 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
+use App\Governorate;
+use App\City;
 use App\Compaign;
 use Illuminate\Http\Request;
 
@@ -27,7 +28,9 @@ class CompaignController extends Controller {
 	 */
 	public function create()
 	{
-		return view('compaigns.create');
+		$governrates=Governorate::all();
+		$city=City::all();
+		return view('compaigns.create' , compact('governrates','city'));
 	}
 
 	/**
@@ -46,6 +49,11 @@ class CompaignController extends Controller {
         $compaign->enddate = $request->input("enddate");
         $compaign->budget = $request->input("budget");
         $compaign->description = $request->input("description");
+        $compaign->governorate_id = $request->input("governrate");
+        $compaign->city_id = $request->input("city");
+        // $compaign->governorate_id=1;
+        // $compaign->city_id=1;
+        $compaign->owner=1;
 
 		$compaign->save();
 
@@ -74,8 +82,10 @@ class CompaignController extends Controller {
 	public function edit($id)
 	{
 		$compaign = Compaign::findOrFail($id);
+		$governrates=Governorate::all();
+		$city=City::all();	
 
-		return view('compaigns.edit', compact('compaign'));
+		return view('compaigns.edit', compact('compaign','governrates','city'));
 	}
 
 	/**

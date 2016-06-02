@@ -10,7 +10,9 @@ return [
     | such as the size rules. Feel free to tweak each of these messages.
     |
     */
-
+    'login'                =>'تسجيل الدخول',
+    'register'             => 'انشاء حساب جديد',
+    'home'                 => 'الصفحة الرئيسية',
     'accepted'             => 'يجب قبول الحقل :attribute',
     'active_url'           => 'الحقل :attribute لا يُمثّل رابطًا صحيحًا',
     'after'                => 'يجب على الحقل :attribute أن يكون تاريخًا لاحقًا للتاريخ :date.',
@@ -132,7 +134,7 @@ return [
         'date'                  => 'التاريخ',
         'time'                  => 'الوقت',
         'available'             => 'مُتاح',
-        'size'                  => 'الحجم',
-        'home' => 'الصفحة الرئيسية'
+        'size'                  => 'الحجم'
+
     ],
 ];

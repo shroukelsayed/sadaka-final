@@ -1,12 +1,14 @@
 @extends('layouts.adminlayout')
 @section('css')
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/css/bootstrap-datepicker.css" rel="stylesheet">
+ 
 @endsection
 @section('header')
     <div class="page-header">
         <h1><i class="glyphicon glyphicon-plus"></i> Compaigns / Create </h1>
     </div>
-
+   
+    <script src="/Admin/jquery-1.11.3.min.js" type="text/javascript"></script>
+   
     <style>
       
     select{
@@ -17,6 +19,23 @@
     }
 
     </style>
+
+    <script>
+      
+      $(document).ready(function(){  
+
+      $("#enddate-field").change(function () {
+          var startDate = document.getElementById("startdate-field").value;
+          var endDate = document.getElementById("enddate-field").value;
+          if ((Date.parse(startDate) >= Date.parse(endDate))) {
+              alert("End date should be greater than Start date");
+              document.getElementById("enddate-field").value = "";
+          }
+      });
+
+   });   
+
+    </script>
 @endsection
 
 @section('content')
@@ -44,7 +63,7 @@
                     </div>
                     <div class="form-group @if($errors->has('startdate')) has-error @endif">
                        <label for="startdate-field">Startdate</label>
-                    <input type="date" id="startdate-field" name="startdate" class="form-control" value="{{ old("startdate") }}"/>
+                    <input  type="date" id="startdate-field" name="startdate" class="form-control" value="{{ old("startdate") }}"/>
                        @if($errors->has("startdate"))
                         <span class="help-block">{{ $errors->first("startdate") }}</span>
                        @endif
@@ -67,7 +86,7 @@
                     <div class="form-group">
                       <label for="amount">Governrate </label>
                       <br>
-                      <select name="governrate" id="modify_modal_level">
+                      <select name="governrate" id="GovernrateSelect">
                           @foreach ($governrates as $key => $value)
                               <option value="{{ $key+1 }}">{{ $value['name'] }}</option>
                           @endforeach
@@ -78,9 +97,9 @@
                     <div class="form-group">
                       <label for="amount">City </label>
                       <br>
-                      <select name="city" id="modify_modal_level">
+                      <select name="city" id="citySelect">
                           @foreach ($city as $key => $value)
-                              <option value="{{ $key+1 }}">{{ $value['name'] }}</option>
+                              <option value=""></option>
                           @endforeach
                       </select>
                     </div>
@@ -93,19 +112,17 @@
                         <span class="help-block">{{ $errors->first("description") }}</span>
                        @endif
                     </div>
+
                 <div class="well well-sm">
                     <button type="submit" class="btn btn-primary">Create</button>
                     <a class="btn btn-link pull-right" href="{{ route('compaigns.index') }}"><i class="glyphicon glyphicon-backward"></i> Back</a>
                 </div>
+                
             </form>
 
         </div>
     </div>
 @endsection
 @section('scripts')
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/js/bootstrap-datepicker.min.js"></script>
-  <script>
-    $('.date-picker').datepicker({
-    });
-  </script>
+ 
 @endsection

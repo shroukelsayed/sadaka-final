@@ -6,6 +6,8 @@
     <div class="page-header">
         <h1><i class="glyphicon glyphicon-plus"></i> People / Create </h1>
     </div>
+
+   
 @endsection
 
 @section('content')

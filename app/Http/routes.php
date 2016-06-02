@@ -15,6 +15,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+// use App\City;
+ 
+// Route::get('/compaigns/create/ajax-state',function()
+// {
+//     $state_id = Input::get('governorate_id');
+//     $subcategories = City::where('state_id','=',$state_id)->get();
+//     return $subcategories;
+ 
+// });
 Route::auth();
 
 Route::get('/home', 'HomeController@index');

@@ -19,7 +19,7 @@
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
 
-<div class="form-group @if($errors->has('name')) has-error @endif">
+              <div class="form-group @if($errors->has('name')) has-error @endif">
                        <label for="name-field">Name</label>
                     <textarea class="form-control" id="name-field" rows="3" name="name">{{ $person->personInfo->name }}</textarea>
                        @if($errors->has("name"))
@@ -35,7 +35,7 @@
                     </div>
                     <div class="form-group @if($errors->has('birthdate')) has-error @endif">
                        <label for="birthdate-field">BirthDate</label>
-                    <input type="date" id="birthdate-field" name="birthdate" class="form-control" value="{{ $person->personInfo->birthdate }}"/>
+                    <input type="text" id="birthdate-field" name="birthdate" class="form-control" value="{{ $person->personInfo->birthdate }}"/>
                        @if($errors->has("birthdate"))
                         <span class="help-block">{{ $errors->first("birthdate") }}</span>
                        @endif
@@ -47,7 +47,7 @@
                       <label for="governorate_id_field">Governorate Name </label>
                       <select name="governorate_id" id="governorate_id_field">
                           @foreach ($governorates as $key => $value)
-                              <option value="{{ $key+1 }}">{{ $person->personInfo->governorate->name }}</option>
+                              <option value="{{ $key+1 }}" selected>{{ $person->personInfo->governorate->name }}</option>
                           @endforeach
                       </select>
                     </div>

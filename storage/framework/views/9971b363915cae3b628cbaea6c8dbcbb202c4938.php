@@ -18,7 +18,7 @@
                 <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>">
 
 
-<div class="form-group <?php if($errors->has('name')): ?> has-error <?php endif; ?>">
+              <div class="form-group <?php if($errors->has('name')): ?> has-error <?php endif; ?>">
                        <label for="name-field">Name</label>
                     <textarea class="form-control" id="name-field" rows="3" name="name"><?php echo e($person->personInfo->name); ?></textarea>
                        <?php if($errors->has("name")): ?>
@@ -34,7 +34,7 @@
                     </div>
                     <div class="form-group <?php if($errors->has('birthdate')): ?> has-error <?php endif; ?>">
                        <label for="birthdate-field">BirthDate</label>
-                    <input type="date" id="birthdate-field" name="birthdate" class="form-control" value="<?php echo e($person->personInfo->birthdate); ?>"/>
+                    <input type="text" id="birthdate-field" name="birthdate" class="form-control" value="<?php echo e($person->personInfo->birthdate); ?>"/>
                        <?php if($errors->has("birthdate")): ?>
                         <span class="help-block"><?php echo e($errors->first("birthdate")); ?></span>
                        <?php endif; ?>

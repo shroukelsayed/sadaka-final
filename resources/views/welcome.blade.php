@@ -9,7 +9,7 @@
 
                 <div class="panel-body">
                     Your Application's Landing Page.
-                     @lang('validation.string')
+                     @lang('validation.accepted')
                 </div>
             </div>
         </div>

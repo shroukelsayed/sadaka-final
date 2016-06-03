@@ -24,14 +24,14 @@
                     </thead>
 
                     <tbody>
-                        @foreach($money as $money)
+                        @foreach($money as $m)
                             <tr>
-                                <td>{{$money->id}}</td>
-                                <td>{{$money->amount}}</td>
+                                <td>{{$m->id}}</td>
+                                <td>{{$m->amount}}</td>
                                 <td class="text-right">
-                                    <a class="btn btn-xs btn-primary" href="{{ route('money.show', $money->id) }}"><i class="glyphicon glyphicon-eye-open"></i> View</a>
-                                    <a class="btn btn-xs btn-warning" href="{{ route('money.edit', $money->id) }}"><i class="glyphicon glyphicon-edit"></i> Edit</a>
-                                    <form action="{{ route('money.destroy', $money->id) }}" method="POST" style="display: inline;" onsubmit="if(confirm('Delete? Are you sure?')) { return true } else {return false };">
+                                    <a class="btn btn-xs btn-primary" href="{{ route('money.show', $m->id) }}"><i class="glyphicon glyphicon-eye-open"></i> View</a>
+                                    <a class="btn btn-xs btn-warning" href="{{ route('money.edit', $m->id) }}"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+                                    <form action="{{ route('money.destroy', $m->id) }}" method="POST" style="display: inline;" onsubmit="if(confirm('Delete? Are you sure?')) { return true } else {return false };">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <button type="submit" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i> Delete</button>

@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 Route::auth();
 
-Route::get('/home', 'HomeController@index');
+Route::get('/{locale}/home', 'HomeController@index');
 
 
 Route::resource("user_infos","UserInfoController");
@@ -40,6 +40,7 @@ Route::resource("charity_documents","CharityDocumentController");
 Route::resource("charity_addresses","CharityAddressController");
 Route::resource("cities","CityController");
 Route::resource("governorates","GovernorateController");
+Route::resource("money","MoneyController");
 
 Route::get('/{locale}', function ($locale) {
 	App::setLocale($locale);

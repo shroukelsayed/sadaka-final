@@ -7,7 +7,7 @@
 
                 <div class="panel-body">
                     Your Application's Landing Page.
-                     <?php echo app('translator')->get('validation.accepted'); ?>
+                     
                 </div>
             </div>
         </div>

@@ -15,7 +15,7 @@ class CreateCharityAddressesTable extends Migration {
 		Schema::create('charity_addresses', function(Blueprint $table) {
             $table->increments('id');
             $table->text('address');
-            $table->integer('charity_id')->unsigned()->index()->unique();
+            $table->integer('charity_id')->unsigned()->index();
             $table->foreign('charity_id')->references('id')->on('charities')->onDelete('cascade');
             $table->integer('city_id')->unsigned()->index();
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');

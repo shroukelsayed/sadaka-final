@@ -15,15 +15,15 @@ class CreatePeopleTable extends Migration {
 		Schema::create('people', function(Blueprint $table) {
             $table->increments('id');
             $table->dateTime('publishat');
-            $table->integer('user_id')->unsigned()->index()->unique();
+            $table->integer('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->integer('interval_type_id')->unsigned()->index()->unique();
+            $table->integer('interval_type_id')->unsigned()->index();
             $table->foreign('interval_type_id')->references('id')->on('interval_types')->onDelete('cascade');
-            $table->integer('donation_type_id')->unsigned()->index()->unique();
+            $table->integer('donation_type_id')->unsigned()->index();
             $table->foreign('donation_type_id')->references('id')->on('donation_types')->onDelete('cascade');
-            $table->integer('person_status_id')->unsigned()->index()->unique();
+            $table->integer('person_status_id')->unsigned()->index();
             $table->foreign('person_status_id')->references('id')->on('person_statuses')->onDelete('cascade');
-            $table->integer('person_info_id')->unsigned()->index()->unique();
+            $table->integer('person_info_id')->unsigned()->index();
             $table->foreign('person_info_id')->references('id')->on('person_infos')->onDelete('cascade');
             $table->timestamps();
         });

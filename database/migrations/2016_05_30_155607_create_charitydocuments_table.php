@@ -15,7 +15,7 @@ class CreateCharityDocumentsTable extends Migration {
 		Schema::create('charity_documents', function(Blueprint $table) {
             $table->increments('id');
             $table->binary('doc');
-            $table->integer('charity_id')->unsigned()->index()->unique();
+            $table->integer('charity_id')->unsigned()->index();
             $table->foreign('charity_id')->references('id')->on('charities')->onDelete('cascade');
             $table->timestamps();
         });

@@ -9,7 +9,8 @@
         "laravel/framework": "5.2.*",
         "laralib/l5scaffold": "dev-master",
         "caouecs/laravel-lang": "~3.0",
-        "laravelcollective/html": "~5.0"
+        "laravelcollective/html": "~5.0",
+        "nesbot/carbon": "~1.14"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

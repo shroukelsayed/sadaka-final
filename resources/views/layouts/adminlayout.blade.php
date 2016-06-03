@@ -341,7 +341,32 @@
                 <i class="fa fa-th"></i> <span>Add Compaign</span> <small class="label pull-right bg-green">new</small>
               </a>
             </li>
-            
+
+                    <!-- // Start of Links to create new case ... by shrouk -->
+                     <li>
+                    <a href="{{URL::to('/bloods/create')}}">
+                        <i class="fa fa-edit"></i> <span>New Blood Case</span>
+                      </a>
+                    </li>
+                     <li>
+                    <a href="{{URL::to('/money/create')}}">
+                        <i class="fa fa-edit"></i> <span>New Money Case</span>
+                      </a>
+                    </li>
+                     <li>
+                    <a href="{{URL::to('/medicines/create')}}">
+                        <i class="fa fa-edit"></i> <span>New Medicine Case</span>
+                      </a>
+                    </li>
+                    <li>
+                    <a href="{{URL::to('/others/create')}}">
+                        <i class="fa fa-edit"></i> <span>New Other Case</span>
+                      </a>
+                    </li>
+
+                  <!-- // End of Links to create new case ... by shrouk -->  
+
+
             <li>
               <a href="Admin/pages/calendar.html">
                 <i class="fa fa-calendar"></i> <span>Calendar</span>
@@ -485,6 +510,23 @@
     <script>
     $('.date-picker').datepicker({
     });
+    function(a) {
+      var d = $(this),
+        e = d.next();
+      if (e.is(".treeview-menu") && e.is(":visible")) e.slideUp(c, function() {
+        e.removeClass("menu-open")
+      }), e.parent("li").removeClass("active");
+      else if (e.is(".treeview-menu") && !e.is(":visible")) {
+        var f = d.parents("ul").first(),
+          g = f.find("ul:visible").slideUp(c);
+        g.removeClass("menu-open");
+        var h = d.parent("li");
+        e.slideDown(c, function() {
+          e.addClass("menu-open"), f.find("li.active").removeClass("active"), h.addClass("active"), b.layout.fix()
+        })
+      }
+      e.is(".treeview-menu") && a.preventDefault()
+    }
   </script>
 </body>
 </html>

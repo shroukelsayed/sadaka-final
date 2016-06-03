@@ -10,6 +10,7 @@ return [
     | such as the size rules. Feel free to tweak each of these messages.
     |
     */
+    'sadaka'               => 'صــدقة ',
     'login'                =>'تسجيل الدخول',
     'register'             => 'انشاء حساب جديد',
     'home'                 => 'الصفحة الرئيسية',

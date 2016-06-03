@@ -316,18 +316,57 @@
             <li class="header">MAIN NAVIGATION</li>
             <li class="active treeview">
               <a href="#">
-                <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
+                <i class="glyphicon glyphicon-home"></i> <span>Home</span> 
               </a>
-              <ul class="treeview-menu">
-                <li class="active"><a href="index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-              </ul>
+
             </li>
             <li>
-              <a href="Admin/pages/widgets.html">
-                <i class="fa fa-th"></i> <span>Widgets</span> <small class="label pull-right bg-green">new</small>
+              <a href="<?php echo e(URL::to('/charities')); ?>">
+                <i class="fa fa-th"></i> <span>All Cases</span> <small class="label pull-right bg-green">new</small>
               </a>
             </li>
-            
+
+            <li>
+              <a href="<?php echo e(URL::to('/people/create')); ?>">
+                <i class="fa fa-th"></i> <span>Add Cases</span> <small class="label pull-right bg-green">new</small>
+              </a>
+            </li>
+            <li>
+             <a href="<?php echo e(URL::to('/compaigns')); ?>">
+                <i class="fa fa-th"></i> <span>All Compaign</span> <small class="label pull-right bg-green">new</small>
+              </a>
+            </li>
+            <li>
+            <a href="<?php echo e(URL::to('/compaigns/create')); ?>">
+                <i class="fa fa-th"></i> <span>Add Compaign</span> <small class="label pull-right bg-green">new</small>
+              </a>
+            </li>
+
+                    <!-- // Start of Links to create new case ... by shrouk -->
+                     <li>
+                    <a href="<?php echo e(URL::to('/bloods/create')); ?>">
+                        <i class="fa fa-edit"></i> <span>New Blood Case</span>
+                      </a>
+                    </li>
+                     <li>
+                    <a href="<?php echo e(URL::to('/money/create')); ?>">
+                        <i class="fa fa-edit"></i> <span>New Money Case</span>
+                      </a>
+                    </li>
+                     <li>
+                    <a href="<?php echo e(URL::to('/medicines/create')); ?>">
+                        <i class="fa fa-edit"></i> <span>New Medicine Case</span>
+                      </a>
+                    </li>
+                    <li>
+                    <a href="<?php echo e(URL::to('/others/create')); ?>">
+                        <i class="fa fa-edit"></i> <span>New Other Case</span>
+                      </a>
+                    </li>
+
+                  <!-- // End of Links to create new case ... by shrouk -->  
+
+
             <li>
               <a href="Admin/pages/calendar.html">
                 <i class="fa fa-calendar"></i> <span>Calendar</span>
@@ -398,7 +437,7 @@
             <small>Control panel</small>
           </h1>
           <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="<?php echo e(URL::to('/charities')); ?>"><i class="fa fa-dashboard"></i> Home</a></li>
             <li class="active">Dashboard</li>
           </ol>
         </section>
@@ -411,6 +450,7 @@
         </div>
       <!-- /.content-wrapper -->
       </div>
+       <div class="control-sidebar-bg"></div>
     </div>
 
       <!-- /.container -->
@@ -470,6 +510,23 @@
     <script>
     $('.date-picker').datepicker({
     });
+    function(a) {
+      var d = $(this),
+        e = d.next();
+      if (e.is(".treeview-menu") && e.is(":visible")) e.slideUp(c, function() {
+        e.removeClass("menu-open")
+      }), e.parent("li").removeClass("active");
+      else if (e.is(".treeview-menu") && !e.is(":visible")) {
+        var f = d.parents("ul").first(),
+          g = f.find("ul:visible").slideUp(c);
+        g.removeClass("menu-open");
+        var h = d.parent("li");
+        e.slideDown(c, function() {
+          e.addClass("menu-open"), f.find("li.active").removeClass("active"), h.addClass("active"), b.layout.fix()
+        })
+      }
+      e.is(".treeview-menu") && a.preventDefault()
+    }
   </script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-<!doctype html>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -464,18 +464,17 @@
  -->
       <!-- Control Sidebar -->
       
+ <script src="/Admin/jquery-1.11.3.min.js" type="text/javascript"></script>
 
-    
-
-    <script src="/Admin/plugins/jQuery/jQuery-2.1.4.min.js"></script>
-    <!-- jQuery UI 1.11.4 -->
-    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="{{ URL::asset('Admin/jquery-ui.min.js') }}"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     <script>
       $.widget.bridge('uibutton', $.ui.button);
     </script>
+
+  
     <!-- Bootstrap 3.3.5 -->
-    <script src="bootstrap/js/bootstrap.min.js"></script>
+     <script src="/Admin/bootstrap/js/bootstrap.min.js"></script>
     <!-- Morris.js charts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="/Admin/plugins/morris/morris.min.js"></script>
@@ -488,10 +487,6 @@
     <script src="/Admin/plugins/knob/jquery.knob.js"></script>
     <!-- daterangepicker -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
-    <script src="/Admin/plugins/daterangepicker/daterangepicker.js"></script>
-    <!-- datepicker -->
-    <script src="/Admin/plugins/datepicker/bootstrap-datepicker.js"></script>
-    <!-- Bootstrap WYSIHTML5 -->
     <script src="/Admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
     <!-- Slimscroll -->
     <script src="/Admin/plugins/slimScroll/jquery.slimscroll.min.js"></script>
@@ -502,9 +497,7 @@
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="/Admin/dist/js/pages/dashboard.js"></script>
     <!-- AdminLTE for demo purposes -->
-    <script src="/Admin/dist/js/demo.js"></script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="/Admin/dist/js/demo.js"></script>    
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/js/bootstrap-datepicker.min.js"></script>
     <script>

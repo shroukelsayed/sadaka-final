@@ -2,7 +2,6 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
 use App\Person;
 use App\PersonInfo;
 use App\DonationType;
@@ -107,9 +106,9 @@ class PersonController extends Controller {
 	 */
 	public function show($id)
 	{
-		$person = Person::findOrFail($id);
+		$person_info = PersonInfo::findOrFail($id);
 
-		return view('people.show', compact('person'));
+		return view('people.show', compact('person_info'));
 	}
 
 	/**

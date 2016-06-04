@@ -69,7 +69,7 @@ class PersonController extends Controller {
 		//second stage:
 		//creating Person Object ...
 		$person = new Person();
-		$person->user_id = 1;
+		$person->user_id = Auth::user()->id;
 		$person->person_info_id = $person_info->id;
 		$person->publishat = $request->input("publishat");
 

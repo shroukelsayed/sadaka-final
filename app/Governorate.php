@@ -6,6 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Governorate extends Model
 {
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+    ];
+
+
     public function userInfo(){
 
         return $this->hasOne(UserInfo::class); 

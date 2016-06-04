@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 /*
 |--------------------------------------------------------------------------
@@ -10,6 +10,8 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+
+use App\City;
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,6 +28,7 @@ Route::get('/', function () {
  
 // });
 Route::auth();
+
 
 Route::get('/{locale}/home', 'HomeController@index');
 
@@ -52,7 +55,14 @@ Route::resource("cities","CityController");
 Route::resource("governorates","GovernorateController");
 Route::resource("money","MoneyController");
 
-Route::get('/{locale}', function ($locale) {
-	App::setLocale($locale);
-    return view('welcome');
-});
+// Route::get('/{locale}', function ($locale) {
+// 	App::setLocale($locale);
+//     return view('welcome');
+// });
+
+// Route::get('ajax-subcat', function(){
+
+// 	$cat_id = Input::get('cat_id');
+//   	$cities = City::where('governorate_id', '=', $cat_id)->get();
+//   	return Response::json($cities);
+// });

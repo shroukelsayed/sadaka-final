@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -322,15 +321,28 @@
             </li>
             <li>
               <a href="{{URL::to('/charities')}}">
-                <i class="fa fa-th"></i> <span>All Cases</span> <small class="label pull-right bg-green">new</small>
+                <i class="fa fa-th"></i> <span>All Cases</span> 
               </a>
             </li>
 
-            <li>
-              <a href="{{URL::to('/people/create')}}">
-                <i class="fa fa-th"></i> <span>Add Cases</span> <small class="label pull-right bg-green">new</small>
+            <!-- // Start of Links to create new case ... by shrouk -->
+
+
+                    <li class="treeview">
+              <a href="#">
+                <i class="fa fa-edit"></i> <span>New Case</span>
+                <i class="fa fa-angle-left pull-right"></i>
               </a>
+              <ul class="treeview-menu">
+                <li><a href="{{URL::to('/bloods/create')}}"><i class="fa fa-edit"></i> Blood Case</a></li>
+                <li><a href="{{URL::to('/money/create')}}"><i class="fa fa-edit"></i> Money Case</a></li>
+                <li><a href="{{URL::to('/medicines/create')}}"><i class="fa fa-edit"></i> Medicine Case</a></li>
+                <li><a href="{{URL::to('/others/create')}}"><i class="fa fa-edit"></i> Other Case</a></li>
+              </ul>
             </li>
+
+                  <!-- // End of Links to create new case ... by shrouk -->  
+                  
             <li>
              <a href="{{URL::to('/compaigns')}}">
                 <i class="fa fa-th"></i> <span>All Compaign</span> <small class="label pull-right bg-green">new</small>
@@ -338,35 +350,9 @@
             </li>
             <li>
             <a href="{{URL::to('/compaigns/create')}}">
-                <i class="fa fa-th"></i> <span>Add Compaign</span> <small class="label pull-right bg-green">new</small>
+                <i class="fa fa-edit"></i> <span>Add Compaign</span> <small class="label pull-right bg-green">new</small>
               </a>
             </li>
-
-                    <!-- // Start of Links to create new case ... by shrouk -->
-                     <li>
-                    <a href="{{URL::to('/bloods/create')}}">
-                        <i class="fa fa-edit"></i> <span>New Blood Case</span>
-                      </a>
-                    </li>
-                     <li>
-                    <a href="{{URL::to('/money/create')}}">
-                        <i class="fa fa-edit"></i> <span>New Money Case</span>
-                      </a>
-                    </li>
-                     <li>
-                    <a href="{{URL::to('/medicines/create')}}">
-                        <i class="fa fa-edit"></i> <span>New Medicine Case</span>
-                      </a>
-                    </li>
-                    <li>
-                    <a href="{{URL::to('/others/create')}}">
-                        <i class="fa fa-edit"></i> <span>New Other Case</span>
-                      </a>
-                    </li>
-
-                  <!-- // End of Links to create new case ... by shrouk -->  
-
-
             <li>
               <a href="Admin/pages/calendar.html">
                 <i class="fa fa-calendar"></i> <span>Calendar</span>

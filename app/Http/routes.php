@@ -27,7 +27,7 @@ Route::get('/', function () {
 // });
 Route::auth();
 
-Route::get('/{locale}/home', 'HomeController@index');
+Route::get('/home', 'HomeController@index');
 
 
 Route::resource("user_infos","UserInfoController");
@@ -52,7 +52,7 @@ Route::resource("cities","CityController");
 Route::resource("governorates","GovernorateController");
 Route::resource("money","MoneyController");
 
-Route::get('/{locale}', function ($locale) {
-	App::setLocale($locale);
-    return view('welcome');
-});
+// Route::get('/{locale}', function ($locale) {
+// 	App::setLocale($locale);
+//     return view('welcome');
+// });

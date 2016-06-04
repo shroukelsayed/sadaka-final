@@ -30,7 +30,7 @@ Route::get('/', function () {
 Route::auth();
 
 
-Route::get('/{locale}/home', 'HomeController@index');
+Route::get('/home', 'HomeController@index');
 
 
 Route::resource("user_infos","UserInfoController");

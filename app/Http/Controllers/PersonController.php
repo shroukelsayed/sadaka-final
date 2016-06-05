@@ -27,6 +27,13 @@ class PersonController extends Controller {
 
 		return view('people.index', compact('people'));
 	}
+	
+	public function cases()
+	{
+		$people = PersonInfo::orderBy('id', 'desc')->paginate(10);
+
+		return view('people.case', compact('people'));
+	}
 
 	/**
 	 * Show the form for creating a new resource.
@@ -69,7 +76,7 @@ class PersonController extends Controller {
 		//second stage:
 		//creating Person Object ...
 		$person = new Person();
-		$person->user_id = 1;
+		$person->user_id = Auth::user()->id;
 		$person->person_info_id = $person_info->id;
 		$person->publishat = $request->input("publishat");
 

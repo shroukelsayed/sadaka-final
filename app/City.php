@@ -6,6 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class City extends Model
 {
+
+     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name','governorate_id',
+    ];
+
     public function userInfo(){
 
         return $this->hasOne(UserInfo::class); 

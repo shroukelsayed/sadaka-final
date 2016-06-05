@@ -16,12 +16,10 @@ class SetApplicationLanguage {
 	*/
 
 	public function handle($request, Closure $next)
-
 	{
 
-	App::setLocale(Session::has('lang') ? Session::get('lang') : Config::get('app.locale'));
-
-	return $next($request);
+		App::setLocale(Session::has('lang') ? Session::get('lang') : Config::get('app.locale'));
+		return $next($request);
 
 	}
 }

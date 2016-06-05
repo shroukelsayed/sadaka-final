@@ -20,19 +20,74 @@
             <form action="#">
                 <div class="form-group">
                     <label for="nome">ID</label>
-                    <p class="form-control-static"></p>
+                    <p class="form-control-static">{{$medicine->person->personInfo->id}}</p>
                 </div>
                 <div class="form-group">
-                     <label for="name">NAME</label>
-                     <p class="form-control-static">{{$medicine->name}}</p>
+                     <label for="name">Case NAME</label>
+                     <p class="form-control-static">{{$medicine->person->personInfo->name}}</p>
                 </div>
                     <div class="form-group">
-                     <label for="amount">AMOUNT</label>
-                     <p class="form-control-static">{{$medicine->amount}}</p>
+                     <label for="address">Case ADDRESS</label>
+                     <p class="form-control-static">{{$medicine->person->personInfo->address}}</p>
                 </div>
+                    <div class="form-group">
+                     <label for="birthdate">Case BIRTHDATE</label>
+                     <p class="form-control-static">{{$medicine->person->personInfo->birthdate}}</p>
+                </div>
+                    <div class="form-group">
+                     <label for="gender">Case GENDER</label>
+                     <p class="form-control-static">{{$medicine->person->personInfo->gender}}</p>
+                </div>
+                    <div class="form-group">
+                     <label for="maritalstatus">Case MARITALSTATUS</label>
+                     <p class="form-control-static">{{$medicine->person->personInfo->maritalstatus}}</p>
+                </div>
+                    <div class="form-group">
+                     <label for="phone">Case PHONE</label>
+                     <p class="form-control-static">{{$medicine->person->personInfo->phone}}</p>
+                </div>
+                     <div class="form-group">
+                     <label for="Donation Type">Donation Type</label>
+                     <p class="form-control-static">
+                        {{$medicine->person->donationType->type}}
+                     </p>
+                
+                </div>
+                     <div class="form-group">
+                     <label for="Donation Type">Case Interval</label>
+                     <p class="form-control-static">
+                        {{$medicine->person->intervalType->type}}
+                     </p>
+                </div> 
+                 <div class="form-group">
+                     <label for="name">Medicine NAME</label>
+                     <p class="form-control-static">{{$medicine->name}}</p>
+                </div>
+                     <div class="form-group">
+                     <label for="Amount">Quantity</label>
+                         <p class="form-control-static">
+                            {{$medicine->amount}} Packets</p>
+                </div> 
+               
+                  
+                <div class="form-group">
+                    
+                      <label for="case_doc_field">Case Documents</label>
+                      <br>
+                      @foreach($medicine->person->personDocs as $doc)
+
+                        <img style="width: 200px; height: 200px;" src="{{ asset("Case/PersonDocument/medicine/$doc->document") }}" alt="$doc->document" />
+                        <br><br>
+                        <label for="case_doc_field">Update Case Documents</label>
+                        <input type="file" id="case_doc_field" name="case_doc"  value="{{ old("case_doc") }}"/>
+                         @if($errors->has("case_doc"))
+                          <span class="help-block">{{ $errors->first("case_doc") }}</span>
+                         @endif
+                      @endforeach
+                    </div>  
             </form>
 
-            <a class="btn btn-link" href="{{ route('medicines.index') }}"><i class="glyphicon glyphicon-backward"></i>  Back</a>
+            <a class="btn btn-link" href="{{ route('person_infos.index') }}"><i class="glyphicon glyphicon-backward"></i>  Back</a>
 
         </div>
     </div>

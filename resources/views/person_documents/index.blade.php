@@ -27,7 +27,8 @@
                         @foreach($person_documents as $person_document)
                             <tr>
                                 <td>{{$person_document->id}}</td>
-                                <td>{{$person_document->document}}</td>
+                                <td><img src="{{ asset("Case/PersonDocument/
+                                other/$person_document->document") }}" alt="{{$person_document->document}}" ></td>
                                 <td class="text-right">
                                     <a class="btn btn-xs btn-primary" href="{{ route('person_documents.show', $person_document->id) }}"><i class="glyphicon glyphicon-eye-open"></i> View</a>
                                     <a class="btn btn-xs btn-warning" href="{{ route('person_documents.edit', $person_document->id) }}"><i class="glyphicon glyphicon-edit"></i> Edit</a>

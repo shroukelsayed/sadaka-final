@@ -20,6 +20,12 @@ class CompaignController extends Controller {
 
 		return view('compaigns.index', compact('compaigns'));
 	}
+	public function comps()
+	{
+		$comps = Compaign::orderBy('id', 'desc')->paginate(10);
+
+		return view('compaigns.compaign',compact('comps'));
+	}
 
 	/**
 	 * Show the form for creating a new resource.

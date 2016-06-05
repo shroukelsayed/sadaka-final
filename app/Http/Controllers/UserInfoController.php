@@ -30,7 +30,9 @@ class UserInfoController extends Controller {
 	 */
 	public function create()
 	{
-		return view('user_infos.create');
+		$governrate=Governorate::all();
+		$city=City::all();
+		return view('user_infos.create',compact('user_infos','governrate','city'));
 	}
 
 	/**
@@ -41,15 +43,38 @@ class UserInfoController extends Controller {
 	 */
 	public function store(Request $request)
 	{
+		
+		$this->validate($request,[
+			'email' =>'email|unique:users,email',
+			'name' =>'required|max:255|unique:users,name',
+			'firstName'=>'required|max:50',
+			'lastName'=>'required|max:50',
+			'password' => 'required|between:6,20',
+			'password_confirm' => 'required|same:password',
+			'phone'    => 'required|regex:/^\+?[^a-zA-Z]{5,}$/',
+			'nationalid'=>'required | numeric',
+			'gender' => 'in:male,female',
+			]);
+		$user= new User();
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->password = bcrypt($request->input('password'));
+        $user->phone=$request->input('phone');	
+		$user->save();
+		
+		
 		$user_info = new UserInfo();
-		$user_info->firstName = $request->input("firstName");
-		$user_info->lastName = $request->input("lastName");
 		$user_info->nationalid = $request->input("nationalid");
         $user_info->address = $request->input("address");
+        $user_info->firstName=$request->input("firstName");
+        $user_info->lastName=$request->input("lastName");
         $user_info->birthdate = $request->input("birthdate");
-        $user_info->user_id = 1;
+        $user_info->gender = $request->input("gender");
+        $user_info->user_id = $user->id;
+        $user_info->city_id=$request->input("city");
+        $user_info->governorate_id =$request->input("level");
 		$user_info->save();
-
+     	
 		return redirect()->route('user_infos.index')->with('message', 'Item created successfully.');
 	}
 

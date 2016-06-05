@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use DB;
+use File;
 use App\Person;
 use App\PersonInfo;
 use App\DonationType;
@@ -15,6 +16,7 @@ use App\City;
 use Carbon\Carbon;
 use App\PersonStatus;
 use Validator;
+use App\PersonDocument;
 
 use App\Money;
 use Illuminate\Http\Request;
@@ -40,6 +42,7 @@ class MoneyController extends Controller {
 	 */
 	public function create()
 	{
+		
 		$interval_types = IntervalType::all();
 		$governorates = Governorate::all();
 		$cities = City::all();
@@ -55,18 +58,7 @@ class MoneyController extends Controller {
 	 */
 	public function store(Request $request)
 	{
-		$this->validate($request, [
-	        'name' => 'required|max:255',
-	        'address' => 'required',
-	        'birthdate' => 'required',
-	        'gender' => 'required',
-	        'maritalstatus' => 'required',
-	        'phone' => 'required',
-	        'city_id' => 'required',
-	        'governorate_id' => 'required',
-	        'amount' => 'required'
 
-    	]);
 		// Creating Case Data .. --> by shrouk
 		// Start transaction!
 		DB::beginTransaction();
@@ -141,7 +133,34 @@ class MoneyController extends Controller {
 			$money->amount = $request->input("amount");
 			$money->person_id = $person->id;
 			$money->save();
+		} catch(ValidationException $e)
+		{
+		    // Rollback and then redirect
+		    // back to form with errors
+		    DB::rollback();
+		    return Redirect::to('/form')
+		        ->withErrors( $e->getErrors() )
+		        ->withInput();
+		} catch(\Exception $e)
+		{
+		    DB::rollback();
+		    throw $e;
+		}
 
+		try{
+
+			// Seventh stage:
+			// Creating Case Docs ...
+	        $file = array('case_doc' => \Input::file('case_doc'));
+	        $destinationPath = 'Case/PersonDocument/money'; // upload path
+	        $extension = \Input::file('case_doc')->getClientOriginalExtension(); 
+	        $fileName = rand(11111,99999).'.'.$extension; // renaming case_doc
+	        \Input::file('case_doc')->move($destinationPath, $fileName);
+	    	$doc = new PersonDocument();
+    		$doc->document=$fileName;
+    		$doc->person_id=$person->id;
+    		$doc->save();
+	
 		} catch(ValidationException $e)
 		{
 		    // Rollback and then redirect
@@ -190,8 +209,12 @@ class MoneyController extends Controller {
 		$governorates = Governorate::all();
 		$cities = City::all();
 		$status = PersonStatus::all();
-
-		return view('money.edit', compact('money','interval_types','governorates','cities','status'));
+		$docs = $money->person->personDocs;
+		// var_dump($money->person->personDocs);die;
+		// foreach ($money->person->personDocs as $doc) {
+		// 	var_dump($doc->document);die();
+		// }
+		return view('money.edit', compact('money','interval_types','governorates','cities','status','docs'));
 	}
 
 	/**
@@ -206,10 +229,9 @@ class MoneyController extends Controller {
 		// First Stage:
 		// Getting Case with it's all info ..
 		$money = Money::findOrFail($id);
-
 		$person = Person::findOrFail($money->person_id);
-		$person_info = PersonInfo::findOrFail($person->id);
-
+		$person_info = $person->personInfo;
+		
 		// Second Stage:
 		// Getting new Data .. 
 		$person_info->name = $request->input("name");
@@ -224,14 +246,32 @@ class MoneyController extends Controller {
 		$person->person_status_id = 1;
 
 		$money->amount = $request->input("amount");
+		
 
+		if ($request->hasFile('case_doc')) {
+
+	        $file = array('case_doc' => \Input::file('case_doc'));
+	        $destinationPath = 'Case/PersonDocument/money'; // upload path
+	        $extension = \Input::file('case_doc')->getClientOriginalExtension(); 
+	        $fileName = rand(11111,99999).'.'.$extension; // renaming case_doc
+	        \Input::file('case_doc')->move($destinationPath, $fileName);
+	        $docs = $person->personDocs;
+	        foreach ($docs as $personDoc) {
+	        	// Delete old image
+	        	// var_dump($personDoc->document);die;  
+     			// var_dump(File::delete('Case/PersonDocument/money/',$personDoc->document));die; 
+	        	$personDoc->document=$fileName;
+	        	// var_dump($personDoc->document);die;
+	    		$personDoc->save();
+	        }	
+	    }	
 
 		// Third Stage:
 		// Saving Case object ..
 		$person_info->save();
 		$person->save();
 		$money->save();
-
+		
 		return redirect()->route('money.index')->with('message', 'Item updated successfully.');
 	}
 

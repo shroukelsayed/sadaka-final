@@ -30,8 +30,9 @@ Route::get('/', function () {
 Route::auth();
 
 
-Route::get('/home', 'HomeController@index');
 
+Route::get('/', 'HomeController@index');
+Route::get('/home', 'HomeController@index');
 
 Route::resource("user_infos","UserInfoController");
 Route::resource("charities","CharityController");
@@ -54,7 +55,10 @@ Route::resource("charity_addresses","CharityAddressController");
 Route::resource("cities","CityController");
 Route::resource("governorates","GovernorateController");
 Route::resource("money","MoneyController");
-
+Route::resource("userpeople","UserpersonController");
+Route::resource("usercompaign","UserCompaignController");
+Route::get('/cases', 'PersonController@cases');
+Route::get('/comp', 'CompaignController@comps');
 // Route::get('/{locale}', function ($locale) {
 // 	App::setLocale($locale);
 //     return view('welcome');

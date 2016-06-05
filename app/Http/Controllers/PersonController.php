@@ -27,6 +27,13 @@ class PersonController extends Controller {
 
 		return view('people.index', compact('people'));
 	}
+	
+	public function cases()
+	{
+		$people = PersonInfo::orderBy('id', 'desc')->paginate(10);
+
+		return view('people.case', compact('people'));
+	}
 
 	/**
 	 * Show the form for creating a new resource.

@@ -7,7 +7,6 @@
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="btn-group pull-right" role="group" aria-label="...">
                 <a class="btn btn-warning btn-group" role="group" href="{{ route('user_infos.edit', $user_info->id) }}"><i class="glyphicon glyphicon-edit"></i> Edit</a>
-                <button type="submit" class="btn btn-danger">Delete <i class="glyphicon glyphicon-trash"></i></button>
             </div>
         </form>
     </div>
@@ -19,28 +18,48 @@
 
             <form action="#">
                 <div class="form-group">
-                    <label for="nome">ID</label>
-                    <p class="form-control-static"></p>
+                    <label for="nome">FIRSTNAME</label>
+                     <p class="form-control-static">{{$user_info->firstName}}</p>
+                </div>
+                <div class="form-group">
+                    <label for="nome">LASTNAME</label>
+                     <p class="form-control-static">{{$user_info->lastName}}</p>
                 </div>
                 <div class="form-group">
                      <label for="nationalid">NATIONALID</label>
                      <p class="form-control-static">{{$user_info->nationalid}}</p>
                 </div>
-                    <div class="form-group">
-                     <label for="address">ADDRESS</label>
-                     <p class="form-control-static">{{$user_info->address}}</p>
-                </div>
-                    <div class="form-group">
+                <div class="form-group">
                      <label for="birthdate">BIRTHDATE</label>
                      <p class="form-control-static">{{$user_info->birthdate}}</p>
                 </div>
+                <div class="form-group">
+                     <label for="address">ADDRESS</label>
+                     <p class="form-control-static">{{$user_info->address}}</p>
+                </div>
+                <div class="form-group">
+                     <label for="birthdate">GOVERNORATE</label>
+                     <p class="form-control-static">{{$gov->name}}</p>
+                </div>
                     <div class="form-group">
-                     <label for="gender">GENDER</label>
-                     <p class="form-control-static">{{$user_info->gender}}</p>
+                     <label for="gender">CITY</label>
+                     <p class="form-control-static">{{$city->name}}</p>
+                </div>
+                <div class="form-group">
+                     <label for="gender">EMAIL</label>
+                     <p class="form-control-static">{{$user->email}}</p>
+                </div>
+                <div class="form-group">
+                     <label for="gender">PHONE</label>
+                     <p class="form-control-static">{{$user->phone}}</p>
+                </div>
+                <div class="form-group">
+                     <label for="gender">USERNAME</label>
+                     <p class="form-control-static">{{$user->name}}</p>
                 </div>
             </form>
 
-            <a class="btn btn-link" href="{{ route('user_infos.index') }}"><i class="glyphicon glyphicon-backward"></i>  Back</a>
+            <a class="btn btn-link" href="#"><i class="glyphicon glyphicon-backward"></i>  Back</a>
 
         </div>
     </div>

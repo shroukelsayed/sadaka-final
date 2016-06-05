@@ -20,14 +20,14 @@
 
                 <div class="form-group @if($errors->has('name')) has-error @endif">
                        <label for="name-field">Case Name</label>
-                    <input required type="text" class="form-control" id="name-field" rows="3" name="name" value="{{ $medicine->person->personInfo->name }}"></input type="text">
+                    <input required type="text" class="form-control" id="name-field" rows="3" name="name" value="{{ $medicine->person->personInfo->name }}"/>
                        @if($errors->has("name"))
                         <span class="help-block">{{ $errors->first("name") }}</span>
                        @endif
                     </div>
                     <div class="form-group @if($errors->has('address')) has-error @endif">
                        <label for="address-field">Case Address</label>
-                    <input required type="text" class="form-control" id="address-field" rows="3" name="address" value="{{ $medicine->person->personInfo->address }}"></input type="text">
+                    <input required type="text" class="form-control" id="address-field" rows="3" name="address" value="{{ $medicine->person->personInfo->address }}"/>
                        @if($errors->has("address"))
                         <span class="help-block">{{ $errors->first("address") }}</span>
                        @endif

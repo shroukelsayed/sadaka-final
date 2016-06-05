@@ -21,7 +21,7 @@
                     <div class="form-group @if($errors->has('name')) has-error @endif">
                        <label for="name-field">Case Name</label>
                        <span style="color:red; margin-left: 10px;">*</span>
-                    <input required type="text" class="form-control" id="name-field" rows="3" name="name">{{ old("name") }}</input type="text">
+                    <input required type="text" class="form-control" id="name-field" rows="3" name="name"/>{{ old("name") }}
                        @if($errors->has("name"))
                         <span class="help-block">{{ $errors->first("name") }}</span>
                        @endif
@@ -29,7 +29,7 @@
                     <div class="form-group @if($errors->has('address')) has-error @endif">
                        <label for="address-field">Case Address</label>
                        <span style="color:red; margin-left: 10px;">*</span>
-                    <input required type="text" class="form-control" id="address-field" rows="3" name="address">{{ old("address") }}</input type="text">
+                    <input required type="text" class="form-control" id="address-field" rows="3" name="address"/>{{ old("address") }}
                        @if($errors->has("address"))
                         <span class="help-block">{{ $errors->first("address") }}</span>
                        @endif

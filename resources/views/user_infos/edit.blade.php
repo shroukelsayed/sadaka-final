@@ -25,11 +25,33 @@
                         <span class="help-block">{{ $errors->first("nationalid") }}</span>
                        @endif
                     </div>
+                    <div class="form-group @if($errors->has('firstName')) has-error @endif">
+                       <label for="firstName-field">FirstName</label>
+                    <textarea class="form-control" id="firstName-field" rows="3" name="firstName">{{ $user_info->firstName }}</textarea>
+                       @if($errors->has("firstName"))
+                        <span class="help-block">{{ $errors->first("firstName") }}</span>
+                       @endif
+                    </div>
+                    <div class="form-group @if($errors->has('lastName')) has-error @endif">
+                       <label for="lastName-field">LastName</label>
+                    <textarea class="form-control" id="lastName-field" rows="3" name="lastName">{{ $user_info->lastName }}</textarea>
+                       @if($errors->has("lastName"))
+                        <span class="help-block">{{ $errors->last("lastName") }}</span>
+                       @endif
+                    </div>
+
                     <div class="form-group @if($errors->has('address')) has-error @endif">
                        <label for="address-field">Address</label>
                     <textarea class="form-control" id="address-field" rows="3" name="address">{{ $user_info->address }}</textarea>
                        @if($errors->has("address"))
                         <span class="help-block">{{ $errors->first("address") }}</span>
+                       @endif
+                    </div>
+                    <div class="form-group @if($errors->has('name')) has-error @endif">
+                       <label for="cityname-field">City</label>
+                    <textarea class="form-control" id="cityname-field" rows="3" name="cityname">{{ $city->name }}</textarea>
+                       @if($errors->has("name"))
+                        <span class="help-block">{{ $errors->first("name") }}</span>
                        @endif
                     </div>
                     <div class="form-group @if($errors->has('birthdate')) has-error @endif">
@@ -39,16 +61,30 @@
                         <span class="help-block">{{ $errors->first("birthdate") }}</span>
                        @endif
                     </div>
-                    <div class="form-group @if($errors->has('gender')) has-error @endif">
-                       <label for="gender-field">Gender</label>
-                    <input type="text" id="gender-field" name="gender" class="form-control" value="{{ $user_info->gender }}"/>
-                       @if($errors->has("gender"))
-                        <span class="help-block">{{ $errors->first("gender") }}</span>
+                    <div class="form-group @if($errors->has('email')) has-error @endif">
+                       <label for="email-field">Email</label>
+                    <input type="text" id="email-field" name="email" class="form-control" value="{{ $user->email }}"/>
+                       @if($errors->has("email"))
+                        <span class="help-block">{{ $errors->first("email") }}</span>
+                       @endif
+                    </div>
+                    <div class="form-group @if($errors->has('phone')) has-error @endif">
+                       <label for="phone-field">Phone</label>
+                    <input type="text" id="phone-field" name="phone" class="form-control" value="{{ $user->phone }}"/>
+                       @if($errors->has("phone"))
+                        <span class="help-block">{{ $errors->first("phone") }}</span>
+                       @endif
+                    </div>
+                    <div class="form-group @if($errors->has('username')) has-error @endif">
+                       <label for="username-field">username</label>
+                    <input type="text" id="username-field" name="username" class="form-control" value="{{ $user->name }}"/>
+                       @if($errors->has("username"))
+                        <span class="help-block">{{ $errors->first("username") }}</span>
                        @endif
                     </div>
                 <div class="well well-sm">
                     <button type="submit" class="btn btn-primary">Save</button>
-                    <a class="btn btn-link pull-right" href="{{ route('user_infos.index') }}"><i class="glyphicon glyphicon-backward"></i>  Back</a>
+                    <a class="btn btn-link pull-right" href="{{ route('user_infos.show', $user_info->id) }}"><i class="glyphicon glyphicon-backward"></i>  Back</a>
                 </div>
             </form>
 

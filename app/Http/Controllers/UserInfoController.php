@@ -44,8 +44,17 @@ class UserInfoController extends Controller {
 	public function store(Request $request)
 	{
 		
-		echo ("hello");
-        // die;
+		$this->validate($request,[
+			'email' =>'email|unique:users,email',
+			'name' =>'required|max:255|unique:users,name',
+			'firstName'=>'required|max:50',
+			'lastName'=>'required|max:50',
+			'password' => 'required|between:6,20',
+			'password_confirm' => 'required|same:password',
+			'phone'    => 'required|regex:/^\+?[^a-zA-Z]{5,}$/',
+			'nationalid'=>'required | numeric',
+			'gender' => 'in:male,female',
+			]);
 		$user= new User();
         $user->name = $request->input('name');
         $user->email = $request->input('email');

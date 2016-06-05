@@ -2,7 +2,7 @@
 
 @section('header')
  
-
+  
     <div class="page-header">
         <h1><i class="glyphicon glyphicon-plus"></i> Charities / Create </h1>
     </div>
@@ -25,6 +25,10 @@
 
 
               }
+              function validateEmail(email) {
+                      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                      return re.test(email);
+}
         }
   </script>
 @endsection
@@ -62,7 +66,7 @@
                     </div>
                     <div class="form-group @if($errors->has('email')) has-error @endif">
                        <label for="email-field">Email</label>
-                    <input type="text" id="email-field" name="email" class="form-control" value="{{ old("email") }}" required/>
+                    <input type="text" id="email" name="email" class="form-control" value="{{ old("email") }}" required/>
                        @if($errors->has("email"))
                         <span class="help-block">{{ $errors->first("email") }}</span>
                        @endif
@@ -128,7 +132,7 @@
                        @endif
                     </div>
                 <div class="well well-sm">
-                    <button type="submit" class="btn btn-primary"><a href="{{URL::to('/login')}}">Create</a></button>
+                    <button type="submit" class="btn btn-primary" id="btn"><a href="{{URL::to('/login')}}">Create</a></button>
                     <a class="btn btn-link pull-right" href="{{URL::to('/register')}}"><i class="glyphicon glyphicon-backward"></i> Back</a>
                 </div>
             </form>

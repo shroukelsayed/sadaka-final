@@ -90,7 +90,7 @@
                   <ul class="nav navbar-nav">
 
                       <li><a class="is-active" href="{{URL::to('/home')}}">HOME</a></li>
-                    <li><a href="about.html">PROFILE</a></li>
+                    
                     <li class="has-child"><a href="#">CASES</a>
 
                       <ul class="submenu">
@@ -101,8 +101,11 @@
                       </ul>
 
                     </li>
-                    <li><a href="gallery.html">COMPAIGNS</a></li>
-                    <li><a class="is-active"  href="contact.html">CONTACT</a></li>
+                      <li><a href="{{URL::to('/comp')}}">COMPAIGNS</a></li>
+                      <li><a class="is-active"  href="contact.html">CONTACT</a></li>
+                      @if (Auth::guest()) <li><a href="{{ url('/login') }}">LOGIN</a></li>  @else <li><a href="{{ route('user_infos.show',Auth::user()->id) }}">PROFILE</a></li><li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> {{ Auth::user()->name }}<span class="caret"></span> </a> <ul class="dropdown-menu" role="menu"> <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>logout</a></li> </ul> </li> @endif
+
+
 
                   </ul>
 

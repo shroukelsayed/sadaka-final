@@ -30,4 +30,9 @@ class Governorate extends Model
 
         return $this->hasOne(Blood::class); 
     } 
+
+    public function city(){
+
+        return $this->hasMany(City::class); 
+    } 
 }

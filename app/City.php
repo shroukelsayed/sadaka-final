@@ -30,4 +30,9 @@ class City extends Model
 
         return $this->hasOne(Blood::class); 
     } 
+
+    public function governrate(){
+
+        return $this->belongsTo(Blood::class); 
+    } 
 }

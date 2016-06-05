@@ -29,8 +29,8 @@ class CompaignController extends Controller {
 	public function create()
 	{
 		$governrates=Governorate::all();
-		$city=City::all();
-		return view('compaigns.create' , compact('governrates','city'));
+		$cities=City::all();
+		return view('compaigns.create' , compact('governrates','cities'));
 	}
 
 	/**
@@ -41,23 +41,45 @@ class CompaignController extends Controller {
 	 */
 	public function store(Request $request)
 	{
-		$compaign = new Compaign();
+		
+		// try{
+		// 	$this->validate($request, [
+		//         'title' => 'required|max:255',
+		//         'location' => 'required',
+		//         'startdate' => 'required',
+		//         'enddate' => 'required',
+		//         'budget' => 'required',
+		//         'description' => 'required',
+		//         'city_id' => 'required',
+		//         'governrate' => 'required',
+		//         'city' => 'required'
 
-		$compaign->title = $request->input("title");
-        $compaign->location = $request->input("location");
-        $compaign->startdate = $request->input("startdate");
-        $compaign->enddate = $request->input("enddate");
-        $compaign->budget = $request->input("budget");
-        $compaign->description = $request->input("description");
-        $compaign->governorate_id = $request->input("governrate");
-        $compaign->city_id = $request->input("city");
-        // $compaign->governorate_id=1;
-        // $compaign->city_id=1;
-        $compaign->owner=1;
+	 //    	]);
 
-		$compaign->save();
+	    	$compaign = new Compaign();
+			$compaign->title = $request->input("title");
+	        $compaign->location = $request->input("location");
+	        $compaign->startdate = $request->input("startdate");
+	        $compaign->enddate = $request->input("enddate");
+	        $compaign->budget = $request->input("budget");
+	        $compaign->description = $request->input("description");
+	        $compaign->governorate_id = $request->input("governrate");
+	        $compaign->city_id = $request->input("city");
+	        // $compaign->governorate_id=1;
+	        // $compaign->city_id=1;
+	        $compaign->owner=1;
 
-		return redirect()->route('compaigns.index')->with('message', 'Item created successfully.');
+			$compaign->save();
+
+			return redirect()->route('compaigns.index')->with('message', 'Item created successfully.');
+		// }
+		
+		// catch (\Exception $e){
+
+		// 	 return redirect()->route('compaigns.create');
+		// }		
+
+		
 	}
 
 	/**

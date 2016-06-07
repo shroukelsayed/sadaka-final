@@ -58,6 +58,8 @@ Route::resource("userpeople","UserpersonController");
 Route::resource("usercompaign","UserCompaignController");
 Route::get('/cases', 'PersonController@cases');
 Route::get('/comp', 'CompaignController@comps');
+
+Route::get('/people/create/?action=donation_type_id','PersonController@create');
 // Route::get('/{locale}', function ($locale) {
 // 	App::setLocale($locale);
 //     return view('welcome');

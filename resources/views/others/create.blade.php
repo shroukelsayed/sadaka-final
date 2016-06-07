@@ -23,12 +23,12 @@
             <div class="stepwizard" >
             <div class="stepwizard-row setup-panel">
               <div class="stepwizard-step" style="display: table-cell;">
-                <a href="#step-1" type="button" class="btn btn-primary btn-circle">1</a>
-                <p>Service Details</p>
+                <a href="#step-1" type="button" class="btn btn-primary btn-circle" style="border-radius: 25px;margin-left: 240px;">1</a>
+                <p style="margin-left: 180px;text-align: center;">Case Personal Information</p>
               </div>
               <div class="stepwizard-step" style="display: table-cell;">
-                <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
-                <p>Service Enpoint Details</p>
+                <a href="#step-2" type="button" class="btn btn-default btn-circle"  style="border-radius: 25px;margin-left: 170px;" disabled="disabled">2</a>
+                <p style="margin-left: 130px;text-align: center;">Donation Information</p>
               </div>  
             </div>
           </div>

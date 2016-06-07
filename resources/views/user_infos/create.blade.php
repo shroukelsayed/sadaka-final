@@ -128,11 +128,17 @@
                     </div>
                     <div class="form-group @if($errors->has('gender')) has-error @endif">
                        <label for="gender-field">Gender</label>
-                    <input type="text" id="gender-field" name="gender" class="form-control" value="{{ old("gender") }}"/>
+                    <select class="form-control" required 
+                            name="gender">
+                        <option value="0">Male</option>
+                        <option value="1">Female</option>
+                    </select>
                        @if($errors->has("gender"))
                         <span class="help-block">{{ $errors->first("gender") }}</span>
                        @endif
                     </div>
+                     
+
                    
                 <div class="well well-sm">
                     <button type="submit" class="btn btn-primary">Create</button>

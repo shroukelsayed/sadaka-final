@@ -3,6 +3,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/css/bootstrap-datepicker.css" rel="stylesheet">
 @endsection
 @section('header')
+ <script src="/assets/js/user_validation.js"></script>
     <div class="page-header">
         <h1><i class="glyphicon glyphicon-plus"></i> UserInfos / Create </h1>
     </div>
@@ -53,7 +54,7 @@
                     </div>
                  <div class="form-group @if($errors->has('name')) has-error @endif">
                        <label for="name-field">Username</label>
-                    <input type="text" id="name-field" name="name" class="form-control" value="{{ old("name") }}" required/>
+                    <input type="text" id="name1" name="name1" class="form-control" value="{{ old("name") }}" required/>
                        @if($errors->has("name"))
                         <span class="help-block">{{ $errors->first("name") }}</span>
                        @endif

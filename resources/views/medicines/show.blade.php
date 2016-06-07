@@ -1,4 +1,4 @@
-@extends('layout')
+@extends((Auth::user()->user_type_id == 2 or Auth::user()->user_type_id == 3 ) ? 'layouts.adminlayout' : 'layout')
 @section('header')
 <div class="page-header">
         <h1>Medicines / Show #{{$medicine->id}}</h1>

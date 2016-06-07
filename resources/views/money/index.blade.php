@@ -1,4 +1,5 @@
-@extends('layout')
+@extends(( (isset(Auth::user()->id) and Auth::user()->user_type_id ) == 2 or ( isset(Auth::user()->id) and Auth::user()->user_type_id == 3 )) ? 'layouts.adminlayout' : 'layout')
+
 
 @section('header')
     <div class="page-header clearfix">

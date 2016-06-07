@@ -134,9 +134,10 @@
                         <span class="help-block">{{ $errors->first("gender") }}</span>
                        @endif
                     </div>
-                   
+                    
+                   <input type="hidden" name="type" value="{{ $type }}"></input>
                 <div class="well well-sm">
-                    <button type="submit" class="btn btn-primary">Create</button>
+                    <button type="submit" class="btn btn-primary"><a href="{{URL::to('/login')}}">Create</a></button>
                     <a class="btn btn-link pull-right" href="{{URL::to('/register')}}"><i class="glyphicon glyphicon-backward"></i> Back</a>
                 </div>
             </form>

@@ -11,11 +11,10 @@
 |
 */
 
-use App\City;
+// use App\City;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@index'); 
+   
 
 
 // use App\City;
@@ -31,7 +30,7 @@ Route::auth();
 
 
 
-Route::get('/', 'HomeController@index');
+// Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index');
 
 Route::resource("user_infos","UserInfoController");

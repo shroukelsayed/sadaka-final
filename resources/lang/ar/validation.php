@@ -14,6 +14,7 @@ return [
     'login'                =>'تسجيل الدخول',
     'register'             => 'انشاء حساب جديد',
     'home'                 => 'الصفحة الرئيسية',
+    'validate'             => 'تصحيح',
     'accepted'             => 'يجب قبول الحقل :attribute',
     'active_url'           => 'الحقل :attribute لا يُمثّل رابطًا صحيحًا',
     'after'                => 'يجب على الحقل :attribute أن يكون تاريخًا لاحقًا للتاريخ :date.',
@@ -94,6 +95,16 @@ return [
     'custom'               => [
         'attribute-name' => [
             'rule-name' => 'custom-message',
+            
+        ],
+        [
+        'email' => [
+            'unique' => 'قيمة الحقل :attribute مُستخدمة من قبل',
+            ],
+        ],[
+        'password_confirm' => [
+            'required' => 'مطلوب',
+            ],
         ],
     ],
     /*
@@ -109,11 +120,10 @@ return [
     'attributes'           => [
         'name'                  => 'الاسم',
         'username'              => 'اسم المُستخدم',
-        'email'                 => 'البريد الالكتروني',
-        'first_name'            => 'الاسم',
-        'last_name'             => 'اسم العائلة',
+        'firstName'            => 'الاسم',
+        'lastName'             => 'اسم العائلة',
         'password'              => 'كلمة السر',
-        'password_confirmation' => 'تأكيد كلمة السر',
+        'password_confirm' => 'تأكيد كلمة السر',
         'city'                  => 'المدينة',
         'country'               => 'الدولة',
         'address'               => 'العنوان',
@@ -135,7 +145,7 @@ return [
         'date'                  => 'التاريخ',
         'time'                  => 'الوقت',
         'available'             => 'مُتاح',
-        'size'                  => 'الحجم'
-
+        'size'                  => 'الحجم',
+        'nationalid'            =>'الرقم القومى'
     ],
 ];

@@ -1,28 +1,27 @@
-@extends('layouts.app')
-
-@section('content')
-
-    <title>Create an Account - Upwork</title>
-
-                            <link rel="stylesheet" href="https://components.elance-odesk.com/components/1.6.1/air.global.responsive.1.6.1.min.css"/>
+@extends('layouts.layout')
+@section('css')
+    <link rel="stylesheet" href="https://components.elance-odesk.com/components/1.6.1/air.global.responsive.1.6.1.min.css"/>
                     <link rel="stylesheet" href="https://components.elance-odesk.com/components/1.6.1/air.components.1.6.1.min.css"/>
-                    <link rel="stylesheet" href="https://components.elance-odesk.com/fonts/1.5.0/fonts.global.1.5.0.css"/>
-                    <link rel="stylesheet" href="//components.elance-odesk.com/marketing-ui/master/css/interstitial.css?f337193"/>
+                    <!-- <link rel="stylesheet" href="https://components.elance-odesk.com/fonts/1.5.0/fonts.global.1.5.0.css"/> -->
+                    <link rel="stylesheet" href="http://components.elance-odesk.com/marketing-ui/master/css/interstitial.css?f337193"/>
             
     <link rel="stylesheet" href="/signup/v28/css/e237312.css?3515dab" />
 
-    <meta property="og:title" content="Upwork: Where Savvy Businesses and Professional Freelancers Get the Job Done"/>
-    <meta property="og:image" content="https://www.upwork.com/images/upwork-logo-1200.png"/>
-    <meta property="og:description" content="Upwork is where the world goes to work! We are a leading online workplace, where savvy businesses hire, manage, and pay an on-demand workforce of talented freelancers."/>
-    <meta property="og:url" content="https://www.upwork.com"/>
-    <meta property="og:site_name" content="Upwork"/>
-    <meta property="og:type" content="website"/>
-</head>
-<body data-ng-app="signUpApp" class="  skinny-layout user-type-page ">
+@endsection
+@section('header')
+    
+    <title>Create an Account - Sadaka</title>
+
+
+@endsection
+@section('content')
+
+            <div class="container">
+    <div class="row">
+        <div class="col-md-12 ">
+            <div class="panel panel-default" style="height: 400px;">      
                             
-                    <script>
-                dataLayer = [{"site":{"application":"SignupBinder","version":"3515dab","environment":"prod"},"user":{"visitor_id":"197.134.255.239.1464129120987619","recognized":true,"internal":false,"loggedIn":false}}];
-            </script>
+                   
         
                     <!-- Google Tag Manager -->
             <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-K7572X&amp;site.application=SignupBinder&amp;site.version=3515dab&amp;site.environment=prod&amp;user.visitor_id=197.134.255.239.1464129120987619&amp;user.recognized=1&amp;user.internal=&amp;user.loggedIn=" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -119,5 +118,6 @@
 
 
 
-<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","licenseKey":"8e23a381b9","applicationID":"7193765","transactionName":"NVxRMRBYVhBXUhBQDAwWcgYWUFcNGV4AXBAJZkAMBVdNExhDC0wXBxdaCwZcQA==","queueTime":0,"applicationTime":59,"atts":"GRtSR1hCRR4=","errorBeacon":"bam.nr-data.net","agent":""}</script></body>
+<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","licenseKey":"8e23a381b9","applicationID":"7193765","transactionName":"NVxRMRBYVhBXUhBQDAwWcgYWUFcNGV4AXBAJZkAMBVdNExhDC0wXBxdaCwZcQA==","queueTime":0,"applicationTime":59,"atts":"GRtSR1hCRR4=","errorBeacon":"bam.nr-data.net","agent":""}</script>
+</div></div></div></div>
 @endsection

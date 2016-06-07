@@ -1,6 +1,7 @@
 @extends('layouts.adminlayout')
 @section('css')
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/css/bootstrap-datepicker.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/Admin/form.css">
 @endsection
 @section('header')
     <div class="page-header">
@@ -8,6 +9,7 @@
     </div>
     <script src="/Admin/jquery-1.11.3.min.js" type="text/javascript"></script>
     <script src="/Admin/vaild.js" type="text/javascript"></script>
+    <script src="/Admin/form.js"></script>
 
 @endsection
 
@@ -16,11 +18,30 @@
 
     <div class="row">
         <div class="col-md-12">
+          <div class="container" style="width: 900px;height: 900px;">
+                
+            <div class="stepwizard" >
+            <div class="stepwizard-row setup-panel">
+              <div class="stepwizard-step" style="display: table-cell;">
+                <a href="#step-1" type="button" class="btn btn-primary btn-circle">1</a>
+                <p>Service Details</p>
+              </div>
+              <div class="stepwizard-step" style="display: table-cell;">
+                <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+                <p>Service Enpoint Details</p>
+              </div>  
+            </div>
+          </div>
+          <form action="{{ route('others.store') }}" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <div class="row setup-content" id="step-1">
+              <div class="col-xs-12">
+                <div class="col-md-12">
+                  <h3> Case Personal Information</h3>
+                                <!-- Case Personal Information -->
 
-            <form action="{{ route('others.store') }}" method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-                <div class="form-group @if($errors->has('name')) has-error @endif">
+                                <div class="form-group @if($errors->has('name')) has-error @endif">
                        <label for="name-field">Case Name</label>
                        <span style="color:red; margin-left: 10px;">*</span>
                     <input required type="text" class="form-control" id="name-field" rows="3" name="name"/>{{ old("name") }}
@@ -83,7 +104,22 @@
                         <span class="help-block">{{ $errors->first("phone") }}</span>
                        @endif
                     </div>
-                    <div class="form-group">
+
+
+
+
+
+                <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button>
+            </div>
+        </div>
+    </div>
+    <div class="row setup-content" id="step-2">
+        <div class="col-xs-12">
+            <div class="col-md-12">
+                <h3> Donation Information </h3>
+               <!-- Donation Information --> 
+
+                 <div class="form-group">
                       <label for="interval_type_id_field">Interval Type </label>
                       <select required name="interval_type_id" id="interval_type_id_field" class="form-control">
                           @foreach ($interval_types as $key => $value)
@@ -108,11 +144,14 @@
                         <span class="help-block">{{ $errors->first("case_doc") }}</span>
                        @endif
                     </div>
-                <div class="well well-sm">
+
+
+    <div class="well well-sm">
                     <button type="submit" class="btn btn-primary">Create</button>
                     <a class="btn btn-link pull-right" href="{{ route('others.index') }}"><i class="glyphicon glyphicon-backward"></i> Back</a>
                 </div>
-            </form>
+</form>
+</div>
 
         </div>
     </div>

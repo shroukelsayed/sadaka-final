@@ -111,18 +111,19 @@
 
                         <li><a class="is-active" href="{{URL::to('/home')}}">HOME</a></li>
                         <li><a href="contact.html">CONTACT</a></li>
-                        <li class="has-child"><a class="is-active" href="#">CASES</a>
+                       <li class="has-child"><a class="is-active" href="{{URL::to('/cases')}}">CASES</a>
 
                             <ul class="submenu">
                                 <li class="submenu-item"><a href="{{URL::to('/cases')}}">Cases list </a></li>
-                                <li class="submenu-item"><a href="causes-single.html">Mony Cases </a></li>
-                                <li class="submenu-item"><a href="causes-single.html">Blood Cases </a></li>
-                                <li class="submenu-item"><a href="causes-single.html">Medicine Cases </a></li>
+                                <li class="submenu-item"><a href="{{URL::to('/money')}}">Mony Cases </a></li>
+                                <li class="submenu-item"><a href="{{URL::to('/bloods')}}">Blood Cases </a></li>
+                                <li class="submenu-item"><a href="{{URL::to('/medicines')}}">Medicine Cases </a></li>
                             </ul>
+
 
                         </li>
                         <li><a href="{{URL::to('/comp')}}">COMPAIGNS</a></li>
-                        <?php $id=Auth::user()->id;?>
+                   
 
                         @if (Auth::guest()) <li><a href="{{ url('/login') }}">LOGIN</a></li>  @else <li><a href="{{ route('user_infos.show',Auth::user()->id) }}" >PROFILE</a></li><li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> {{ Auth::user()->name }} <span class="caret"></span> </a> <ul class="dropdown-menu" role="menu"> <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>logout</a></li> </ul> </li> @endif
 
@@ -145,7 +146,7 @@
 
     <div class="container zoomIn animated">
 
-        <h1 class="page-title">OUR CASES <span class="title-under"></span></h1>
+        <h1 class="page-title">OUR COMPAIGNS <span class="title-under"></span></h1>
         <p class="page-description">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit Necessitatibus.
         </p>
@@ -157,39 +158,35 @@
 <div class="section-home our-causes animate-onscroll fadeIn">
 
     <div class="container">
-
+        <div class="row">
         @foreach($comps as $comp)
-
-            <div class="row">
 
                 <div class="col-md-3 col-sm-6">
 
                     <div class="cause">
-
-                        <img src="/assets/images/causes/" alt="" class="cause-img">
 
                         <div class="progress cause-progress">
                             <div class="progress-bar" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 30%;">
                                 10$ / 500$
                             </div>
                         </div>
-                        {{--@foreach ($person_info->people as $p)--}}
                             <h2 class="cause-title" style='text-transform:uppercase'><a href="#"><h1> {{ $comp->title }}</h1></a></h2>
                             <div class="cause-details">
-                               <label>NAME: </label> <span>{{ $comp->amount}}</span><br/>
-                                <label>ADDRESS: </label><span> {{ $comp->location }}</span><br/>
+                               <label>BUDgET: </label> <span>{{ $comp->budget}} .LE</span><br/>
+                                <label>LOCATION: </label><span> {{ $comp->location }}</span><br/>
                                 <?php $id=$comp->id;?>
                             </div>
 
                             <div class="btn-holder text-center">
 
                                 @if (Auth::guest())
-                                    <a href="{{ url('/login') }}" class="btn btn-primary" > DONATE NOW</a>
+                                    <a href="{{ url('/login') }}" class="btn btn-primary" > </a>
 
                                 @else
 
 
-                                    <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#donateModal"> DONATE NOW</a>
+                                    <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#donateModal"> SHARE</a>
+                                    <a class="is-active" href="{{ route('compaigns.show',$id) }}">see more</a>
                                 @endif
 
                             </div>
@@ -199,12 +196,8 @@
                     </div> <!-- /.cause -->
 
                 </div>
-
-
-
-
-            </div>
         @endforeach
+        </div>
         {{--@endforeach--}}
     </div>
 
@@ -370,23 +363,26 @@
                     <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
                     <input type="hidden" name="id" value="{{ $id }}">
                     <h3 class="title-style-1 text-center">Thank you for your donation <span class="title-under"></span>  </h3>
-
                     <div class="row">
+                        <div class="form-group col-md-12" >
+                            <label for="amount">SHARE TYPES </label>
+                            <select name="type" id="sharetype">
 
-                        <div class="form-group col-md-12 ">
-                            <input type="text" class="form-control" name="amount"  id="amount" placeholder="AMOUNT(€)">
+                                    <option value="1">SHARE</option>
+                                    <option value="2">DONATE</option>
+                                    <option value="3">SHARE AND DONATE</option>
+
+                            </select>
                         </div>
 
                     </div>
 
                     <div class="row">
 
-                        <div class="form-group col-md-12">
-                            <input type="date" class="form-control" name="date" placeholder="DATE">
+                        <div class="form-group col-md-12 " style="height:200px;" id="wel">
                         </div>
 
                     </div>
-
 
                     <div class="row">
 
@@ -395,11 +391,6 @@
                         </div>
 
                     </div>
-
-
-
-
-
                 </form>
 
             </div>
@@ -441,6 +432,38 @@
         e.src='//www.google-analytics.com/analytics.js';
         r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
     ga('create','UA-XXXXX-X');ga('send','pageview');
+</script>
+<script>
+    (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+        e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+        e.src='//www.google-analytics.com/analytics.js';
+        r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+    ga('create','UA-XXXXX-X');ga('send','pageview');
+</script>
+<script>
+    $(document).ready(function () {
+        $("#sharetype").on("change", function () {
+
+            var optionSelected = $("option:selected", this);
+            var valueSelected = this.value;
+            var field;
+            field = "<input type='text' class='form-control' name='amount' id='aa' placeholder='AMOUNT(€)'>";
+            if (valueSelected == 2) {
+              
+                var amountDiv = document.getElementById("wel");
+               
+                var f = "<label>AMOUNT(€)</label><input type='text' class='form-control' name='amount' id='aa' />";
+                amountDiv.innerHTML =f;
+            }
+           else if (valueSelected == 3) {
+               var amountDiv = document.getElementById("wel");
+               amountDiv.innerHTML = "<label>AMOUNT(€)</label><input type='text' class='form-control' name='amount' id='aa' />";
+           }
+
+        });
+
+    });
 </script>
 </body>
 </html>

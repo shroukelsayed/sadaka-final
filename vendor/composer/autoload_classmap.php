@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AddApprovedToUsers' => $baseDir . '/database/migrations/2016_06_04_082728_add_approved_to_users.php',
     'AdditionalInfoTableSeeder' => $baseDir . '/database/seeds/AdditionalInfoTableSeeder.php',
     'App\\AdditionalInfo' => $baseDir . '/app/AdditionalInfo.php',
     'App\\Blood' => $baseDir . '/app/Blood.php',

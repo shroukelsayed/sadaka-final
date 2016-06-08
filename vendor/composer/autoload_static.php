@@ -264,6 +264,7 @@ class ComposerStaticInit2894da4a12d51f1c37e68cff6197eb1e
     );
 
     public static $classMap = array (
+        'AddApprovedToUsers' => __DIR__ . '/../..' . '/database/migrations/2016_06_04_082728_add_approved_to_users.php',
         'AdditionalInfoTableSeeder' => __DIR__ . '/../..' . '/database/seeds/AdditionalInfoTableSeeder.php',
         'App\\AdditionalInfo' => __DIR__ . '/../..' . '/app/AdditionalInfo.php',
         'App\\Blood' => __DIR__ . '/../..' . '/app/Blood.php',

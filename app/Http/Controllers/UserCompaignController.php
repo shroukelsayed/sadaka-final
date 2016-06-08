@@ -38,12 +38,19 @@ class UserCompaignController extends Controller
     public function store(Request $request)
     {
         $share = new usercompaign();
-
-        $share->amount = $request->input("amount");
       
         $share->user_id=Auth::user()->id;
         $share->compaign_id =$request->input("id");
-        $share->donate_type_id=1;
+        $type=$request->input("type");   
+        $share->donate_type_id = $type;
+		if($type ==1) 
+		    {
+		       $share->amount = 0;
+		    }
+		    else
+		    {
+		        $share->amount = $request->input("amount");
+		    }
         $share->save();
         return redirect()->action("CompaignController@comps")->with('message', 'Item created successfully.');
     }

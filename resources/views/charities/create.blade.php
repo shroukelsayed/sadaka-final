@@ -1,12 +1,39 @@
 @extends('layouts.layout')
 
 @section('header')
- <script src="/Admin/jquery-1.11.3.min.js" type="text/javascript"></script>
- <script src="/assets/js/user_validation.js"></script>
+ 
   
     <div class="page-header">
         <h1><i class="glyphicon glyphicon-plus"></i> Charities / Create </h1>
     </div>
+    <script src="/Admin/jquery-1.11.3.min.js" type="text/javascript"></script>
+    <script src="/Admin/jquery-ui.min.js" type="text/javascript"></script>
+
+    <script>
+    onload = function(){
+              var password;
+              var confirmpassword;
+              password=document.getElementById("password");
+              confirmpassword= document.getElementById("cpassword");
+              
+
+              confirmpassword.onblur=function(){
+
+                  if (password.value != confirmpassword.value) {
+
+                      alert("password not match");
+                      
+
+                  }
+
+
+              }
+              function validateEmail(email) {
+                      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                      return re.test(email);
+}
+        }
+  </script>
 @endsection
 
 @section('content')

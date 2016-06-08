@@ -11,14 +11,15 @@
 |
 */
 
-use App\City;
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
-
 // use App\City;
+
+// Route::get('/', 'HomeController@index'); 
+   
+
+
+use App\City;
+use App\Governorate;
+
  
 // Route::get('/compaigns/create/ajax-state',function()
 // {
@@ -31,7 +32,7 @@ Route::auth();
 
 
 
-Route::get('/', 'HomeController@index');
+// Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index');
 
 Route::resource("user_infos","UserInfoController");
@@ -64,9 +65,12 @@ Route::get('/comp', 'CompaignController@comps');
 //     return view('welcome');
 // });
 
-// Route::get('ajax-subcat', function(){
-
-// 	$cat_id = Input::get('cat_id');
-//   	$cities = City::where('governorate_id', '=', $cat_id)->get();
-//   	return Response::json($cities);
-// });
+Route::get('/ajax-governrate', function(){
+$governorate_id =Input::get('governorate_id');
+// var_dump($governorate_id);
+$cities = City::where('governorate_id', '=', $governorate_id)->get();
+// $cities=DB::table('cities')->where('governorate_id',$governorate_id);
+// $governrates=Governorate::findOrFail($governorate_id);
+// $cities = $governrates->city();
+return Response::json($cities);
+});

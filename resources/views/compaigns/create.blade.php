@@ -10,22 +10,45 @@
     <script src="/Admin/jquery-1.11.3.min.js" type="text/javascript"></script>
     <script src="/Admin/vaild.js" type="text/javascript"></script>
 
-   
+    <script>
+
+$(document).ready(function($) {
+
+  $('#governorate').on('change',function(e){
+
+    console.log(e);
+    var governrate_id =e.target.value;
+
+    //Ajax
+
+  $.get('/ajax-governrate?governorate_id='+ governrate_id,function(data){
+         $('#city').empty(); 
+        console.log(data);
+        $.each(data,function(index,cityobj){
+
+          $('#city').append('<option value="'+cityobj.id+'">'+cityobj.name+'</option>'); 
+
+          });
+      }); 
+  });
+
+});
+
+
+
+</script>   
     <style>
       
-    select{
+    /* select{
 
         width:400px;
         height:30px;
 
-    }
+    } */
 
     </style>
 
-    <script>
-      
 
-    </script>
 
 @endsection
 
@@ -77,21 +100,22 @@
                     <div class="form-group">
                       <label for="amount">Governrate </label>
                       <br>
-                      <select required name="governorate_id" id="governorate_id_field" class="form-control">
-                          @foreach ($governrates as $key => $value)
-                              <option value="{{ $key+1 }}">{{ $value['name'] }}</option>
+                      <select required name="governorate" id="governorate" class="form-control">
+                          <option value="" >Select</option>
+                          @foreach ($governrates as $governrate)
+                            <option value="{{$governrate->id}}">
+                                {{$governrate->name}}
+                            </option>
+                          
                           @endforeach
                       </select>
                     </div>
 
-
                     <div class="form-group">
                       <label for="amount">City </label>
                       <br>
-                      <select required name="city" id="citySelect">
-                         
-                              <option></option>
-                          
+                      <select required name="city" id="city">
+                              
                       </select>
                     </div>
                    
@@ -115,5 +139,6 @@
     </div>
 @endsection
 @section('scripts')
+
  
 @endsection

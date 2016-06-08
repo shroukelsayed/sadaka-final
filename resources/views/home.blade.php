@@ -616,8 +616,10 @@
 
                 <form class="form-donation" action="{{ route('userpeople.store') }}" method="POST">
                     <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
-                    <input type="hidden" name="id" value="{{ $case_id }}">
-
+                    <?php 
+                    if ($people){
+                     echo '<input type="hidden" name="id" value="{{ $case_id }}">';
+                    }?>
                     <h3 class="title-style-1 text-center">Thank you for your donation <span class="title-under"></span>  </h3>
 
                     <div class="row">

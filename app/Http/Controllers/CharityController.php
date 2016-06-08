@@ -51,6 +51,7 @@ class CharityController extends Controller {
         $user->email = $request->input('email');
         $user->password = bcrypt($request->input('password'));
         $user->phone=$request->input('phone');
+        $user->user_type_id = 2;
 		$user->save();
 
 		$charity = new Charity();

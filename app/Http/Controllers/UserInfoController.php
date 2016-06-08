@@ -28,11 +28,13 @@ class UserInfoController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function create()
+	public function create(Request $request)
 	{
 		$governrate=Governorate::all();
 		$city=City::all();
-		return view('user_infos.create',compact('user_infos','governrate','city'));
+		$type = $request->type;
+		// var_dump($type);die;
+		return view('user_infos.create',compact('user_infos','governrate','city','type'));
 	}
 
 	/**
@@ -43,6 +45,8 @@ class UserInfoController extends Controller {
 	 */
 	public function store(Request $request)
 	{
+		$type = $request->input('type');
+
 		
 		$this->validate($request,[
 			'email' =>'email|unique:users,email',
@@ -50,7 +54,7 @@ class UserInfoController extends Controller {
 			'firstName'=>'required|max:50',
 			'lastName'=>'required|max:50',
 			'password' => 'required|between:6,20',
-			'password_confirm' => 'required|same:password',
+			// 'password_confirm' => 'required|same:password',
 			'phone'    => 'required|regex:/^\+?[^a-zA-Z]{5,}$/',
 			'nationalid'=>'required | numeric',
 			'gender' => 'in:male,female',
@@ -59,7 +63,15 @@ class UserInfoController extends Controller {
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->password = bcrypt($request->input('password'));
-        $user->phone=$request->input('phone');	
+        $user->phone=$request->input('phone');
+
+        if ($type == 'Donator'){
+			$user->user_type_id = 4; 	
+		}
+		else{
+			$user->user_type_id = 3; 
+		}
+
 		$user->save();
 		
 		
@@ -75,7 +87,8 @@ class UserInfoController extends Controller {
         $user_info->governorate_id =$request->input("level");
 		$user_info->save();
      	
-		return redirect()->route('user_infos.index')->with('message', 'Item created successfully.');
+     	return \Redirect::to('login');
+		// return redirect()->route('user_infos.index')->with('message', 'Item created successfully.');
 	}
 
 	/**

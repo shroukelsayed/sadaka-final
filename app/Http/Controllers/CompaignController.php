@@ -36,6 +36,7 @@ class CompaignController extends Controller {
 	{
 		$governrates=Governorate::all();
 		$cities=City::all();
+		// var_dump($governrates);die;
 		return view('compaigns.create' , compact('governrates','cities'));
 	}
 

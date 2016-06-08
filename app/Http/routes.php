@@ -11,11 +11,10 @@
 |
 */
 
-use App\City;
+// use App\City;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@index'); 
+   
 
 
 // use App\City;
@@ -31,7 +30,7 @@ Route::auth();
 
 
 
-Route::get('/', 'HomeController@index');
+// Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index');
 
 Route::resource("user_infos","UserInfoController");
@@ -59,6 +58,8 @@ Route::resource("userpeople","UserpersonController");
 Route::resource("usercompaign","UserCompaignController");
 Route::get('/cases', 'PersonController@cases');
 Route::get('/comp', 'CompaignController@comps');
+Route::post('/user_infos/create/','UserInfoController@check');
+Route::post('/auth/login','Auth/AuthController@check');
 // Route::get('/{locale}', function ($locale) {
 // 	App::setLocale($locale);
 //     return view('welcome');

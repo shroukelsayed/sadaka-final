@@ -1,5 +1,8 @@
 @extends('layouts.layout')
-
+@section('header')
+ <script src="/Admin/jquery-1.11.3.min.js" type="text/javascript"></script>
+ <script src="/assets/js/email_validate.js"></script>
+@endsection
 @section('content')
 <div class="container">
     <div class="row">
@@ -15,7 +18,7 @@
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}">
-
+                                    <span id="upan" class="help-block"></span>
                                 @if ($errors->has('email'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('email') }}</strong>

@@ -17,6 +17,7 @@ return [
     'register'             => 'Register',
     'logout'               =>'Logout',
     'home'                 => 'Home',
+    'validate'             =>'validate',
     'accepted'             => 'The :attribute must be accepted.',
     'active_url'           => 'The :attribute is not a valid URL.',
     'after'                => 'The :attribute must be a date after :date.',
@@ -99,7 +100,17 @@ return [
     'custom' => [
         'attribute-name' => [
             'rule-name' => 'custom-message',
+        ],[
+        'email' => [
+            'unique' => 'unique',
+            ],
+        ],[
+        'password_confirm' => [
+            'required' => 'required',
+            ],
         ],
+        
+        
     ],
 
     /*
@@ -113,6 +124,37 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'name'                  => 'Name',
+        'username'              => 'Username',
+        'firstName'             => 'First Name',
+        'lastName'              => 'Last Name',
+        'password'              => 'Password',
+        'password_confirm'      => 'Password Confirmation',
+        'city'                  => 'City',
+        'country'               => 'Country',
+        'address'               => 'Address',
+        'phone'                 => 'Phone',
+        'mobile'                => 'Mobile',
+        'age'                   => 'Age',
+        'sex'                   => 'Sex',
+        'gender'                => 'Gender',
+        'day'                   => 'Day',
+        'month'                 => 'Month',
+        'year'                  => 'Year',
+        'hour'                  => 'Hour',
+        'minute'                => 'Minute',
+        'second'                => 'Second',
+        'title'                 => 'Title',
+        'content'               => 'Content',
+        'description'           => 'Description',
+        'excerpt'               => 'Excerpt',
+        'date'                  => 'Date',
+        'time'                  => 'Time',
+        'available'             => 'Available',
+        'size'                  => 'Size',
+        'nationalid'            => 'National ID'
+
+    ],
 
 ];

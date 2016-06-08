@@ -15,6 +15,22 @@
     <script>
       
       $(document).ready(function () {
+
+        $('#governorate_id_field').change(function(){
+                $.get("{{ url('api/dropdown')}}", 
+                    { option: $(this).val() }, 
+                    function(data) {
+                      console.log(data);
+                        var city = $('#citySelect');
+                        city.empty();
+                        console.log(city.id);
+                        $.each(data, function(index, element) {
+                            city.append("<option value='"+ element['id'] +"'>" + element['name'] + "</option>");
+                        });
+                    });
+            });
+
+
         // console.log("hiiiii");
         $("#donation_type_id_field").on("change", function () {
           // console.log("donation_type");
@@ -27,15 +43,17 @@
 
               // Donation Form for Blood ...
 
-              var donationForm ="<div class='form-group @if($errors->has("+bloodtype+")) has-error @endif'><label for='bloodtype-field'>Case Bloodtype</label><span style='color:red; margin-left: 10px;'>*</span><input required type='text' id='bloodtype-field' name='bloodtype' class='form-control' value='{{ old("+bloodtype+") }}'/>@if($errors->has("+bloodtype+"))<span class='help-block'>{{ $errors->first("+bloodtype+") }}</span>@endif</div>";
+              var donationForm ="<div class='form-group @if($errors->has("+bloodtype+")) has-error @endif'><label for='bloodtype-field'>Case Bloodtype</label><span style='color:red; margin-left: 10px;'>*</span><select required name='bloodtype' id='bloodtype-field' class='form-control'><option value='A+'>A+</option><option value='A-'>A-</option><option value='B+'>B+</option><option value='B-'>B-</option><option value='O+'>O+</option><option value='O-'>O-</option><option value='AB+'>AB+</option><option value='AB-'>AB-</option></select></div>";
 
               donationForm += "<div class='form-group @if($errors->has("+amount+")) has-error @endif'><label for='amount-field'>Blood Amount</label><span style='color:red; margin-left: 10px;'>*</span><input required type='text' id='amount-field' name='amount' class='form-control' value='{{ old("+amount+") }}'/>@if($errors->has("+amount+"))<span class='help-block'>{{ $errors->first("+amount+") }}</span>@endif</div>";
 
               donationForm += "<div class='form-group @if($errors->has("+hospital+")) has-error @endif'><label for='hospital-field'>Hospital</label><span style='color:red; margin-left: 10px;'>*</span><input required type='text' class='form-control' id='hospital-field' rows='3' name='hospital'>{{ old("+hospital+") }}@if($errors->has("+hospital+"))<span class='help-block'>{{ $errors->first("+hospital+") }}</span>@endif</div>";
 
-              donationForm += "<div class='form-group'><label for='g_id_field'>Hospital .. Governorate Name </label><select required name='g_id' id='g_id_field' class='form-control'>@foreach ($governorates as $key => $value)<option value='{{ $key+1 }}'>{{ $value["+name+"] }}</option>@endforeach</select></div>";
+              donationForm += "<div class='form-group'><label for='governorate_id_field'>Hospital .. Governorate Name </label><select required name='g_id' id='governorate_id_field' class='form-control'><option></option><?php foreach ($governorates as $key => $value){
+                  echo "<option value=".($key+1).">".$value['name']."</option>"; } ?>";
+              donationForm += "</select></div>";
 
-              donationForm += "<div class='form-group'><label for='c_id_field'>Hospital .. City Name </label><select required name='c_id' id='c_id_field' class='form-control'>@foreach ($cities as $key => $value)<option value='{{ $key+1 }}'>{{ $value["+name+"] }}</option>@endforeach</select></div>";
+              donationForm += '<div class="form-group"><label for="citySelect">City Name </label><span style="color:red; margin-left: 10px;">*</span><select required name="c_id" id="citySelect" class="form-control"><option value="1">m</option></select></div>';
 
               donationForm += "<div class='form-group @if($errors->has("+address+")) has-error @endif'><label for='address-field'>Hospital .. Address</label><span style='color:red; margin-left: 10px;'>*</span><input required type='text' class='form-control' id='address-field' rows='3'name='address'/>{{ old("+address+") }}@if($errors->has("+address+"))<span class='help-block'>{{ $errors->first("+address+") }}</span>@endif</div>";
               
@@ -103,7 +121,7 @@
             var optionSelected = $("option:selected", this);
             var valueSelected = this.value;
             // console.log(valueSelected);
-            if(valueSelected == "" ){
+            if(valueSelected == "" || valueSelected == 1 ){
               // console.log("valueSelected");
               intervalDiv=document.getElementById("intervalDiv");
               intervalDiv.innerHTML = "";
@@ -126,8 +144,36 @@
             }
         });
 
-      });
 
+        var next = 0;
+        $("#add-more").click(function(e){
+            e.preventDefault();
+            var addto = "#field" + next;
+            var addRemove = "#field" + (next);
+            next = next + 1;
+
+            var newIn = '<div id="field'+ next +'" name="field'+ next +'">';
+            newIn += '<div class="form-group"><label for="case_doc_field">Case Documents</label><span style="color:red; margin-left: 10px;">*</span><input type="file" id="case_doc_field" multiple="true" name="case_doc[]" style="margin-left: 130px;" required value="{{ old("case_doc") }}"/>@if($errors->has("case_doc"))<span class="help-block">{{ $errors->first("case_doc") }}</span>@endif</div></div>';
+            
+            var newInput = $(newIn);
+            var removeBtn = '<button id="remove' + (next - 1) + '" class="btn btn-danger remove-me" style="margin-top: -45px; float: right; margin-right: 350px;">Remove</button></div></div><div id="field">';
+            var removeButton = $(removeBtn);
+            $(addto).after(newInput);
+            $(addRemove).after(removeButton);
+            $("#field" + next).attr('data-source',$(addto).attr('data-source'));
+            $("#count").val(next);  
+            
+            $('.remove-me').click(function(e){
+                e.preventDefault();
+                var fieldNum = this.id.charAt(this.id.length-1);
+                var fieldID = "#field" + fieldNum;
+                $(this).remove();
+                $(fieldID).remove();
+            });
+        });
+
+        
+        });
 
     </script>
   <script src="/Admin/form.js"></script>
@@ -146,13 +192,17 @@
             <div class="stepwizard" >
             <div class="stepwizard-row setup-panel">
               <div class="stepwizard-step" style="display: table-cell;">
-                <a href="#step-1" type="button" class="btn btn-primary btn-circle" style="border-radius: 25px;margin-left: 240px;">1</a>
-                <p style="margin-left: 180px;text-align: center;">Case Personal Information</p>
+                <a href="#step-1" type="button" class="btn btn-primary btn-circle" style="border-radius: 25px;margin-left: 140px;">1</a>
+                <p style="margin-left: 80px;text-align: center;">Case Personal Information</p>
               </div>
               <div class="stepwizard-step" style="display: table-cell;">
-                <a href="#step-2" type="button" class="btn btn-default btn-circle"  style="border-radius: 25px;margin-left: 170px;" disabled="disabled">2</a>
-                <p style="margin-left: 130px;text-align: center;">Donation Information</p>
-              </div>  
+                <a href="#step-2" type="button" class="btn btn-default btn-circle" style="border-radius: 25px;margin-left: 100px;" disabled="disabled">2</a>
+                <p style="margin-left: 60px;text-align: center;">Donation Information</p>
+              </div> 
+              <div class="stepwizard-step" style="display: table-cell;">
+                <a href="#step-4" type="button" class="btn btn-default btn-circle" style="border-radius: 25px;margin-left: 170px;" disabled="disabled">3</a>
+                <p style="margin-left: 130px;text-align: center;">Case Documents</p>
+            </div> 
             </div>
           </div>
 
@@ -194,18 +244,17 @@
                       <label for="governorate_id_field">Governorate Name </label>
                       <span style="color:red; margin-left: 10px;">*</span>
                       <select required name="governorate_id" id="governorate_id_field" class="form-control">
+                          <option></option>
                           @foreach ($governorates as $key => $value)
                               <option value="{{ $key+1 }}">{{ $value['name'] }}</option>
                           @endforeach
                       </select>
                     </div>
                     <div class="form-group">
-                      <label for="city_id_field">City Name </label>
+                      <label for="citySelect">City Name </label>
                       <span style="color:red; margin-left: 10px;">*</span>
-                      <select required name="city_id" id="city_id_field" class="form-control">
-                          @foreach ($cities as $key => $value)
-                              <option value="{{ $key+1 }}">{{ $value['name'] }}</option>
-                          @endforeach
+                      <select required name="city_id" id="citySelect" class="form-control">
+                          <option></option>
                       </select>
                     </div>
                     <div class="form-group @if($errors->has('gender')) has-error @endif">
@@ -265,9 +314,43 @@
                     </div> 
 
                     <div class="form-group" id="intervalDiv">
-                      
                     </div> 
-        
+
+                    <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button>
+
+                  </div>
+                </div>
+              </div>
+
+               <div class="row setup-content" id="step-4">
+                <div class="col-xs-12">
+                  <div class="col-md-12" >
+                    <h3> Case Documents</h3>
+                    <div id="field">
+                    <div id="field0">
+                
+                    <div class="form-group">
+                      <label for="case_doc_field">Case Documents</label>
+                      <span style="color:red; margin-left: 10px;">*</span>
+                      {!! Form::file('case_doc[]', array('multiple'=>true)) !!}
+                      
+                         @if($errors->has("case_doc"))
+                          <span class="help-block">{{ $errors->first("case_doc") }}</span>
+                        @endif
+                    </div>
+
+
+                </div>
+                </div>
+                <!-- Button -->
+                <div class="form-group">
+                  <div class="col-md-4">
+                    <button id="add-more" name="add-more" style="float: right; margin-right: -450px;" class="btn btn-primary">Add More</button>
+                  </div>
+                </div>
+                <br><br>
+                                
+
                 <div class="well well-sm">
                     <button type="submit" class="btn btn-primary">Create</button>
                     <a class="btn btn-link pull-right" href="{{ route('people.index') }}"><i class="glyphicon glyphicon-backward"></i> Back</a>

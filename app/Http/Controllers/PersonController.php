@@ -20,10 +20,16 @@ use App\Blood;
 use App\Governorate;
 use App\City;
 use App\Interval;
+use App\PersonDocument;
+
 use Illuminate\Http\Request;
 
 class PersonController extends Controller {
 
+	public function __construct()
+	{
+	    $this->middleware('auth');
+	}
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -67,7 +73,6 @@ class PersonController extends Controller {
 	 */
 	public function store(Request $request)
 	{
-		// Creating Case Data .. --> by shrouk
 		// Creating Case Data .. --> by shrouk
 		// Start transaction!
 		DB::beginTransaction();
@@ -236,27 +241,85 @@ class PersonController extends Controller {
 		    throw $e;
 		}
 
+		// sixth stage:
+		// Creating Interval Object ...
 		//check if donation is for one time or periodic ...
 		if($person->interval_type_id == 2 or $person->interval_type_id == 3 or $person->interval_type_id == 4){
-				try{
-					$interval = new Interval();
-					$interval->numtimes = $request->input("numtimes");
-					$interval->person_id = $person->id;
-					$interval->save();
-				} catch(ValidationException $e)
-				{
-				    // Rollback and then redirect
-				    // back to form with errors
-				    DB::rollback();
-				    return Redirect::to('/form')
-				        ->withErrors( $e->getErrors() )
-				        ->withInput();
-				} catch(\Exception $e)
-				{
-				    DB::rollback();
-				    throw $e;
-				}
+			try{
+				$interval = new Interval();
+				$interval->numtimes = $request->input("numtimes");
+				$interval->person_id = $person->id;
+				$interval->save();
+			} catch(ValidationException $e)
+			{
+			    // Rollback and then redirect
+			    // back to form with errors
+			    DB::rollback();
+			    return Redirect::to('/form')
+			        ->withErrors( $e->getErrors() )
+			        ->withInput();
+			} catch(\Exception $e)
+			{
+			    DB::rollback();
+			    throw $e;
 			}
+		}
+
+		try{
+			// Seventh stage:
+			// Creating Case Docs ...
+
+	        $files = Input::file('case_doc');
+		    // Making counting of uploaded images
+		    $file_count = count($files);
+		    // start count how many uploaded
+		    $uploadcount = 0;
+
+		    // preparing upload path ...
+	        if($person->donation_type_id == 1){
+	        	$destinationPath = 'Case/PersonDocument/blood'; 
+	        }
+	        elseif ($person->donation_type_id == 2){
+	        	$destinationPath = 'Case/PersonDocument/money'; 
+	        }
+	        elseif ($person->donation_type_id == 3){
+	        	$destinationPath = 'Case/PersonDocument/medicine'; 
+	        }
+	        else{
+	        	$destinationPath = 'Case/PersonDocument/other'; 
+	        }
+
+	        // creating num of objs = files num 
+		    foreach($files as $file) {
+		      $rules = array('file' => 'required'); 
+		      $validator = Validator::make(array('file'=> $file), $rules);
+		      if($validator->passes()){
+
+		        $filename = $file->getClientOriginalName();
+		        $upload_success = $file->move($destinationPath, $filename);
+		        $uploadcount ++;
+
+		        $doc = new PersonDocument();
+	    		$doc->document=$filename;
+	    		$doc->person_id=$person->id;
+	    		$doc->save();
+
+		      }
+		    }
+		  
+		} catch(ValidationException $e)
+		{
+		    // Rollback and then redirect
+		    // back to form with errors
+		    DB::rollback();
+		    return Redirect::to('/form')
+		        ->withErrors( $e->getErrors() )
+		        ->withInput();
+		} catch(\Exception $e)
+		{
+		    DB::rollback();
+		    throw $e;
+		}
 			
 		// If we reach here, then
 		// data is valid and working.

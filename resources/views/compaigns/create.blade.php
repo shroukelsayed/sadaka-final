@@ -22,10 +22,6 @@
 
     </style>
 
-    <script>
-      
-
-    </script>
 
 @endsection
 
@@ -78,6 +74,7 @@
                       <label for="amount">Governrate </label>
                       <br>
                       <select required name="governorate_id" id="governorate_id_field" class="form-control">
+                          <option></option>
                           @foreach ($governrates as $key => $value)
                               <option value="{{ $key+1 }}">{{ $value['name'] }}</option>
                           @endforeach

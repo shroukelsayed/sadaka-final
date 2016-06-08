@@ -103,7 +103,11 @@ return [
             ],
         ],[
         'password_confirm' => [
-            'required' => 'مطلوب',
+                'same' => 'يجب أن يتطابق الحقل :attribute مع :other',
+            ],
+        ],[
+        'phone' => [
+            'regex' => 'صيغة الحقل :attribute .غير صحيحة',
             ],
         ],
     ],

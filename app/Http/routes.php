@@ -10,8 +10,15 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\City;
+use App\Governorate;
 
-// use App\City;
+
+
+
 
 // Route::get('/', 'HomeController@index'); 
    
@@ -60,6 +67,9 @@ Route::resource("userpeople","UserpersonController");
 Route::resource("usercompaign","UserCompaignController");
 Route::get('/cases', 'PersonController@cases');
 Route::get('/comp', 'CompaignController@comps');
+Route::post('/user_infos/create/','UserInfoController@check');
+Route::post('/auth/login','Auth/AuthController@check');
+Route::post('/charities/create','CharityController@check');
 // Route::get('/{locale}', function ($locale) {
 // 	App::setLocale($locale);
 //     return view('welcome');
@@ -73,4 +83,12 @@ $cities = City::where('governorate_id', '=', $governorate_id)->get();
 // $governrates=Governorate::findOrFail($governorate_id);
 // $cities = $governrates->city();
 return Response::json($cities);
+});
+
+Route::get('api/dropdown', function(){
+    $input = \Input::get('option');
+
+    $cities = DB::table('cities')->where('governorate_id',$input);
+   
+    return Response::json($cities->select(array('id','name'))->get());
 });

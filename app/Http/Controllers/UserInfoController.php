@@ -44,23 +44,22 @@ class UserInfoController extends Controller {
 	 * @return Response
 	 */
 	public function store(Request $request)
-	{
+	{   
 		$type = $request->input('type');
-
-		
+	
 		$this->validate($request,[
 			'email' =>'email|unique:users,email',
 			'name' =>'required|max:255|unique:users,name',
 			'firstName'=>'required|max:50',
 			'lastName'=>'required|max:50',
-			'password' => 'required|between:6,20',
-			// 'password_confirm' => 'required|same:password',
+			'password' => 'required|between:6,50',
+			'confirm_password' => 'same:password',
 			'phone'    => 'required|regex:/^\+?[^a-zA-Z]{5,}$/',
 			'nationalid'=>'required | numeric',
 			'gender' => 'in:male,female',
 			]);
 		$user= new User();
-        $user->name = $request->input('name');
+        $user->name = $request->input('name1');
         $user->email = $request->input('email');
         $user->password = bcrypt($request->input('password'));
         $user->phone=$request->input('phone');
@@ -144,7 +143,7 @@ class UserInfoController extends Controller {
         $user->email=$request->input("email");;
         $user_info->birthdate = $request->input("birthdate");
         $user->phone = $request->input("phone");
-        $user->name = $request->input("username");
+        $user->name = $request->input("name1");
 		$user_info->save();
 		$user->save();
 		$city->save();
@@ -166,5 +165,21 @@ class UserInfoController extends Controller {
 
 		return redirect()->route('user_infos.index')->with('message', 'Item deleted successfully.');
 	}
-
+	
+	public function check(Request $request)
+	{
+		if ($request->input("action")=="name1")
+		{
+			$name=User::where('name','=',$request->input("username"))->get();
+			return $name;
+			
+		}
+		if ($request->input("action")=="email")
+		{
+			$email=User::where('email','=',$request->input("email"))->get();
+			return $email;
+			
+		}
+	}
+	
 }

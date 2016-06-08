@@ -22,21 +22,21 @@ $(document).ready(function($) {
     //Ajax
 
   $.get('/ajax-governrate?governorate_id='+ governrate_id,function(data){
-         $('#city').empty(); 
+         $('#city').empty();
         console.log(data);
         $.each(data,function(index,cityobj){
 
-          $('#city').append('<option value="'+cityobj.id+'">'+cityobj.name+'</option>'); 
+          $('#city').append('<option value="'+cityobj.id+'">'+cityobj.name+'</option>');
 
           });
-      }); 
+      });
   });
 
 });
 
 
 
-</script>   
+</script>
     <style>
       
     /* select{
@@ -106,7 +106,7 @@ $(document).ready(function($) {
                             <option value="{{$governrate->id}}">
                                 {{$governrate->name}}
                             </option>
-                          
+
                           @endforeach
                       </select>
                     </div>
@@ -115,7 +115,7 @@ $(document).ready(function($) {
                       <label for="amount">City </label>
                       <br>
                       <select required name="city" id="city">
-                              
+
                       </select>
                     </div>
                    
@@ -140,5 +140,5 @@ $(document).ready(function($) {
 @endsection
 @section('scripts')
 
- 
+
 @endsection

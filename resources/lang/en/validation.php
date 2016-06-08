@@ -106,7 +106,15 @@ return [
             ],
         ],[
         'password_confirm' => [
-            'required' => 'required',
+            'same' => 'The :attribute and :other must match.',
+            ],
+        ],[
+        'phone' => [
+            'regex' => 'The :attribute format is invalid.',
+            ],
+        ],[
+        'email' => [
+            'email' => 'The :attribute must be a valid email address.',
             ],
         ],
         

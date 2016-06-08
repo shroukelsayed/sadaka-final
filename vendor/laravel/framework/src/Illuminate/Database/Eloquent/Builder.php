@@ -1200,12 +1200,12 @@ class Builder
      */
     protected function applyScope($scope, $builder)
     {
-        if ($scope instanceof Closure) {
-            $scope($builder);
-        } elseif ($scope instanceof Scope) {
-            $scope->apply($builder, $this->getModel());
+                if ($scope instanceof Closure) {
+                    $scope($builder);
+                } elseif ($scope instanceof Scope) {
+                    $scope->apply($builder, $this->getModel());
+                }
         }
-    }
 
     /**
      * Determine if the scope added after the given offset should be nested.
@@ -1246,10 +1246,10 @@ class Builder
         foreach ($whereOffsets as $sliceTo) {
             $this->sliceWhereConditions(
                 $query, $allWheres, $sliceFrom, $sliceTo
-            );
+        );
 
             $sliceFrom = $sliceTo;
-        }
+    }
     }
 
     /**

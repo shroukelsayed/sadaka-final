@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Person;
 use App\PersonInfo;
+use App\Compaign;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 
@@ -25,7 +26,8 @@ class HomeController extends Controller
     public function index()
     {
         $people = PersonInfo::orderBy('id', 'desc')->paginate(10);
+        $compaigns=Compaign::orderBy('id')->paginate(4);
 
-        return view('home', compact('people'));
+        return view('home', compact('people','compaigns'));
     }
 }

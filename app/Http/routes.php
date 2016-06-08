@@ -10,10 +10,17 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\City;
+use App\Governorate;
 
-// use App\City;
 
-Route::get('/', 'HomeController@index'); 
+
+
+
+// Route::get('/', 'HomeController@index'); 
    
 
 
@@ -72,3 +79,11 @@ Route::post('/charities/create','CharityController@check');
 //   	$cities = City::where('governorate_id', '=', $cat_id)->get();
 //   	return Response::json($cities);
 // });
+
+Route::get('api/dropdown', function(){
+    $input = \Input::get('option');
+
+    $cities = DB::table('cities')->where('governorate_id',$input);
+   
+    return Response::json($cities->select(array('id','name'))->get());
+});

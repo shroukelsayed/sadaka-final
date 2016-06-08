@@ -60,6 +60,7 @@ Route::get('/cases', 'PersonController@cases');
 Route::get('/comp', 'CompaignController@comps');
 Route::post('/user_infos/create/','UserInfoController@check');
 Route::post('/auth/login','Auth/AuthController@check');
+Route::post('/charities/create','CharityController@check');
 // Route::get('/{locale}', function ($locale) {
 // 	App::setLocale($locale);
 //     return view('welcome');

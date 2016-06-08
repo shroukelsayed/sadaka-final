@@ -108,6 +108,10 @@ return [
         'password_confirm' => [
             'required' => 'required',
             ],
+        ],[
+        'email' => [
+            'email' => 'The :attribute must be a valid email address.',
+            ],
         ],
         
         

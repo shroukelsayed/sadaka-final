@@ -22,14 +22,14 @@
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="form-group @if($errors->has('firstName')) has-error @endif">
                        <label for="firstName-field">First Name</label>
-                    <input type="text" id="firstName-field" name="firstName" class="form-control" value="{{ old("firstName") }}" required/>
+                    <input type="text" id="firstName" name="firstName" class="form-control" value="{{ old("firstName") }}" required/>
                        @if($errors->has("firstName"))
                         <span class="help-block">{{ $errors->first("firstName") }}</span>
                        @endif
                     </div>
                     <div class="form-group @if($errors->has('lastName')) has-error @endif">
                        <label for="lastName-field">Last Name</label>
-                    <input type="text" id="lastName-field" name="lastName" class="form-control" value="{{ old("lastName") }}" required/>
+                    <input type="text" id="lastName" name="lastName" class="form-control" value="{{ old("lastName") }}" required/>
                        @if($errors->has("lastName"))
                         <span class="help-block">{{ $errors->first("lastName") }}</span>
                        @endif
@@ -51,7 +51,7 @@
                     </div>
                     <div class="form-group @if($errors->has('cpassword')) has-error @endif">
                        <label for="password-field">Confirm Password</label>
-                    <input type="password" id="cpassword" name="cpassword" class="form-control" value="{{ old("cpassword") }}" required/>
+                    <input type="password" id="confirm_password" name="confirm_password" class="form-control" value="{{ old("cpassword") }}" required/>
                        @if($errors->has("cpassword"))
                         <span class="help-block">{{ $errors->first("cpassword") }}</span>
                        @endif
@@ -66,7 +66,7 @@
                     </div>
                       <div class="form-group @if($errors->has('name')) has-error @endif">
                        <label for="governorate-field">Select Your Governorate</label>
-                         <select class="form-control" name="level" id="modify_modal_level" required>
+                         <select class="form-control" name="level" id="level" required>
                           @foreach ($governrate as $key => $value)
                               <option value="{{ $value['id'] }}">{{ $value['name'] }}</option>
                           @endforeach

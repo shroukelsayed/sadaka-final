@@ -105,6 +105,10 @@ return [
         'password_confirm' => [
             'required' => 'مطلوب',
             ],
+        ],[
+        'email' => [
+            'email' => 'يجب أن يكون :attribute عنوان بريد إلكتروني صحيح البُنية',
+            ],
         ],
     ],
     /*

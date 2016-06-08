@@ -49,11 +49,17 @@ class CharityController extends Controller {
 		$this->validate($request,[
 			'email' =>'email|unique:users,email',
 			'name' =>'required|max:255|unique:users,name',
-			'password' => 'required|between:6,20',
-			'password_confirm' => 'required|same:password',
+			'password' => 'required|between:6,50',
+			'confirm_password' => 'same:password',
+			'phone'    => 'required|regex:/^\+?[^a-zA-Z]{5,}$/',
+			'taxnum'   => 'required | numeric',
+			'image'    => 'required',
+			'image1'   => 'required'
+
+
 			]);
 		$user= new User();
-        $user->name = $request->input('name');
+        $user->name = $request->input('name1');
         $user->email = $request->input('email');
         $user->password = bcrypt($request->input('password'));
         $user->phone=$request->input('phone');
@@ -170,6 +176,21 @@ class CharityController extends Controller {
 		$charity->delete();
 
 		return redirect()->route('charities.index')->with('message', 'Item deleted successfully.');
+	}
+	public function check(Request $request)
+	{
+		if ($request->input("action")=="name1")
+		{
+			$name=User::where('name','=',$request->input("username"))->get();
+			return $name;
+			
+		}
+		if ($request->input("action")=="email")
+		{
+			$email=User::where('email','=',$request->input("email"))->get();
+			return $email;
+			
+		}
 	}
 
 }

@@ -3,30 +3,13 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/css/bootstrap-datepicker.css" rel="stylesheet">
 @endsection
 @section('header')
+ <script src="/Admin/jquery-1.11.3.min.js" type="text/javascript"></script>
+ <script src="/assets/js/user_validation.js"></script>
+ 
     <div class="page-header">
         <h1><i class="glyphicon glyphicon-plus"></i> UserInfos / Create </h1>
     </div>
-    <script>
-    onload = function(){
-              var password;
-              var confirmpassword;
-              password=document.getElementById("password");
-              confirmpassword= document.getElementById("cpassword");
-              
-
-              confirmpassword.onblur=function(){
-
-                  if (password.value != confirmpassword.value) {
-
-                      alert("password not match");
-                      
-
-                  }
-
-
-              }
-        }
-  </script>
+    
 @endsection
 
 @section('content')
@@ -53,7 +36,8 @@
                     </div>
                  <div class="form-group @if($errors->has('name')) has-error @endif">
                        <label for="name-field">Username</label>
-                    <input type="text" id="name-field" name="name" class="form-control" value="{{ old("name") }}" required/>
+                    <input type="text" id="name1" name="name1" class="form-control" value="{{ old("name") }}" required/>
+                       <span id="uspan" class="help-block"></span>
                        @if($errors->has("name"))
                         <span class="help-block">{{ $errors->first("name") }}</span>
                        @endif
@@ -74,7 +58,8 @@
                     </div>
                     <div class="form-group @if($errors->has('email')) has-error @endif">
                        <label for="email-field">Email</label>
-                    <input type="text" id="email-field" name="email" class="form-control" value="{{ old("email") }}" required/>
+                    <input type="text" id="email" name="email" class="form-control" value="{{ old("email") }}" required/>
+                      <span id="upan" class="help-block"></span>
                        @if($errors->has("email"))
                         <span class="help-block">{{ $errors->first("email") }}</span>
                        @endif

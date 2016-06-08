@@ -88,27 +88,28 @@
 
                 <div id="navbar" class="navbar-collapse collapse pull-right">
 
-                  <ul class="nav navbar-nav">
+                    <ul class="nav navbar-nav">
 
-                      <li><a class="is-active" href="{{URL::to('/home')}}">HOME</a></li>
-                    
-                    <li class="has-child"><a href="#">CASES</a>
+                        <li><a class="is-active" href="{{URL::to('/home')}}">HOME</a></li>
+                        <li><a href="contact.html">CONTACT</a></li>
+                        <li class="has-child"><a class="is-active" href="{{URL::to('/cases')}}">CASES</a>
 
-                      <ul class="submenu">
-                         <li class="submenu-item"><a href="{{URL::to('/cases')}}">Cases list </a></li>
-                         <li class="submenu-item"><a href="causes-single.html">Mony Cases </a></li>
-                         <li class="submenu-item"><a href="causes-single.html">Blood Cases </a></li>
-                         <li class="submenu-item"><a href="causes-single.html">Medicine Cases </a></li>
-                      </ul>
-
-                    </li>
-                      <li><a href="{{URL::to('/comp')}}">COMPAIGNS</a></li>
-                      <li><a class="is-active"  href="contact.html">CONTACT</a></li>
-                      @if (Auth::guest()) <li><a href="{{ url('/login') }}">LOGIN</a></li>  @else <li><a href="{{ route('user_infos.show',Auth::user()->id) }}">PROFILE</a></li><li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> {{ Auth::user()->name }}<span class="caret"></span> </a> <ul class="dropdown-menu" role="menu"> <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>logout</a></li> </ul> </li> @endif
+                            <ul class="submenu">
+                                <li class="submenu-item"><a href="{{URL::to('/cases')}}">Cases list </a></li>
+                                <li class="submenu-item"><a href="{{URL::to('/money')}}">Mony Cases </a></li>
+                                <li class="submenu-item"><a href="{{URL::to('/bloods')}}">Blood Cases </a></li>
+                                <li class="submenu-item"><a href="{{URL::to('/medicines')}}">Medicine Cases </a></li>
+                            </ul>
 
 
+                        </li>
+                        <li><a href="{{URL::to('/comp')}}">COMPAIGNS</a></li>
+                   
 
-                  </ul>
+                        @if (Auth::guest()) <li><a href="{{ url('/login') }}">LOGIN</a></li>  @else <li><a href="{{ route('user_infos.show',Auth::user()->id) }}" >PROFILE</a></li><li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> {{ Auth::user()->name }} <span class="caret"></span> </a> <ul class="dropdown-menu" role="menu"> <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>logout</a></li> </ul> </li> @endif
+
+
+                    </ul>
 
                 </div> <!-- /#navbar -->
 

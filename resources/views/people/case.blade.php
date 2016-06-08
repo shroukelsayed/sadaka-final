@@ -111,18 +111,19 @@
 
                         <li><a class="is-active" href="{{URL::to('/home')}}">HOME</a></li>
                         <li><a href="contact.html">CONTACT</a></li>
-                        <li class="has-child"><a class="is-active" href="#">CASES</a>
+                        <li class="has-child"><a class="is-active" href="{{URL::to('/cases')}}">CASES</a>
 
                             <ul class="submenu">
                                 <li class="submenu-item"><a href="{{URL::to('/cases')}}">Cases list </a></li>
-                                <li class="submenu-item"><a href="causes-single.html">Mony Cases </a></li>
-                                <li class="submenu-item"><a href="causes-single.html">Blood Cases </a></li>
-                                <li class="submenu-item"><a href="causes-single.html">Medicine Cases </a></li>
+                                <li class="submenu-item"><a href="{{URL::to('/money')}}">Mony Cases </a></li>
+                                <li class="submenu-item"><a href="{{URL::to('/bloods')}}">Blood Cases </a></li>
+                                <li class="submenu-item"><a href="{{URL::to('/medicines')}}">Medicine Cases </a></li>
                             </ul>
+
 
                         </li>
                         <li><a href="{{URL::to('/comp')}}">COMPAIGNS</a></li>
-                        
+                   
 
                         @if (Auth::guest()) <li><a href="{{ url('/login') }}">LOGIN</a></li>  @else <li><a href="{{ route('user_infos.show',Auth::user()->id) }}" >PROFILE</a></li><li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> {{ Auth::user()->name }} <span class="caret"></span> </a> <ul class="dropdown-menu" role="menu"> <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>logout</a></li> </ul> </li> @endif
 
@@ -157,16 +158,12 @@
 <div class="section-home our-causes animate-onscroll fadeIn">
 
     <div class="container">
-
+        <div class="row">
         @foreach($people as $person_info)
-
-            <div class="row">
 
                 <div class="col-md-3 col-sm-6">
 
                     <div class="cause">
-
-                        <img src="/assets/images/causes/" alt="" class="cause-img">
 
                         <div class="progress cause-progress">
                             <div class="progress-bar" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 30%;">
@@ -179,17 +176,16 @@
                             <div class="cause-details">
                                <label>NAME: </label> <span>{{ $person_info->name}}</span><br/>
                                 <label>ADDRESS: </label><span> {{ $person_info->address }}</span><br/>
+				<label>CHARITY: </label><span> {{ $p->user->name }}</span><br/>
+                                @if ($donation === 1)
+                                    <label>BLOOD TYPE: </label><span> {{ $p->blood->bloodtype }}</span><br/>
+                                    <label>NUMBER OF BAGS: </label><span> {{ $p->blood->amount }}  bags</span><br/>
+                                @elseif ($donation === 2)
+                                    <label>AMOUNT OF MONEY: </label><span>{{ $p->money->amount }} LE</span><br/>
+                                @elseif ($donation === 3)
+                                    <label>NUMBER OF PACKETS: </label><span>{{ $p->medicine->amount }} packets</span><br/>
 
-                                <label>AMOUNT: </label><span> 
-                                            @if ($donation === 1)
-                                                 {{ $p->blood->amount }}</span><br/>
-                                            @elseif ($donation === 2)
-                                                {{ $p->money->amount }}.LE</span><br/>
-                                             @elseif ($donation === 3)
-                                                {{ $p->medicine->amount }}.packet</span><br/>
-                                          
-
-                                            @endif
+                                @endif
                                 <label>TYPE: </label><span> {{ $p->intervaltype->type }}</span><br/>
 
                                 <?php $case_id=$p->id;?>
@@ -204,35 +200,28 @@
 
 
                                     <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#donateModal"> DONATE NOW</a>
+					<?php $b= $p->blood->id?>
+					@if ($donation===1)
+					<a class="is-active" href="{{ route('bloods.show',$b) }}">see more</a>
+					@elseif ($donation===2)
+						<a class="is-active" href="{{ route('money.show',$b) }}">see more</a>
+					@elseif ($donation === 3)
+						<a class="is-active" href="{{ route('medicines.show',$b) }}">see more</a>
+					@else
+						<a class="is-active" href="{{ route('others.show',$b) }}">see more</a>
+					@endif
+                                    
                                 @endif
 
                             </div>
-
-
-
                     </div> <!-- /.cause -->
-
                 </div>
-
-
-
-
-            </div>
         @endforeach
         @endforeach
+        </div>
     </div>
 
-</div>             </div>
-
-        </div>
-
-    </div> <!-- /.our-causes -->
-
-
-
-
-</div> <!-- /.main-container  -->
-
+</div>
 
 <footer class="main-footer">
 
@@ -382,13 +371,25 @@
 
                 <form class="form-donation" action="{{ route('userpeople.store') }}" method="POST">
                     <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
-                    <input type="hidden" name="id" value="{{ $case_id }}">
+                    <?php
+                    if($people)
+                        echo "<input type='hidden' name='id' value=' $case_id '>";
+                    ?>
+
                     <h3 class="title-style-1 text-center">Thank you for your donation <span class="title-under"></span>  </h3>
 
                     <div class="row">
 
                         <div class="form-group col-md-12 ">
-                            <input type="text" class="form-control" name="amount"  id="amount" placeholder="AMOUNT(€)">
+                            @if ($donation === 1)
+                                <input type="text" class="form-control" name="amount"  id="amount" placeholder="NUMBER OF BLOOD BAGES:-">
+                            @elseif ($donation === 2)
+                                <input type="text" class="form-control" name="amount"  id="amount" placeholder="AMOUNT OF MONEY:-">
+                            @elseif ($donation === 3)
+                                <input type="text" class="form-control" name="amount"  id="amount" placeholder="NUMBER OF PACKETS OR AMOUNT OF MONY:-">
+
+
+                            @endif
                         </div>
 
                     </div>

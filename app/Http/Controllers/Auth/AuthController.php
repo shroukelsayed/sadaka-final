@@ -69,4 +69,13 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
         ]);
     }
+    public function check(Request $request)
+    {
+        if ($request->input("action")=="email")
+        {
+            $email=User::where('email','=',$request->input("email"))->get();
+            return $email;
+            
+        }
+    }
 }

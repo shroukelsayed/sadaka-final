@@ -1,34 +1,27 @@
 /**
  * 
- */
+ */ 
 $(document).ready(function () {
-    // console.log("hiii in ready");
-
-    // $(":input[name='username']").on("blur", function () {
-    //     console.log("hiiiiiiiii")
-    // });
+    username_err = $('#uspan');
+    email_err = $('#upan');
     $(":input[name='name1']").on("blur", function () {
-        // console.log("blur");
-        //         console.log("blur");
-        // $.post("/user/check/?action=username").done(function (data, status) {
-        // alert("Data: " + data + "\nStatus: " + status);
-        // console.log("Data: " + data + "\nStatus: " + status);
-        // console.log(data);
-        //
-        // });
+    var sentData = {'username': $(":input[name='name1']").val(), '_token': $('input[name=_token]').val()};
+    console.log(sentData);
         $.ajax({
-            url: '/users/checkdata/?action=name1',
-            type: "post",
+            url: '/user_infos/create/?action=name1',
+            type: "POST",
             data: {'username': $(":input[name='name1']").val(), '_token': $('input[name=_token]').val()},
 
             success: function (data) {
                 // alert(data);
-                console.log(data);
-                if (data=="yes"){
-                    $(":input[name='name1']").next().text("username used").hide();
-                }else {
-                    $(":input[name='name1']").next().text("username used").show();
-                    $(":input[name='name1']").focus();
+                console.log(data.length==0); 
+                if(data.length==0){
+                    console.log("Available");
+                    username_err.html("<b>User Name Available</b>");
+                }else{
+                    console.log("not Available");
+                    username_err.html("<b>User Name NOT Available</b>");
+                    $('#name1').focus();
                 }
 
             }
@@ -36,20 +29,21 @@ $(document).ready(function () {
 
     });
     $(":input[name='email']").on("blur", function () {
-        // console.log("blur");
         $.ajax({
-            url: '/users/checkdata/?action=email',
+            url: '/user_infos/create/?action=email',
             type: "post",
             data: {'email': $(":input[name='email']").val(), '_token': $('input[name=_token]').val()},
 
             success: function (data) {
                 // alert(data);
                 console.log(data);
-                if (data=="yes"){
-                    $(":input[name='email']").next().text("email used").hide();
-                }else {
-                    $(":input[name='email']").next().text("email used").show();
-                    $(":input[name='email']").focus();
+                 if(data.length==0){
+                    console.log("Available");
+                    email_err.html("<b>Email Available</b>");
+                }else{
+                    console.log("not Available");
+                    email_err.html("<b>Email NOT Available</b>");
+                    $('#email').focus();
                 }
             }
         });

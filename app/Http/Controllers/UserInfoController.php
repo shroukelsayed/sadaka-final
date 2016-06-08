@@ -144,7 +144,7 @@ class UserInfoController extends Controller {
         $user->email=$request->input("email");;
         $user_info->birthdate = $request->input("birthdate");
         $user->phone = $request->input("phone");
-        $user->name = $request->input("username");
+        $user->name = $request->input("name1");
 		$user_info->save();
 		$user->save();
 		$city->save();
@@ -166,5 +166,20 @@ class UserInfoController extends Controller {
 
 		return redirect()->route('user_infos.index')->with('message', 'Item deleted successfully.');
 	}
-
+	public function check(Request $request)
+	{
+		if ($request->input("action")=="name1")
+		{
+			$name=User::where('name','=',$request->input("username"))->get();
+			return $name;
+			
+		}
+		if ($request->input("action")=="email")
+		{
+			$email=User::where('email','=',$request->input("email"))->get();
+			return $email;
+			
+		}
+	}
+	
 }

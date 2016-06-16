@@ -8,47 +8,25 @@
     </div>
     <script src="/Admin/jquery-1.11.3.min.js" type="text/javascript"></script>
     <script src="/Admin/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="/assets/js/user_validation1.js"></script>
 
-    <script>
-    onload = function(){
-              var password;
-              var confirmpassword;
-              password=document.getElementById("password");
-              confirmpassword= document.getElementById("cpassword");
-              
+    <script src="/Admin/vaildregister.js"></script>
 
-              confirmpassword.onblur=function(){
-
-                  if (password.value != confirmpassword.value) {
-
-                      alert("password not match");
-                      
-
-                  }
-
-
-              }
-              function validateEmail(email) {
-                      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                      return re.test(email);
-}
-        }
-  </script>
 @endsection
 
 @section('content')
-    @include('error')
+@include('error')
 
     <div class="row">
         <div class="col-md-12">
 
-            <form action="{{ route('charities.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('charities.store') }}" method="POST" enctype="multipart/form-data" id="form">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                
                  <div class="form-group @if($errors->has('name')) has-error @endif">
-                       <label for="name-field">Username</label>
-                    <input type="text" id="name1" name="name1" class="form-control" value="{{ old("name") }}" required/>
+                       <label for="name-field">Name</label>
+                    <input type="text" id="name" name="name" class="form-control" value="{{ old("name") }}" required/>
                       <span id="uspan" class="help-block"></span>
                        @if($errors->has("name"))
                         <span class="help-block">{{ $errors->first("name") }}</span>
@@ -78,7 +56,9 @@
                     </div>
                    <div class="form-group @if($errors->has('name')) has-error @endif">
                        <label for="governorate-field">Select Your Governorate</label>
-                         <select class="form-control" name="level" id="level" required>
+                         <select class="form-control" name="level" id="governorate" required>
+                         <option value="0">Select</option>
+                         option>
                           @foreach ($governrate as $key => $value)
                               <option value="{{ $value['id'] }}">{{ $value['name'] }}</option>
                           @endforeach
@@ -86,17 +66,13 @@
                    
                     </div>
                     <div class="form-group @if($errors->has('name')) has-error @endif">
-                       <label for="governorate-field">Select Your City</label>
-                         <select class="form-control" name="city" id="city" required> 
-                          @foreach($city as $key => $value)
-                              <option value="{{ $value['id'] }}">{{ $value['name'] }}</option>
-                          @endforeach
+                       <label for="city-field">Select Your City</label>
+                         <select required  class="form-control" name="city" id="city" > 
                       </select>
-                   
                     </div>
                    <div class="form-group @if($errors->has('address')) has-error @endif">
                        <label for="address-field">Address</label>
-                    <textarea class="form-control" id="address-field" rows="3" name="address" required>{{ old("address") }}</textarea>
+                    <textarea class="form-control" id="address-field" rows="3" name="address"  style="resize:none" required>{{ old("address") }}</textarea>
                        @if($errors->has("address"))
                         <span class="help-block">{{ $errors->first("address") }}</span>
                        @endif
@@ -137,7 +113,7 @@
                        @endif
                     </div>
                 <div class="well well-sm">
-                    <button type="submit" class="btn btn-primary" id="btn"><a href="{{URL::to('/login')}}">Create</a></button>
+                    <button type="submit" class="btn btn-primary" id="btn">Create</button>
                     <a class="btn btn-link pull-right" href="{{URL::to('/register')}}"><i class="glyphicon glyphicon-backward"></i> Back</a>
                 </div>
             </form>

@@ -16,7 +16,7 @@ class CreatePersonInfosTable extends Migration {
             $table->increments('id');
             $table->text('name');
             $table->text('address');
-            $table->dateTime('birthdate');
+            $table->date('birthdate');
             $table->enum('gender', array('male', 'female'));
             $table->enum('maritalstatus', array('single', 'married', 'divorced'));
             $table->double('phone');

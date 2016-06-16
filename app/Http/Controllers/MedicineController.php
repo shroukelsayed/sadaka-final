@@ -23,7 +23,12 @@ class MedicineController extends Controller {
 
 	public function __construct()
 	{
-	    $this->middleware('auth');
+        if(Auth::guest() || Auth::user()->user_type_id == 4){  
+          
+	    	$this->middleware('auth',['except' =>[ 'show','index']]);
+	    }
+	  	else
+	    	$this->middleware('auth', ['except' => ['index']]);
 	}
 	
 	/**
@@ -34,8 +39,14 @@ class MedicineController extends Controller {
 	public function index()
 	{
 		$medicines = Medicine::orderBy('id', 'desc')->paginate(10);
+		if(Auth::guest() || Auth::user()->user_type_id == 4){
+            
+            return view('medicines.medicine',  compact('medicines'));
+        }
+        else{
 
-		return view('medicines.index', compact('medicines'));
+			return view('medicines.index', compact('medicines'));
+		}
 	}
 
 	/**
@@ -195,8 +206,14 @@ class MedicineController extends Controller {
 	public function show($id)
 	{
 		$medicine = Medicine::findOrFail($id);
+		if(Auth::guest() || Auth::user()->user_type_id == 4){
+            
+            return view('medicines.more',  compact('medicine'));
+        }
+        else{
 
-		return view('medicines.show', compact('medicine'));
+			return view('medicines.show', compact('medicine'));
+		}
 	}
 
 	/**
@@ -244,11 +261,11 @@ class MedicineController extends Controller {
         $person_info->gender = $request->input("gender");
         $person_info->maritalstatus = $request->input("maritalstatus");
         $person_info->phone = $request->input("phone");
-        $person_info->city_id = 1;
-        $person_info->governorate_id = 1;
-		
+        $person_info->city_id = $request->input("city_id");
+        $person_info->governorate_id = $request->input("governorate_id");
+		$person->interval_type_id = $request->input("interval_type_id");		
 
-		$medicine->name = $request->input("name");
+		$medicine->name = $request->input("medicine_name");
         $medicine->amount = $request->input("amount");
 
         $person->person_status_id = 1;
@@ -262,6 +279,7 @@ class MedicineController extends Controller {
 	       	$docs = $person->personDocs;
 	        foreach ($docs as $personDoc) {
 	        	$personDoc->document=$fileName;
+	        	$personDoc->desc = $request->input("desc");
 	    		$personDoc->save();
 	        }	
 	    }	
@@ -288,6 +306,13 @@ class MedicineController extends Controller {
 		$medicine->delete();
 
 		return redirect()->route('medicines.index')->with('message', 'Item deleted successfully.');
+	}
+
+	public function allCasesByMedicineName($name)
+	{
+		$medicines = Medicine::where('name','=',$name)->get();
+		// var_dump($medicines);die;
+		return view('medicines.allCasesByMedicineName',compact('medicines'));
 	}
 
 }

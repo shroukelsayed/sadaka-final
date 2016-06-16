@@ -1,5 +1,4 @@
-<!doctype html>
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 <head>
     <meta charset="utf-8">
@@ -53,7 +52,7 @@
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini"><b>A</b>LT</span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>Admin</b>LTE</span>
+          <span class="logo-lg"><b><?php echo e(Auth::user()->usertype); ?></b></span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -254,7 +253,7 @@
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <img src="/Admin/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                  <span class="hidden-xs">Alexander Pierce</span>
+                  <span class="hidden-xs"><?php echo e(Auth::user()->name); ?></span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
@@ -308,12 +307,12 @@
               <img src="/Admin/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-              <p>Alexander Pierce</p>
+              <p><?php echo e(Auth::user()->name); ?></p>
               <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
           </div>
           <ul class="sidebar-menu">
-            <li class="header">MAIN NAVIGATION</li>
+          <li></li>
             <li class="active treeview">
               <a href="#">
                 <i class="glyphicon glyphicon-home"></i> <span>Home</span> 
@@ -322,15 +321,28 @@
             </li>
             <li>
               <a href="<?php echo e(URL::to('/charities')); ?>">
-                <i class="fa fa-th"></i> <span>All Cases</span> <small class="label pull-right bg-green">new</small>
+                <i class="fa fa-th"></i> <span>All Cases</span> 
               </a>
             </li>
 
-            <li>
-              <a href="<?php echo e(URL::to('/people/create')); ?>">
-                <i class="fa fa-th"></i> <span>Add Cases</span> <small class="label pull-right bg-green">new</small>
+            <!-- // Start of Links to create new case ... by shrouk -->
+
+
+                    <li class="treeview">
+              <a href="#">
+                <i class="fa fa-edit"></i> <span>New Case</span>
+                <i class="fa fa-angle-left pull-right"></i>
               </a>
+              <ul class="treeview-menu">
+                <li><a href="<?php echo e(URL::to('/bloods/create')); ?>"><i class="fa fa-edit"></i> Blood Case</a></li>
+                <li><a href="<?php echo e(URL::to('/money/create')); ?>"><i class="fa fa-edit"></i> Money Case</a></li>
+                <li><a href="<?php echo e(URL::to('/medicines/create')); ?>"><i class="fa fa-edit"></i> Medicine Case</a></li>
+                <li><a href="<?php echo e(URL::to('/others/create')); ?>"><i class="fa fa-edit"></i> Other Case</a></li>
+              </ul>
             </li>
+
+                  <!-- // End of Links to create new case ... by shrouk -->  
+                  
             <li>
              <a href="<?php echo e(URL::to('/compaigns')); ?>">
                 <i class="fa fa-th"></i> <span>All Compaign</span> <small class="label pull-right bg-green">new</small>
@@ -338,35 +350,9 @@
             </li>
             <li>
             <a href="<?php echo e(URL::to('/compaigns/create')); ?>">
-                <i class="fa fa-th"></i> <span>Add Compaign</span> <small class="label pull-right bg-green">new</small>
+                <i class="fa fa-edit"></i> <span>Add Compaign</span> <small class="label pull-right bg-green">new</small>
               </a>
             </li>
-
-                    <!-- // Start of Links to create new case ... by shrouk -->
-                     <li>
-                    <a href="<?php echo e(URL::to('/bloods/create')); ?>">
-                        <i class="fa fa-edit"></i> <span>New Blood Case</span>
-                      </a>
-                    </li>
-                     <li>
-                    <a href="<?php echo e(URL::to('/money/create')); ?>">
-                        <i class="fa fa-edit"></i> <span>New Money Case</span>
-                      </a>
-                    </li>
-                     <li>
-                    <a href="<?php echo e(URL::to('/medicines/create')); ?>">
-                        <i class="fa fa-edit"></i> <span>New Medicine Case</span>
-                      </a>
-                    </li>
-                    <li>
-                    <a href="<?php echo e(URL::to('/others/create')); ?>">
-                        <i class="fa fa-edit"></i> <span>New Other Case</span>
-                      </a>
-                    </li>
-
-                  <!-- // End of Links to create new case ... by shrouk -->  
-
-
             <li>
               <a href="Admin/pages/calendar.html">
                 <i class="fa fa-calendar"></i> <span>Calendar</span>
@@ -464,18 +450,17 @@
  -->
       <!-- Control Sidebar -->
       
+ <script src="/Admin/jquery-1.11.3.min.js" type="text/javascript"></script>
 
-    
-
-    <script src="/Admin/plugins/jQuery/jQuery-2.1.4.min.js"></script>
-    <!-- jQuery UI 1.11.4 -->
-    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="<?php echo e(URL::asset('Admin/jquery-ui.min.js')); ?>"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     <script>
       $.widget.bridge('uibutton', $.ui.button);
     </script>
+
+  
     <!-- Bootstrap 3.3.5 -->
-    <script src="bootstrap/js/bootstrap.min.js"></script>
+     <script src="/Admin/bootstrap/js/bootstrap.min.js"></script>
     <!-- Morris.js charts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="/Admin/plugins/morris/morris.min.js"></script>
@@ -488,10 +473,6 @@
     <script src="/Admin/plugins/knob/jquery.knob.js"></script>
     <!-- daterangepicker -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
-    <script src="/Admin/plugins/daterangepicker/daterangepicker.js"></script>
-    <!-- datepicker -->
-    <script src="/Admin/plugins/datepicker/bootstrap-datepicker.js"></script>
-    <!-- Bootstrap WYSIHTML5 -->
     <script src="/Admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
     <!-- Slimscroll -->
     <script src="/Admin/plugins/slimScroll/jquery.slimscroll.min.js"></script>
@@ -502,9 +483,7 @@
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="/Admin/dist/js/pages/dashboard.js"></script>
     <!-- AdminLTE for demo purposes -->
-    <script src="/Admin/dist/js/demo.js"></script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="/Admin/dist/js/demo.js"></script>    
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/js/bootstrap-datepicker.min.js"></script>
     <script>

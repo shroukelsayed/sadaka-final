@@ -2,14 +2,9 @@
 <html class="no-js">
     <head>
         <meta charset="utf-8">
-        <title>SADAKA | Charity / Non-profit responsive Bootstrap HTML5 template</title>
+        <title>@lang('validation.sadaka')</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <!-- Fonts -->
-        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
-        <link href='http://fonts.googleapis.com/css?family=Dosis:400,700' rel='stylesheet' type='text/css'>
-
         <!-- Bootsrap -->
         <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
 
@@ -52,11 +47,11 @@
 
                         <ul class="list-unstyled list-inline header-social">
 
-                            <li> <a href="#" target="_blank"> <i class="fa fa-facebook"></i> </a> </li>
-                            <li> <a href="#" target="_blank"> <i class="fa fa-twitter"></i>  </a> </li>
-                            <li> <a href="#" target="_blank"> <i class="fa fa-google"></i>  </a> </li>
-                            <li> <a href="#" target="_blank"> <i class="fa fa-youtube"></i>  </a> </li>
-                            <li> <a href="#" target="_blank"> <i class="fa fa fa-pinterest-p"></i>  </a> </li>
+                            <li> <a href="http://www.facebook.com" target="_blank"> <i class="fa fa-facebook"></i> </a> </li>
+                            <li> <a href="http://www.twitter.com" target="_blank"> <i class="fa fa-twitter"></i>  </a> </li>
+                            <li> <a href="http://www.google.com" target="_blank"> <i class="fa fa-google"></i>  </a> </li>
+                            <li> <a href="http://www.youtube.com" target="_blank"> <i class="fa fa-youtube"></i>  </a> </li>
+                            <li> <a href="http://www.pinterest.com" target="_blank"> <i class="fa fa fa-pinterest-p"></i>  </a> </li>
 
                        </ul> <!-- /.header-social  -->
                       
@@ -82,7 +77,7 @@
 
                   </button>
                   
-                  <a class="navbar-brand" href="index.html"><img src="/assets/images/sadaka-logo.png" alt=""></a>
+                  <a class="navbar-brand" href="{{URL::to('/')}}"><img src="/assets/images/sadaka-logo.png" alt=""></a>
                   
                 </div>
 
@@ -90,23 +85,31 @@
 
                     <ul class="nav navbar-nav">
 
-                        <li><a class="is-active" href="{{URL::to('/home')}}">HOME</a></li>
-                        <li><a href="contact.html">CONTACT</a></li>
-                        <li class="has-child"><a class="is-active" href="{{URL::to('/cases')}}">CASES</a>
+                        <li><a  href="{{URL::to('/')}}">@lang('validation.home')</a></li>
+                        <li><a href="#contact">@lang('validation.contact')</a></li>
+                        <li class="has-child"><a href="{{URL::to('/cases')}}">@lang('validation.cases')</a>
 
                             <ul class="submenu">
-                                <li class="submenu-item"><a href="{{URL::to('/cases')}}">Cases list </a></li>
-                                <li class="submenu-item"><a href="{{URL::to('/money')}}">Mony Cases </a></li>
-                                <li class="submenu-item"><a href="{{URL::to('/bloods')}}">Blood Cases </a></li>
-                                <li class="submenu-item"><a href="{{URL::to('/medicines')}}">Medicine Cases </a></li>
+                                <li class="submenu-item"><a href="{{URL::to('/cases')}}">
+                                @lang('validation.AllCases') </a></li>
+                                <li class="submenu-item"><a href="{{URL::to('/bloods')}}">@lang('validation.BloodCases') </a></li>
+                                <li class="submenu-item"><a href="{{URL::to('/money')}}">
+                                @lang('validation.MoneyCases')</a></li>
+                                <li class="submenu-item"><a href="{{URL::to('/medicines')}}">
+                                @lang('validation.MedicineCases')</a></li>
+                                <li class="submenu-item"><a href="{{URL::to('/others')}}">
+                                @lang('validation.OtherCases')</a></li>
                             </ul>
-
-
                         </li>
-                        <li><a href="{{URL::to('/comp')}}">COMPAIGNS</a></li>
+                        <li><a href="{{URL::to('/comp')}}">@lang('validation.compaigns')</a></li>
                    
 
-                        @if (Auth::guest()) <li><a href="{{ url('/login') }}">LOGIN</a></li>  @else <li><a href="{{ route('user_infos.show',Auth::user()->id) }}" >PROFILE</a></li><li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> {{ Auth::user()->name }} <span class="caret"></span> </a> <ul class="dropdown-menu" role="menu"> <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>logout</a></li> </ul> </li> @endif
+                        @if (Auth::guest()) <li><a href="{{ url('/login') }}">
+                        @lang('validation.login') / @lang('validation.register')
+                        </a></li>
+                        @elseif(Auth::user()->user_type_id == 2)
+                         <li><a href="{{ route('user_infos.show',Auth::user()->charity->id )}}" >PROFILE</a></li><li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> {{ Auth::user()->name }} <span class="caret"></span> </a> <ul class="dropdown-menu" role="menu"> <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>@lang('validation.logout')</a></li> </ul> </li>
+                        @else <li><a href="{{ route('user_infos.show',Auth::user()->userInfo->id )}}" >PROFILE</a></li><li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> {{ Auth::user()->name }} <span class="caret"></span> </a> <ul class="dropdown-menu" role="menu"> <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>@lang('validation.logout')</a></li> </ul> </li> @endif
 
 
                     </ul>
@@ -127,9 +130,9 @@
 
     <div class="container zoomIn animated">
       
-      <h1 class="page-title">SADAKA <span class="title-under"></span></h1>
+      <h1 class="page-title">@lang('validation.sadaka')<span class="title-under"></span></h1>
       <p class="page-description">
-       Together we can improve their lives
+       @lang('validation.slug')
       </p>
       
     </div>
@@ -211,7 +214,7 @@
 
                         <div class="footer-col">
 
-                            <h4 class="footer-title">Contact us <span class="title-under"></span></h4>
+                            <h4 id="contact" class="footer-title">Contact us <span class="title-under"></span></h4>
 
                             <div class="footer-content">
 
@@ -282,15 +285,11 @@
        
         
         <!-- jQuery -->
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="/Admin/jquery-1.11.3.min.js"></script>
         <script>window.jQuery || document.write('<script src="/assets/js/jquery-1.11.1.min.js"><\/script>')</script>
 
         <!-- Bootsrap javascript file -->
         <script src="/assets/js/bootstrap.min.js"></script>
-
-
-        <!-- Google map  -->
-        <script src="http://maps.google.com/maps/api/js?sensor=false&amp;libraries=places" type="text/javascript"></script>
 
 
         <!-- Template main javascript -->
@@ -301,7 +300,7 @@
             (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
             function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
             e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-            e.src='//www.google-analytics.com/analytics.js';
+            e.src='';
             r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
             ga('create','UA-XXXXX-X');ga('send','pageview');
         </script>

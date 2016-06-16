@@ -3,44 +3,64 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 2 | Dashboard</title>
+    <title>{{Auth::user()->name}}</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
     <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet"> -->
    <link rel="stylesheet" href="/Admin/bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    
+    <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+   
     <!-- Theme style -->
     <link rel="stylesheet" href="/Admin/dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="/Admin/dist/css/skins/_all-skins.min.css">
     <!-- iCheck -->
-    <link rel="stylesheet" href="/Admin/plugins/iCheck/flat/blue.css">
+ 
     <!-- Morris chart -->
-    <link rel="stylesheet" href="/Admin/plugins/morris/morris.css">
+   
     <!-- jvectormap -->
-    <link rel="stylesheet" href="/Admin/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+   
     <!-- Date Picker -->
-    <link rel="stylesheet" href="/Admin/plugins/datepicker/datepicker3.css">
-    <!-- Daterange picker -->
-    <link rel="stylesheet" href="/Admin/plugins/daterangepicker/daterangepicker-bs3.css">
-    <!-- bootstrap wysihtml5 - text editor -->
-    <link rel="stylesheet" href="/Admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
-
-     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
-
-     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/css/bootstrap-datepicker.css" rel="stylesheet">
     
+    <!-- Daterange picker -->
+   
+    <!-- bootstrap wysihtml5 - text editor -->
+   
+
+     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+
+     <link href="/Admin/jquery-ui.css" rel="stylesheet" type="text/css"/>
+ 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+      #profile{
+
+          border:2px solid white;
+          width:40px;
+          height:40px;
+          margin-top:-8px;
+
+      }
+
+      #profile1{
+
+          border:2px solid white;
+          width:45px;
+          height:45px;
+          
+      }
+
+    </style>
 </head>
 <body>
  <body class="hold-transition skin-blue sidebar-mini">
@@ -252,7 +272,7 @@
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <img src="/Admin/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                  <img id="profile" src="{{ asset("img/1.png") }}" class="user-image" alt="User Image">
                   <span class="hidden-xs">{{ Auth::user()->name }}</span>
                 </a>
                 <ul class="dropdown-menu">
@@ -279,10 +299,16 @@
                   <!-- Menu Footer-->
                   <li class="user-footer">
                     <div class="pull-left">
-                      <a href="#" class="btn btn-default btn-flat">Profile</a>
+                    @if(Auth::user()->user_type_id === 1)
+                      <a href="{{ route('user_infos.show',Auth::user()->id )}}" class="btn btn-default btn-flat">Profile</a>
+                    @elseif(Auth::user()->user_type_id === 2)
+                      <a href="{{ route('charities.show',Auth::user()->id )}}" class="btn btn-default btn-flat">Profile</a>
+                    @else
+                      <a href="{{ route('user_infos.show',Auth::user()->id )}}" class="btn btn-default btn-flat">Profile</a>
+                    @endif
                     </div>
                     <div class="pull-right">
-                      <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                      <a href="{{URL::to('/logout')}}" class="btn btn-default btn-flat">Sign out</a>
                     </div>
                   </li>
                 </ul>
@@ -304,7 +330,7 @@
           <!-- Sidebar user panel -->
           <div class="user-panel">
             <div class="pull-left image">
-              <img src="/Admin/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+              <img id="profile1"  src="{{ asset("img/1.png") }}" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
               <p>{{ Auth::user()->name }}</p>
@@ -314,101 +340,118 @@
           <ul class="sidebar-menu">
           <li></li>
             <li class="active treeview">
-              <a href="#">
-                <i class="glyphicon glyphicon-home"></i> <span>Home</span> 
+              <a href="{{URL::to('/home')}}">
+                <i class="glyphicon glyphicon-home"></i> <span>@lang('validation.home')</span> 
               </a>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  @lang('validation.'. Config::get('languages')[App::getLocale()]) 
 
-            </li>
-            <li>
-              <a href="{{URL::to('/charities')}}">
-                <i class="fa fa-th"></i> <span>All Cases</span> 
-              </a>
-            </li>
-
-            <!-- // Start of Links to create new case ... by shrouk -->
-
-
-                    <li class="treeview">
-              <a href="#">
-                <i class="fa fa-edit"></i> <span>New Case</span>
-                <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="{{URL::to('/bloods/create')}}"><i class="fa fa-edit"></i> Blood Case</a></li>
-                <li><a href="{{URL::to('/money/create')}}"><i class="fa fa-edit"></i> Money Case</a></li>
-                <li><a href="{{URL::to('/medicines/create')}}"><i class="fa fa-edit"></i> Medicine Case</a></li>
-                <li><a href="{{URL::to('/others/create')}}"><i class="fa fa-edit"></i> Other Case</a></li>
-              </ul>
-            </li>
-
-                  <!-- // End of Links to create new case ... by shrouk -->  
-                  
-            <li>
-             <a href="{{URL::to('/compaigns')}}">
-                <i class="fa fa-th"></i> <span>All Compaign</span> <small class="label pull-right bg-green">new</small>
-              </a>
-            </li>
-            <li>
-            <a href="{{URL::to('/compaigns/create')}}">
-                <i class="fa fa-edit"></i> <span>Add Compaign</span> <small class="label pull-right bg-green">new</small>
-              </a>
-            </li>
-            <li>
-              <a href="Admin/pages/calendar.html">
-                <i class="fa fa-calendar"></i> <span>Calendar</span>
-                <small class="label pull-right bg-red">3</small>
-              </a>
-            </li>
-            <li>
-              <a href="Admin/pages/mailbox/mailbox.html">
-                <i class="fa fa-envelope"></i> <span>Mailbox</span>
-                <small class="label pull-right bg-yellow">12</small>
-              </a>
-            </li>
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-folder"></i> <span>Examples</span>
-                <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="Admin/pages/examples/invoice.html"><i class="fa fa-circle-o"></i> Invoice</a></li>
-                <li><a href="Admin/pages/examples/profile.html"><i class="fa fa-circle-o"></i> Profile</a></li>
-                <li><a href="Admin/pages/examples/login.html"><i class="fa fa-circle-o"></i> Login</a></li>
-                <li><a href="Admin/pages/examples/register.html"><i class="fa fa-circle-o"></i> Register</a></li>
-                <li><a href="Admin/pages/examples/lockscreen.html"><i class="fa fa-circle-o"></i> Lockscreen</a></li>
-                <li><a href="Admin/pages/examples/404.html"><i class="fa fa-circle-o"></i> 404 Error</a></li>
-                <li><a href="Admin/pages/examples/500.html"><i class="fa fa-circle-o"></i> 500 Error</a></li>
-                <li><a href="Admin/pages/examples/blank.html"><i class="fa fa-circle-o"></i> Blank Page</a></li>
-              </ul>
-            </li>
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-share"></i> <span>Multilevel</span>
-                <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
-                <li>
-                  <a href="#"><i class="fa fa-circle-o"></i> Level One <i class="fa fa-angle-left pull-right"></i></a>
-                  <ul class="treeview-menu">
-                    <li><a href="#"><i class="fa fa-circle-o"></i> Level Two</a></li>
-                    <li>
-                      <a href="#"><i class="fa fa-circle-o"></i> Level Two <i class="fa fa-angle-left pull-right"></i></a>
-                      <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
-                      </ul>
-                    </li>
+                  <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                      @foreach (Config::get('languages') as $lang => $language)
+                      @if ($lang != App::getLocale())
+                      <li>
+                          <a href="{{ route('lang.switch', $lang) }}">@lang('validation.'.$language)</a>
+                      </li>
+                      @endif
+                      @endforeach
                   </ul>
-                </li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
-              </ul>
+              </li>
+
+            @if( Auth::user()->user_type_id === 1)
+
+             <li>
+                <a href="{{URL::to('/charities')}}">
+                  <i class="fa fa-th"></i> <span>@lang('validation.AllCharities')</span> 
+                </a>
+              </li>
+              <li>
+              <a href="{{URL::to('/user_infos')}}">
+                  <i class="fa fa-th"></i> <span>@lang('validation.AllBenefactors')</span> 
+              </a>
             </li>
-            <li><a href="Admin/documentation/index.html"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
-            <li class="header">LABELS</li>
-            <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
-            <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
-            <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
+            @else
+              <li>
+                <a href="{{URL::to('/person_infos')}}">
+                  <i class="fa fa-th"></i> <span>@lang('validation.AllPersons')</span> 
+                </a>
+              </li>
+              <li>
+                <a href="{{URL::to('/people')}}">
+                  <i class="fa fa-th"></i> <span>@lang('validation.AllCases')</span> 
+                </a>
+              </li>
+              <li>
+              <a href="{{URL::to('/people/create')}}">
+                  <i class="fa fa-edit"></i> <span>@lang('validation.NewCase')</span> 
+                </a>
+              </li>
+              <!-- // Start of Links to create new case ... by shrouk -->
+
+
+                     <!--  <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-edit"></i> <span>New Case</span>
+                  <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="{{URL::to('/bloods/create')}}"><i class="fa fa-edit"></i> Blood Case</a></li>
+                  <li><a href="{{URL::to('/money/create')}}"><i class="fa fa-edit"></i> Money Case</a></li>
+                  <li><a href="{{URL::to('/medicines/create')}}"><i class="fa fa-edit"></i> Medicine Case</a></li>
+                  <li><a href="{{URL::to('/others/create')}}"><i class="fa fa-edit"></i> Other Case</a></li>
+                </ul>
+              </li> -->
+          <!-- // End of Links to create new case ... by shrouk -->  
+                    
+              <li>
+               <a href="{{URL::to('/compaigns')}}">
+                  <i class="fa fa-th"></i> <span>@lang('validation.AllCompaigns')</span> 
+                </a>
+              </li>
+              <li>
+              <a href="{{URL::to('/compaigns/create')}}">
+                  <i class="fa fa-edit"></i> <span>@lang('validation.NewCompaign')</span> 
+                </a>
+              </li>
+              <li>
+                <a href="{{URL::to('/allCasesByBloodType/{bloodtype}')}}">
+                  <i class="fa fa-th"></i> <span>@lang('validation.allCasesByBloodType')</span> 
+                </a>
+              </li>
+              <li>
+                <a href="{{URL::to('/allCasesByMedicineName/{name}')}}">
+                  <i class="fa fa-th"></i> <span>@lang('validation.allCasesByMedicineName')</span> 
+                </a>
+              </li>
+              <li>
+                <a href="{{URL::to('/allCasesByBloodType/{bloodtype}')}}">
+                  <i class="fa fa-th"></i> <span>@lang('validation.allCasesByBloodType')</span> 
+                </a>
+              </li>
+              <!-- /// cases according to donation type .. by shrouk -->
+
+                <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-th"></i> <span>Filterd Cases</span>
+                  <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="{{URL::to('/bloods')}}"><i class="fa fa-th-list"></i> @lang('validation.BloodCases')</a></li>
+                  <li><a href="{{URL::to('/money')}}"><i class="fa fa-th-list"></i> @lang('validation.MoneyCases') </a></li>
+                  <li><a href="{{URL::to('/medicines')}}"><i class="fa fa-th-list"></i> @lang('validation.MedicineCases')</a></li>
+                  <li><a href="{{URL::to('/others')}}"><i class="fa fa-th-list"></i> @lang('validation.OtherCases') </a></li>
+                </ul>
+              </li>
+
+            @endif
+            <!-- /// end of  -->
+            <li>
+            <a href="{{URL::to('/logout')}}">
+                <i class="fa fa-btn fa-sign-out"></i> <span>@lang('validation.logout')</span> 
+              </a>
+            </li>
           </ul>
         </section>
         <!-- /.sidebar -->
@@ -418,20 +461,13 @@
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-          <h1>
-            Dashboard
-            <small>Control panel</small>
-          </h1>
-          <ol class="breadcrumb">
-            <li><a href="{{URL::to('/charities')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Dashboard</li>
-          </ol>
+          @yield('header')
         </section>
 
         <!-- Main content -->
                
         <div class="container" style="width: 900px;">
-          @yield('header')
+          
           @yield('content')
         </div>
       <!-- /.content-wrapper -->
@@ -449,8 +485,8 @@
       </footer>
  -->
       <!-- Control Sidebar -->
-      
- <script src="/Admin/jquery-1.11.3.min.js" type="text/javascript"></script>
+  
+
 
   <script type="text/javascript" src="{{ URL::asset('Admin/jquery-ui.min.js') }}"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -461,51 +497,13 @@
   
     <!-- Bootstrap 3.3.5 -->
      <script src="/Admin/bootstrap/js/bootstrap.min.js"></script>
-    <!-- Morris.js charts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-    <script src="/Admin/plugins/morris/morris.min.js"></script>
-    <!-- Sparkline -->
-    <script src="/Admin/plugins/sparkline/jquery.sparkline.min.js"></script>
-    <!-- jvectormap -->
-    <script src="/Admin/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-    <script src="/Admin/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-    <!-- jQuery Knob Chart -->
-    <script src="/Admin/plugins/knob/jquery.knob.js"></script>
-    <!-- daterangepicker -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
-    <script src="/Admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
-    <!-- Slimscroll -->
-    <script src="/Admin/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-    <!-- FastClick -->
-    <script src="/Admin/plugins/fastclick/fastclick.min.js"></script>
-    <!-- AdminLTE App -->
+  
+  <!-- AdminLTE App -->
     <script src="/Admin/dist/js/app.min.js"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="/Admin/dist/js/pages/dashboard.js"></script>
+   
     <!-- AdminLTE for demo purposes -->
     <script src="/Admin/dist/js/demo.js"></script>    
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/js/bootstrap-datepicker.min.js"></script>
-    <script>
-    $('.date-picker').datepicker({
-    });
-    function(a) {
-      var d = $(this),
-        e = d.next();
-      if (e.is(".treeview-menu") && e.is(":visible")) e.slideUp(c, function() {
-        e.removeClass("menu-open")
-      }), e.parent("li").removeClass("active");
-      else if (e.is(".treeview-menu") && !e.is(":visible")) {
-        var f = d.parents("ul").first(),
-          g = f.find("ul:visible").slideUp(c);
-        g.removeClass("menu-open");
-        var h = d.parent("li");
-        e.slideDown(c, function() {
-          e.addClass("menu-open"), f.find("li.active").removeClass("active"), h.addClass("active"), b.layout.fix()
-        })
-      }
-      e.is(".treeview-menu") && a.preventDefault()
-    }
-  </script>
+    
 </body>
 </html>

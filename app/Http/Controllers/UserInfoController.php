@@ -2,7 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
+use Auth;
 use App\UserInfo;
 use App\User;
 use App\City;
@@ -11,6 +11,13 @@ use Illuminate\Http\Request;
 
 class UserInfoController extends Controller {
 
+	// public function __construct()
+	// {
+	// 	$this->middleware('auth',['except' =>[ 'show','index','create','store']]);
+	// 	$this->middleware('admin',['except' =>[ 'show','create']]);
+	    
+	// }
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -18,7 +25,14 @@ class UserInfoController extends Controller {
 	 */
 	public function index()
 	{
-		$user_infos = UserInfo::orderBy('id', 'desc')->paginate(10);
+		$user_infos = array();	
+		$u_infos = UserInfo::orderBy('id', 'desc')->paginate(10);
+		foreach ($u_infos as $user) {
+			if($user->user->user_type_id == 3)
+			{
+				array_push($user_infos, $user);
+			}
+		}
 
 		return view('user_infos.index', compact('user_infos'));
 	}
@@ -48,28 +62,33 @@ class UserInfoController extends Controller {
 		$type = $request->input('type');
 	
 		$this->validate($request,[
-			'email' =>'email|unique:users,email',
-			'name' =>'required|max:255|unique:users,name',
-			'firstName'=>'required|max:50',
-			'lastName'=>'required|max:50',
-			'password' => 'required|between:6,50',
-			'confirm_password' => 'same:password',
-			'phone'    => 'required|regex:/^\+?[^a-zA-Z]{5,}$/',
-			'nationalid'=>'required | numeric',
+			
+			'name' =>'required',
+			'email' =>'required',
+			'firstName'=>'required',
+			'lastName'=>'required',
+			'password' => 'required',
+			'confirm_password' => 'required',
+			'phone'    => 'required',
+			'nationalid'=>'required',
 			'gender' => 'in:male,female',
 			]);
 		$user= new User();
-        $user->name = $request->input('name1');
+        $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->password = bcrypt($request->input('password'));
         $user->phone=$request->input('phone');
 
+        //determine user type (Donator or Benefactor) while register to system --> by shrouk
         if ($type == 'Donator'){
-			$user->user_type_id = 4; 	
+			$user->user_type_id = 4; 
+			$user->approved = 1;	
 		}
 		else{
 			$user->user_type_id = 3; 
+			$user->approved = 0;
 		}
+		//end of my code --> by shrouk
 
 		$user->save();
 		
@@ -99,11 +118,18 @@ class UserInfoController extends Controller {
 	public function show($id)
 	{
 		$user_info = UserInfo::findOrFail($id);
-		$user= User::findOrFail($id);
-		$city= City::findOrFail($id);
-		$gov= Governorate::findOrFail($id);
-		return view('user_infos.show', compact('gov','city','user','user_info'));
+		$user= User::findOrFail($user_info->user_id);
+		$city= City::findOrFail($user_info->city_id);
+		$gov= Governorate::findOrFail($user_info->governorate_id);
+		if(Auth::user()->user_type_id == 4){
+            
+            return view('user_infos.profile',  compact('gov','city','user','user_info'));
+        }
+        else{
+			return view('user_infos.show', compact('gov','city','user','user_info'));
+		}
 	}
+
 
 	/**
 	 * Show the form for editing the specified resource.
@@ -113,11 +139,20 @@ class UserInfoController extends Controller {
 	 */
 	public function edit(Request $request, $id)
 	{
+		//
+		$governorates=Governorate::all();
+		//
 		$user_info = UserInfo::findOrFail($id);
-		$user= User::findOrFail($id);
-		$city= City::findOrFail($id);
-		$gov= Governorate::findOrFail($id);
-		return view('user_infos.edit', compact('gov','city','user','user_info'));
+		$user= User::findOrFail($user_info->user_id);
+		$city= City::findOrFail($user_info->city_id);
+		$gov= Governorate::findOrFail($user_info->governorate_id);
+		if(Auth::guest() || Auth::user()->user_type_id == 4){
+            
+            return view('user_infos.editprofile',  compact('gov','city','user','user_info'));
+        }
+        else{
+			return view('user_infos.edit', compact('gov','city','user','user_info','governorates'));
+		}
 	}
 
 	/**
@@ -143,7 +178,7 @@ class UserInfoController extends Controller {
         $user->email=$request->input("email");;
         $user_info->birthdate = $request->input("birthdate");
         $user->phone = $request->input("phone");
-        $user->name = $request->input("name1");
+        $user->name = $request->input("name");
 		$user_info->save();
 		$user->save();
 		$city->save();
@@ -168,7 +203,7 @@ class UserInfoController extends Controller {
 	
 	public function check(Request $request)
 	{
-		if ($request->input("action")=="name1")
+		if ($request->input("action")=="name")
 		{
 			$name=User::where('name','=',$request->input("username"))->get();
 			return $name;
@@ -180,6 +215,31 @@ class UserInfoController extends Controller {
 			return $email;
 			
 		}
+		if ($request->input("action")=="nationalid")
+		{
+			$nationalid=UserInfo::where('nationalid','=',$request->input("nationalid"))->get();
+			return $nationalid;
+			
+		}
 	}
+
+	// 2 functions Approve and Disapprove Benefactor by admin --> by shrouk
+	public function approve($user_id)
+	{
+		$user = User::findOrFail($user_id);
+		$user->approved = 1;
+		$user->save();
+		return redirect()->route('user_infos.show', $user_id);
+	}
+
+	public function disapprove($user_id ,Request $request)
+	{
+		$user = User::findOrFail($user_id);
+		$user->approved = 0;
+		$user->why = $request->input('why');
+		$user->save();
+		return redirect()->route('user_infos.show', $user_id);
+	}
+	//end of 2 functions --> by shrouk
 	
 }

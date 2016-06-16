@@ -14,11 +14,11 @@ class CreateUserInfosTable extends Migration {
 	{
 		Schema::create('user_infos', function(Blueprint $table) {
             $table->increments('id');
-            $table->double('nationalid');
+            $table->double('nationalid')->unique();
             $table->text('address');
             $table->text('firstName');
             $table->text('lastName');
-            $table->dateTime('birthdate');
+            $table->date('birthdate');
             $table->enum('gender', array('male', 'female'));
             $table->integer('user_id')->unsigned()->index()->unique();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

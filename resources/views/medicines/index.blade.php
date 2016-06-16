@@ -1,48 +1,61 @@
 @extends(( (isset(Auth::user()->id) and Auth::user()->user_type_id ) == 2 or ( isset(Auth::user()->id) and Auth::user()->user_type_id == 3 )) ? 'layouts.adminlayout' : 'layout')
-
 @section('header')
     <div class="page-header clearfix">
-        <h1>
-            <i class="glyphicon glyphicon-align-justify"></i> Medicines
-            <a class="btn btn-success pull-right" href="{{ route('medicines.create') }}"><i class="glyphicon glyphicon-plus"></i> Create</a>
-        </h1>
-
-    </div>
+    <h1 style="margin-left: 80px;">
+        <i class="glyphicon glyphicon-align-justify"></i>Medicine Cases
+    </h1>
+</div>
+<ol class="breadcrumb">
+        <li><a href="{{URL::to('/admin')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="{{URL::to('/logout')}}"> logout</a> </li>
+    </ol>
+    <script src="/Admin/jquery-1.11.3.min.js" type="text/javascript"></script>
+    <script src="/Admin/vaild.js" type="text/javascript"></script>
 @endsection
 
 @section('content')
     <div class="row">
         <div class="col-md-12">
             @if($medicines->count())
-                <table class="table table-condensed table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>NAME</th>
-                        <th>AMOUNT</th>
-                            <th class="text-right">OPTIONS</th>
-                        </tr>
-                    </thead>
+                @foreach($medicines as $one)
+                    <div class="col-md-4">
+                      <!-- Widget: user widget style 1 -->
+                      <div class="box box-widget widget-user">
+                        <!-- Add the bg color to the header using any of the bg-* classes -->
+                        <div class="widget-user-header" style="background: url('{{ asset("img/1.jpg") }}') center center;">
+                          <a href="{{ route('medicines.show', $one->id) }}"><h3 class="widget-user-username">{{$one->person->personInfo->name}}</h3></a>
+                          
+                        </div>
+                        <div class="widget-user-image">
+                          <img class="img-circle" src="{{ asset("img/1.png") }}" alt="User Avatar">
+                        </div>
+                        <div class="box-footer">
+                          <div class="row">
+                          <div class="col-sm-4 border-right">
+                              <div class="description-block">
+                                <h5 class="description-header">Medicine Name</h5>
+                                <span class="description-text">{{$one->name}}</span>
+                              </div><!-- /.description-block -->
+                            </div><!-- /.col -->
+                            <div class="col-sm-4 border-right">
+                              <div class="description-block">
+                                <h5 class="description-header">Amount</h5>
+                                <span class="description-text">{{$one->amount}} Packets</span>
+                              </div><!-- /.description-block -->
+                            </div><!-- /.col -->
+                            <div class="col-sm-4">
+                              <div class="description-block">
+                                <h5 class="description-header">Address</h5>
+                                <span class="description-text">{{$one->person->personInfo->address}}</span>
+                              </div><!-- /.description-block -->
+                            </div><!-- /.col -->
+                          </div><!-- /.row -->
+                        </div>
+                      </div><!-- /.widget-user -->
+                    </div><!-- /.col -->
 
-                    <tbody>
-                        @foreach($medicines as $medicine)
-                            <tr>
-                                <td>{{$medicine->id}}</td>
-                                <td>{{$medicine->name}}</td>
-                    <td>{{$medicine->amount}}</td>
-                                <td class="text-right">
-                                    <a class="btn btn-xs btn-primary" href="{{ route('medicines.show', $medicine->id) }}"><i class="glyphicon glyphicon-eye-open"></i> View</a>
-                                    <a class="btn btn-xs btn-warning" href="{{ route('medicines.edit', $medicine->id) }}"><i class="glyphicon glyphicon-edit"></i> Edit</a>
-                                    <form action="{{ route('medicines.destroy', $medicine->id) }}" method="POST" style="display: inline;" onsubmit="if(confirm('Delete? Are you sure?')) { return true } else {return false };">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <button type="submit" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i> Delete</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                @endforeach
+                             
                 {!! $medicines->render() !!}
             @else
                 <h3 class="text-center alert alert-info">Empty!</h3>

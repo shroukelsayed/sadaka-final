@@ -5,6 +5,8 @@ use App\Http\Controllers\Controller;
 use App\Governorate;
 use App\City;
 use App\Charity;
+use Auth;
+use App\Compaign;
 use App\DonationType;
 use App\Person;
 use App\PersonInfo;
@@ -14,6 +16,13 @@ use App\CharityDocument;
 use Illuminate\Support\Facades\Input;
 class CharityController extends Controller {
 
+	// public function __construct()
+	// {
+	// 	$this->middleware('auth',['except' =>[ 'show','create','store']]);
+	// 	$this->middleware('admin',['except' =>[ 'show','create']]);
+	    
+	// }
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -22,8 +31,10 @@ class CharityController extends Controller {
 	public function index()
 	{
 
-		$personinfo= PersonInfo::all();
-		return view('people.index', compact('personinfo'));
+		$charities=Charity::all();
+		return view('charities.index', compact('charities'));
+		// $personinfo= PersonInfo::all();
+		// return view('people.index', compact('personinfo'));
 	}
 
 	/**
@@ -31,6 +42,18 @@ class CharityController extends Controller {
 	 *
 	 * @return Response
 	 */
+	
+
+	public function home()
+	{
+
+	$compaigns=Compaign::where('owner','=',Auth::user()->id)->get();
+	$cases=Person::where('user_id','=',Auth::user()->id)->get();
+	return view('charities.home', compact('compaigns','cases'));
+
+	}
+
+
 	public function create()
 	{
 		$governrate=Governorate::all();
@@ -46,20 +69,8 @@ class CharityController extends Controller {
 	 */
 	public function store(Request $request)
 	{
-		$this->validate($request,[
-			'email' =>'email|unique:users,email',
-			'name' =>'required|max:255|unique:users,name',
-			'password' => 'required|between:6,50',
-			'confirm_password' => 'same:password',
-			'phone'    => 'required|regex:/^\+?[^a-zA-Z]{5,}$/',
-			'taxnum'   => 'required | numeric',
-			'image'    => 'required',
-			'image1'   => 'required'
-
-
-			]);
 		$user= new User();
-        $user->name = $request->input('name1');
+        $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->password = bcrypt($request->input('password'));
         $user->phone=$request->input('phone');
@@ -115,8 +126,8 @@ class CharityController extends Controller {
     }
 
 		
-
-		return redirect()->route('charities.index')->with('message', 'Item created successfully.');
+    	return \Redirect::to('login');
+		// return redirect()->route('charities.index')->with('message', 'Item created successfully.');
 	}
 
 	/**
@@ -177,9 +188,10 @@ class CharityController extends Controller {
 
 		return redirect()->route('charities.index')->with('message', 'Item deleted successfully.');
 	}
+
 	public function check(Request $request)
 	{
-		if ($request->input("action")=="name1")
+		if ($request->input("action")=="name")
 		{
 			$name=User::where('name','=',$request->input("username"))->get();
 			return $name;
@@ -192,5 +204,27 @@ class CharityController extends Controller {
 			
 		}
 	}
+
+	// 2 functions Approve and Disapprove Charity by admin --> by shrouk
+	public function approve($charity_id)
+	{
+		$charity = Charity::findOrFail($charity_id);
+		$Ch_user = User::findOrFail($charity->user->id);
+
+		$Ch_user->approved = 1;
+		$Ch_user->save();
+		return redirect()->route('charities.show', $charity_id);
+	}
+
+	public function disapprove($charity_id)
+	{
+		$charity = Charity::findOrFail($charity_id);
+		$Ch_user = User::findOrFail($charity->user->id);
+
+		$Ch_user->approved = 0;
+		$Ch_user->save();
+		return redirect()->route('charities.show', $charity_id);
+	}
+	//end of 2 functions --> by shrouk
 
 }

@@ -1,52 +1,18 @@
 @extends('layouts.adminlayout')
 @section('css')
- 
+
+
 @endsection
 @section('header')
     <div class="page-header">
         <h1><i class="glyphicon glyphicon-plus"></i> Compaigns / Create </h1>
     </div>
-   
+    
     <script src="/Admin/jquery-1.11.3.min.js" type="text/javascript"></script>
-    <script src="/Admin/vaild.js" type="text/javascript"></script>
 
-    <script>
-
-$(document).ready(function($) {
-
-  $('#governorate').on('change',function(e){
-
-    console.log(e);
-    var governrate_id =e.target.value;
-
-    //Ajax
-
-  $.get('/ajax-governrate?governorate_id='+ governrate_id,function(data){
-         $('#city').empty();
-        console.log(data);
-        $.each(data,function(index,cityobj){
-
-          $('#city').append('<option value="'+cityobj.id+'">'+cityobj.name+'</option>');
-
-          });
-      });
-  });
-
-});
-
-
-
-</script>
-    <style>
+    <script src="/Admin/datepiker.js" type="text/javascript"></script>
       
-    /* select{
-
-        width:400px;
-        height:30px;
-
-    } */
-
-    </style>
+    <script src="/Admin/vaild.js" type="text/javascript"></script>
 
 
 
@@ -58,7 +24,7 @@ $(document).ready(function($) {
     <div class="row">
         <div class="col-md-12">
 
-            <form action="{{ route('compaigns.store') }}" method="POST">
+            <form action="{{ route('compaigns.store') }}" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                 <div class="form-group @if($errors->has('title')) has-error @endif">
@@ -77,14 +43,14 @@ $(document).ready(function($) {
                     </div>
                     <div class="form-group @if($errors->has('startdate')) has-error @endif">
                        <label for="startdate-field">Startdate</label>
-                    <input required type="date" id="startdate" name="startdate" class="form-control" value="{{ old("startdate") }}"/>
+                    <input required type="text" id="startdate" name="startdate" class="form-control" value="{{ old("startdate") }}"/>
                        @if($errors->has("startdate"))
                         <span class="help-block">{{ $errors->first("startdate") }}</span>
                        @endif
                     </div>
                     <div class="form-group @if($errors->has('enddate')) has-error @endif">
                        <label for="enddate-field">Enddate</label>
-                    <input required type="date" id="enddate" name="enddate" class="form-control" value="{{ old("enddate") }}"/>
+                    <input required type="text" id="enddate" name="enddate" class="form-control" value="{{ old("enddate") }}"/>
                        @if($errors->has("enddate"))
                         <span class="help-block">{{ $errors->first("enddate") }}</span>
                        @endif
@@ -127,6 +93,16 @@ $(document).ready(function($) {
                         <span class="help-block">{{ $errors->first("description") }}</span>
                        @endif
                     </div>
+
+                    <div class="form-group @if($errors->has('image')) has-error @endif">
+                       <label for="image-field">Image</label>
+                      <input type="file" id="image" name="image" class="form-control" value="{{ old("image") }}" required/>
+                       @if($errors->has("image"))
+                        <span class="help-block">{{ $errors->first("image") }}</span>
+                       @endif
+                    </div>
+
+
                     <br>
                 <div class="well well-sm">
                     <button id="submit" type="submit" class="btn btn-primary">Create</button>
@@ -139,6 +115,9 @@ $(document).ready(function($) {
     </div>
 @endsection
 @section('scripts')
-
-
+ 
+  <script>
+    $('.date-picker').datepicker({
+    });
+  </script>
 @endsection

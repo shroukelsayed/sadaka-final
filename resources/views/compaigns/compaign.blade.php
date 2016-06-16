@@ -1,146 +1,5 @@
-<!DOCTYPE html>
-<html class="no-js">
-<head>
-    <meta charset="utf-8">
-    <title>All Compaigns | Charity / Non-profit responsive Bootstrap HTML5 template</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Fonts -->
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Dosis:400,700' rel='stylesheet' type='text/css'>
-
-    <!-- Bootsrap -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-
-
-    <!-- Font awesome -->
-    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
-
-    <!-- PrettyPhoto -->
-    <link rel="stylesheet" href="assets/css/prettyPhoto.css">
-
-    <!-- Template main Css -->
-    <link rel="stylesheet" href="assets/css/style.css">
-
-    <!-- Modernizr -->
-    <script src="assets/js/modernizr-2.6.2.min.js"></script>
-
-
-    <style>
-
-        lable{
-
-            font-size: 20px;
-            color: #005384;
-        }
-
-        span{
-
-            font-size: 22px;
-            color: #005384;
-        }
-
-
-    </style>
-</head>
-<body>
-<!-- NAVBAR
-================================================== -->
-
-<header class="main-header">
-
-
-    <nav class="navbar navbar-static-top">
-
-        <div class="navbar-top">
-
-            <div class="container">
-                <div class="row">
-
-                    <div class="col-sm-6 col-xs-12">
-
-                        <ul class="list-unstyled list-inline header-contact">
-                            <li> <i class="fa fa-phone"></i> <a href="tel:">+212 658 986 213 </a> </li>
-                            <li> <i class="fa fa-envelope"></i> <a href="mailto:contact@sadaka.org">contact@sadaka.org</a> </li>
-                        </ul> <!-- /.header-contact  -->
-
-                    </div>
-
-                    <div class="col-sm-6 col-xs-12 text-right">
-
-                        <ul class="list-unstyled list-inline header-social">
-
-                            <li> <a href="#" target="_blank"> <i class="fa fa-facebook"></i> </a> </li>
-                            <li> <a href="#" target="_blank"> <i class="fa fa-twitter"></i>  </a> </li>
-                            <li> <a href="#" target="_blank"> <i class="fa fa-google"></i>  </a> </li>
-                            <li> <a href="#" target="_blank"> <i class="fa fa-youtube"></i>  </a> </li>
-                            <li> <a href="#" target="_blank"> <i class="fa fa fa-pinterest-p"></i>  </a> </li>
-
-                        </ul> <!-- /.header-social  -->
-
-                    </div>
-
-
-                </div>
-            </div>
-
-        </div>
-
-        <div class="navbar-main">
-
-            <div class="container">
-
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-
-                    </button>
-
-                    <a class="navbar-brand" href="index.html"><img src="assets/images/sadaka-logo.png" alt=""></a>
-
-                </div>
-
-                <div id="navbar" class="navbar-collapse collapse pull-right">
-
-                    <ul class="nav navbar-nav">
-
-                        <li><a class="is-active" href="{{URL::to('/home')}}">HOME</a></li>
-                        <li><a href="contact.html">CONTACT</a></li>
-                       <li class="has-child"><a class="is-active" href="{{URL::to('/cases')}}">CASES</a>
-
-                            <ul class="submenu">
-                                <li class="submenu-item"><a href="{{URL::to('/cases')}}">Cases list </a></li>
-                                <li class="submenu-item"><a href="{{URL::to('/money')}}">Mony Cases </a></li>
-                                <li class="submenu-item"><a href="{{URL::to('/bloods')}}">Blood Cases </a></li>
-                                <li class="submenu-item"><a href="{{URL::to('/medicines')}}">Medicine Cases </a></li>
-                            </ul>
-
-
-                        </li>
-                        <li><a href="{{URL::to('/comp')}}">COMPAIGNS</a></li>
-                   
-
-                        @if (Auth::guest()) <li><a href="{{ url('/login') }}">LOGIN</a></li>  @else <li><a href="{{ route('user_infos.show',Auth::user()->id) }}" >PROFILE</a></li><li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> {{ Auth::user()->name }} <span class="caret"></span> </a> <ul class="dropdown-menu" role="menu"> <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>logout</a></li> </ul> </li> @endif
-
-
-                    </ul>
-
-                </div> <!-- /#navbar -->
-
-            </div> <!-- /.container -->
-
-        </div> <!-- /.navbar-main -->
-
-
-    </nav>
-
-</header> <!-- /. main-header -->
-
+@extends('layouts.header')
+@section('content')
 
 <div class="page-heading text-center">
 
@@ -283,7 +142,7 @@
 
                     <div class="footer-col">
 
-                        <h4 class="footer-title">Contact us <span class="title-under"></span></h4>
+                        <h4 id="contact" class="footer-title">Contact us <span class="title-under"></span></h4>pan></h4>
 
                         <div class="footer-content">
 
@@ -359,9 +218,14 @@
             </div>
             <div class="modal-body">
 
+                @foreach($comps as $comp)
                 <form class="form-donation" action="{{ route('usercompaign.store') }}" method="POST">
                     <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
-                    <input type="hidden" name="id" value="{{ $id }}">
+                    <?php
+                    if($comp)
+                    echo "<input type='hidden' name='id' value='$id '>";
+                    ?>
+                @endforeach    
                     <h3 class="title-style-1 text-center">Thank you for your donation <span class="title-under"></span>  </h3>
                     <div class="row">
                         <div class="form-group col-md-12" >
@@ -392,7 +256,6 @@
 
                     </div>
                 </form>
-
             </div>
         </div>
     </div>
@@ -406,7 +269,7 @@
 
 
 <!-- jQuery -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="/Admin/jquery-1.11.3.min.js"></script>
 <script>window.jQuery || document.write('<script src="assets/js/jquery-1.11.1.min.js"><\/script>')</script>
 
 <!-- Bootsrap javascript file -->
@@ -414,30 +277,15 @@
 
 <!-- PrettyPhoto javascript file -->
 <script src="assets/js/jquery.prettyPhoto.js"></script>
-
-
-
-<!-- Google map  -->
-<script src="http://maps.google.com/maps/api/js?sensor=false&amp;libraries=places" type="text/javascript"></script>
-
-
 <!-- Template main javascript -->
 <script src="assets/js/main.js"></script>
 
-<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+
 <script>
     (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
             function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
         e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-        e.src='//www.google-analytics.com/analytics.js';
-        r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-    ga('create','UA-XXXXX-X');ga('send','pageview');
-</script>
-<script>
-    (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-        e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-        e.src='//www.google-analytics.com/analytics.js';
+        e.src='';
         r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
     ga('create','UA-XXXXX-X');ga('send','pageview');
 </script>
@@ -467,3 +315,4 @@
 </script>
 </body>
 </html>
+@endsection

@@ -20,7 +20,7 @@ class CreateUserpeopleTable extends Migration
             $table->foreign('person_id')->references('id')->on('people')->onDelete('cascade');
 
             $table->integer('amount');
-            $table->dateTime('donationdate');
+            $table->date('donationdate');
             $table->timestamps();
         });
     }

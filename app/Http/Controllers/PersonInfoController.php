@@ -3,11 +3,18 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Governorate;
+use App\City;
+
 use App\PersonInfo;
 use Illuminate\Http\Request;
 
 class PersonInfoController extends Controller {
 
+	public function __construct()
+	{
+	    $this->middleware('auth', ['except' => ['index','cases']]);
+	}
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -76,8 +83,9 @@ class PersonInfoController extends Controller {
 	public function edit($id)
 	{
 		$person_info = PersonInfo::findOrFail($id);
+		$governorates = Governorate::all();
 
-		return view('person_infos.edit', compact('person_info'));
+		return view('person_infos.edit', compact('person_info','governorates'));
 	}
 
 	/**
@@ -96,6 +104,8 @@ class PersonInfoController extends Controller {
         $person_info->birthDate = $request->input("birthDate");
         $person_info->gender = $request->input("gender");
         $person_info->maritalstatus = $request->input("maritalstatus");
+        $person_info->city_id = $request->input("city_id");
+        $person_info->governorate_id = $request->input("governorate_id");
         $person_info->phone = $request->input("phone");
 
 		$person_info->save();
@@ -116,5 +126,4 @@ class PersonInfoController extends Controller {
 
 		return redirect()->route('person_infos.index')->with('message', 'Item deleted successfully.');
 	}
-
 }

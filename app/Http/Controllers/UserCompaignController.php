@@ -41,6 +41,7 @@ class UserCompaignController extends Controller
       
         $share->user_id=Auth::user()->id;
         $share->compaign_id =$request->input("id");
+        // var_dump($share->compaign_id);die;
         $type=$request->input("type");   
         $share->donate_type_id = $type;
 		if($type ==1) 

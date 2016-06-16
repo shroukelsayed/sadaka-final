@@ -12,11 +12,54 @@ return [
     | as the size rules. Feel free to tweak each of these messages here.
     |
     */
-    'sadaka'               =>'Sadaka',
-    'login'                =>'Login',
+    'Arabic'               => 'Arabic',
+    'English'              => 'English',
+    'sadaka'               => 'Sadaka',
+    'allCasesByBloodType'  => 'All Cases By BloodType',
+    'login'                => 'Login',
     'register'             => 'Register',
-    'logout'               =>'Logout',
+    'logout'               => 'Logout',
     'home'                 => 'Home',
+    'AllCharities'         => 'All Charities',
+    'AllBenefactors'       => 'All Benefactors',
+    'AllPersons'           => 'All Persons',
+    'AllCases'             => 'All Cases',
+    'AllCompaigns'         => 'All Compaigns',
+    'cases'                => 'Cases',
+    'compaigns'            => 'Compaigns',
+    'NewCase'              => 'New Case',
+    'NewCompaign'          => 'New Compaign',
+    'BloodCases'           => 'Blood Cases',
+    'MoneyCases'           => 'Money Cases',
+    'MedicineCases'        => 'Medicine Cases',
+    'OtherCases'           => 'Other Cases',
+    'contact'              => 'Contact Us',
+    'profile'              => 'Profile',
+    'slug'                 => 'Together we can improve their lives',
+    'budget'               => 'BUDGET:',
+    'location'             => 'LOCATION:',
+    'description'          => 'DESCRIPTION:',
+    'aboutus'              => 'About Us',
+    'money'                => 'Money',
+    'blood'                => 'Blood',
+    'medicine'             => 'Medicine',
+    'other'                => 'Other',
+    'donatenow'            => 'DONATE NOW',
+    'allCasesByMedicineName'=> 'All Cases By Medicine Name',
+    ''=>'',
+    ''=>'',
+    ''=>'',
+    ''=>'',
+    ''=>'',
+    ''=>'',
+    ''=>'',
+    ''=>'',
+    ''=>'',
+    ''=>'',
+
+
+
+
     'validate'             =>'validate',
     'accepted'             => 'The :attribute must be accepted.',
     'active_url'           => 'The :attribute is not a valid URL.',
@@ -102,19 +145,29 @@ return [
             'rule-name' => 'custom-message',
         ],[
         'email' => [
-            'unique' => 'unique',
+            'required' => 'The :attribute field is required.',
+            'unique' => 'The :attribute has already been taken.',
             ],
         ],[
         'password_confirm' => [
             'same' => 'The :attribute and :other must match.',
             ],
         ],[
-        'phone' => [
+        'phone' => array(
             'regex' => 'The :attribute format is invalid.',
-            ],
+            ),
         ],[
         'email' => [
             'email' => 'The :attribute must be a valid email address.',
+            ],
+        ],[
+        'name' => array(
+            'required' => 'The :attribute field is required.',
+            'unique' => 'The :attribute has already been taken.',
+            ),
+        ],[
+        'password' => [
+            'required' => 'The :attribute field is required.',
             ],
         ],
         
@@ -133,6 +186,7 @@ return [
     */
 
     'attributes' => [
+        'email'                 =>'Email',
         'name'                  => 'Name',
         'username'              => 'Username',
         'firstName'             => 'First Name',

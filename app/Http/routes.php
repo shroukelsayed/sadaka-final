@@ -16,79 +16,80 @@ use Illuminate\Http\Request;
 use App\City;
 use App\Governorate;
 
+Route::group(['middleware' => ['web']], function () {
+    Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => 'LanguageController@switchLang']);
+
+    Route::auth();
+	Route::get('/','HomeController@index');
+
+	Route::group(['middleware' => ['auth' ,'admin']], function () {
+		Route::get('/admin', function () {
+	    	return view('welcome');
+		});
+	});
+
+	Route::group(['middleware' => ['auth' ,'role']], function () {
+		
+		// routes --> by shrouk 
+		
+		// end routes --> by shrouk
+	});
 
 
+	Route::post('/people/search','PersonController@search');
+	Route::get('approve/{user_id}','UserInfoController@approve');
+	Route::post('disapprove/{user_id}','UserInfoController@disapprove');
+	Route::get('approveCharity/{charity_id}','CharityController@approve');
+	Route::post('disapproveCharity/{charity_id}','CharityController@disapprove');
+		
 
+	Route::resource("user_infos","UserInfoController");
+	Route::resource("charities","CharityController");
+	Route::resource("compaigns","CompaignController");
+	Route::resource("people","PersonController");
+	Route::resource("person_infos","PersonInfoController"); 
+	Route::resource("bloods","BloodController");
+	Route::resource("medicines","MedicineController"); 
+	Route::resource("others","OtherController");
+	Route::resource("person_documents","PersonDocumentController");
+	Route::resource("intervals","IntervalController"); 
+	
+	Route::resource("person_statuses","PersonStatusController"); 
+	Route::resource("additional_infos","AdditionalInfoController"); 
+	Route::resource("charity_documents","CharityDocumentController");
+	Route::resource("charity_addresses","CharityAddressController");
+	Route::resource("money","MoneyController");
+	Route::resource("userpeople","UserpersonController");
+	Route::resource("usercompaign","UserCompaignController");
+	Route::get('/cases', 'PersonController@cases');
+	Route::get('/comp', 'CompaignController@comps');
+	Route::post('/user_infos/create/','UserInfoController@check');
+	Route::post('/charities/create','CharityController@check');
 
-// Route::get('/', 'HomeController@index'); 
-   
+	Route::get('/ajax-governrate', function(){
+	$governorate_id =Input::get('governorate_id');
+	// var_dump($governorate_id);
+	$cities = City::where('governorate_id', '=', $governorate_id)->get();
+	// $cities=DB::table('cities')->where('governorate_id',$governorate_id);
+	// $governrates=Governorate::findOrFail($governorate_id);
+	// $cities = $governrates->city();
+	return Response::json($cities);
+	});
 
+	// routes --> by shrouk
+	Route::get('api/dropdown', function(){
+	    $input = \Input::get('option');
 
-use App\City;
-use App\Governorate;
+	    $cities = DB::table('cities')->where('governorate_id',$input);
+	   
+	    return Response::json($cities->select(array('id','name'))->get());
+	});
+	Route::post('/people/create','PersonController@check');
 
- 
-// Route::get('/compaigns/create/ajax-state',function()
-// {
-//     $state_id = Input::get('governorate_id');
-//     $subcategories = City::where('state_id','=',$state_id)->get();
-//     return $subcategories;
- 
-// });
-Route::auth();
-
-
-
-// Route::get('/', 'HomeController@index');
-Route::get('/home', 'HomeController@index');
-
-Route::resource("user_infos","UserInfoController");
-Route::resource("charities","CharityController");
-Route::resource("compaigns","CompaignController");
-Route::resource("people","PersonController");
-Route::resource("person_infos","PersonInfoController"); 
-Route::resource("bloods","BloodController");
-Route::resource("medicines","MedicineController"); 
-Route::resource("others","OtherController");
-Route::resource("person_documents","PersonDocumentController");
-Route::resource("intervals","IntervalController"); 
-Route::resource("interval_types","IntervalTypeController");
-Route::resource("person_statuses","PersonStatusController"); 
-Route::resource("donation_types","DonationTypeController");
-Route::resource("user_types","UserTypeController");
-Route::resource("compaign_donate_types","CompaignDonateTypeController");
-Route::resource("additional_infos","AdditionalInfoController"); 
-Route::resource("charity_documents","CharityDocumentController");
-Route::resource("charity_addresses","CharityAddressController");
-Route::resource("cities","CityController");
-Route::resource("governorates","GovernorateController");
-Route::resource("money","MoneyController");
-Route::resource("userpeople","UserpersonController");
-Route::resource("usercompaign","UserCompaignController");
-Route::get('/cases', 'PersonController@cases');
-Route::get('/comp', 'CompaignController@comps');
-Route::post('/user_infos/create/','UserInfoController@check');
-Route::post('/auth/login','Auth/AuthController@check');
-Route::post('/charities/create','CharityController@check');
-// Route::get('/{locale}', function ($locale) {
-// 	App::setLocale($locale);
-//     return view('welcome');
-// });
-
-Route::get('/ajax-governrate', function(){
-$governorate_id =Input::get('governorate_id');
-// var_dump($governorate_id);
-$cities = City::where('governorate_id', '=', $governorate_id)->get();
-// $cities=DB::table('cities')->where('governorate_id',$governorate_id);
-// $governrates=Governorate::findOrFail($governorate_id);
-// $cities = $governrates->city();
-return Response::json($cities);
-});
-
-Route::get('api/dropdown', function(){
-    $input = \Input::get('option');
-
-    $cities = DB::table('cities')->where('governorate_id',$input);
-   
-    return Response::json($cities->select(array('id','name'))->get());
+	// filtering ...
+	Route::get('allCasesByBloodType/{bloodtype}','BloodController@allCasesByBloodType');
+	Route::get('allCasesByMedicineName/{name}','MedicineController@allCasesByMedicineName');
+	Route::get('periodicCases','PersonController@periodicCases');
+	
+	// end routes --> by shrouk
 });

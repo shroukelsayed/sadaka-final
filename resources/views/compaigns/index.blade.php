@@ -1,5 +1,10 @@
 @extends('layouts.adminlayout')
 
+    <script src="/Admin/jquery-1.11.3.min.js" type="text/javascript"></script>
+
+    <script src="/Admin/vaild.js" type="text/javascript"></script>
+
+
 @section('header')
     <div class="page-header clearfix">
         <h1>
@@ -11,47 +16,53 @@
 @endsection
 
 @section('content')
-    <div class="row">
+    <div class="row" style="margin-top: 50px;">
+        
         <div class="col-md-12">
             @if($compaigns->count())
-                <table class="table table-condensed table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>TITLE</th>
-                        <th>LOCATION</th>
-                        <th>STARTDATE</th>
-                        <th>ENDDATE</th>
-                        <th>BUDGET</th>
-                        <th>DESCRIPTION</th>
-                            <th class="text-right">OPTIONS</th>
-                        </tr>
-                    </thead>
+                
+                @foreach ($compaigns as $compain)
+            <div class="col-md-6">
+              <!-- Widget: user widget style 1 -->
+              <div class="box box-widget widget-user">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header bg-aqua-active">
+                  <h3 class="widget-user-username"><a style="color: white;" href="{{ route('compaigns.show', $compain->id) }}">{{$compain->title}}</a></h3>
+                  <h5 class="widget-user-desc">Compaign</h5>
+                </div>
+                <div class="widget-user-image">
+                <a href="{{ route('compaigns.show', $compain->id) }}">
+                  <img class="img-circle" style="width: 120px;height: 100px;margin-left: -12px;margin-top: -8px;border:3px solid white;" src="{{ asset("compagin/1.jpg") }}" alt="User Avatar">
+                </a>
+                </div>
+                <div class="box-footer">
+                  <div class="row">
+                    <div class="col-sm-4 border-right">
+                      <div class="description-block">
+                        <h5 class="description-header">Start Date</h5>
+                        <span class="description-text">{{$compain->startdate}}</span>
+                      </div><!-- /.description-block -->
+                    </div><!-- /.col -->
+                    <div class="col-sm-4">
+                      <div class="description-block">
+                        <h5 class="description-header"> Location</h5>
+                        <span >{{$compain->location}}</span>
+                      </div><!-- /.description-block -->
+                    </div><!-- /.col -->
+                    <div class="col-sm-4 border-right">
+                      <div class="description-block">
+                        <h5 class="description-header">End Date</h5>
+                        <span class="description-text">{{$compain->enddate}}</span>
+                      </div><!-- /.description-block -->
+                    </div><!-- /.col -->
+                    
+                  </div><!-- /.row -->
+                </div>
+              </div><!-- /.widget-user -->
+            </div><!-- /.col -->
 
-                    <tbody>
-                        @foreach($compaigns as $compaign)
-                            <tr>
-                                <td>{{$compaign->id}}</td>
-                                <td>{{$compaign->title}}</td>
-                                <td>{{$compaign->location}}</td>
-                                <td>{{$compaign->startdate}}</td>
-                                <td>{{$compaign->enddate}}</td>
-                                <td>{{$compaign->budget}}</td>
-                                <td>{{$compaign->description}}</td>
-                                <td class="text-right">
-                                    <a class="btn btn-xs btn-primary" href="{{ route('compaigns.show', $compaign->id) }}"><i class="glyphicon glyphicon-eye-open"></i> View</a>
-                                    <a class="btn btn-xs btn-warning" href="{{ route('compaigns.edit', $compaign->id) }}"><i class="glyphicon glyphicon-edit"></i> Edit</a>
-                                    <form action="{{ route('compaigns.destroy', $compaign->id) }}" method="POST" style="display: inline;" onsubmit="if(confirm('Delete? Are you sure?')) { return true } else {return false };">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <button type="submit" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i> Delete</button>
-                                    </form>
-                                </td>
-                            </tr>
                         @endforeach
-                    </tbody>
-                </table>
-                {!! $compaigns->render() !!}
+                
             @else
                 <h3 class="text-center alert alert-info">Empty!</h3>
             @endif
@@ -60,3 +71,7 @@
     </div>
 
 @endsection
+
+
+
+

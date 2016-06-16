@@ -89,7 +89,7 @@
 
                     <ul class="nav navbar-nav">
 
-                        <li><a class="is-active" href="{{URL::to('/home')}}">HOME</a></li>
+                        <li><a class="is-active" href="{{URL::to('/')}}">HOME</a></li>
                         <li><a href="contact.html">CONTACT</a></li>
                         <li class="has-child"><a class="is-active" href="{{URL::to('/cases')}}">CASES</a>
 

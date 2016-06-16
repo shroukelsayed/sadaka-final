@@ -1,49 +1,66 @@
 @extends('layouts.adminlayout')
 
 @section('header')
-  
+
+<h1 style="margin-left: 100px;">
+    <i class="glyphicon glyphicon-align-justify"></i> All Charities
+    
+</h1>
+
+<ol class="breadcrumb">
+    <li><a href="{{URL::to('/admin')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a href="{{URL::to('/logout')}}"> logout</a> </li>
+</ol>
+    
 @endsection
 
 @section('content')
-    <div class="row">
+    <div class="row" style="margin-top: 50px;">
         <div class="col-md-12">
-            @if($personinfo->count())
-                <table class="table table-condensed table-striped">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Address</th>
-                            <th>Marital Status</th>
-                            <th>Donation Type</th>
-                            <th>Publish At</th>
-                            <th class="text-right">OPTIONS</th>
-                        </tr>
-                    </thead>
+            @if($charities->count())
+                
+                @foreach ($charities as $chairty)
+            <div class="col-md-6">
+              <!-- Widget: user widget style 1 -->
+              <div class="box box-widget widget-user">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header bg-aqua-active">
+                  <h3 class="widget-user-username"><a style="color: white;" href="{{ route('charities.show', $chairty->id) }}">{{$chairty->user->name}}</a></h3>
+                  <h5 class="widget-user-desc">Charity</h5>
+                </div>
+                <div class="widget-user-image">
+                <a href="{{ route('charities.show', $chairty->id) }}">
+                  <img class="img-circle" style="width: 120px;height: 100px;margin-left: -12px;margin-top: -8px;border:3px solid white;" src="{{ asset("img/1.png") }}" alt="User Avatar">
+                </a>
+                </div>
+                <div class="box-footer">
+                  <div class="row">
+                    <div class="col-sm-4 border-right">
+                      <div class="description-block">
+                        <h5 class="description-header">Tax Number</h5>
+                        <span class="description-text">{{$chairty->taxnum}}</span>
+                      </div><!-- /.description-block -->
+                    </div><!-- /.col -->
+                    <div class="col-sm-4">
+                      <div class="description-block">
+                        <h5 class="description-header">Date Of Publicity</h5>
+                        <span >{{$chairty->publishdate}}</span>
+                      </div><!-- /.description-block -->
+                    </div><!-- /.col -->
+                    <div class="col-sm-4 border-right">
+                      <div class="description-block">
+                        <h5 class="description-header">Phone</h5>
+                        <span class="description-text">{{$chairty->user->phone}}</span>
+                      </div><!-- /.description-block -->
+                    </div><!-- /.col -->
+                    
+                  </div><!-- /.row -->
+                </div>
+              </div><!-- /.widget-user -->
+            </div><!-- /.col -->
 
-                    <tbody>
-                             @foreach ($personinfo as $one)
-                            <tr>
-                                <td>{{$one->name}}</td>
-                                <td>{{$one->address}}</td>
-                                <td>{{$one->maritalstatus}}</td>
-                                @foreach ($one->people as $p)
-                                <td>{{$p->donationType->type}}</td> 
-                                <td>{{$p->publishat}}</td>
-                                <td class="text-right">
-                                    <a class="btn btn-xs btn-primary" href="{{ route('person_infos.show', $one->id) }}"><i class="glyphicon glyphicon-eye-open"></i> View</a>
-                                    <a class="btn btn-xs btn-warning" href="{{ route('person_infos.edit', $one->id) }}"><i class="glyphicon glyphicon-edit"></i> Edit</a>
-                                    <form action="{{ route('person_infos.destroy', $one->id) }}" method="POST" style="display: inline;" onsubmit="if(confirm('Delete? Are you sure?')) { return true } else {return false };">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <button type="submit" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i> Delete</button>
-                                    </form>
-                                </td>
-                                @endforeach 
-                            </tr>
-                             @endforeach            
-                    </tbody>
-                </table>
-               
+                        @endforeach
+                
             @else
                 <h3 class="text-center alert alert-info">Empty!</h3>
             @endif

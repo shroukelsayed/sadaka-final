@@ -1,51 +1,61 @@
 @extends(( (isset(Auth::user()->id) and Auth::user()->user_type_id ) == 2 or ( isset(Auth::user()->id) and Auth::user()->user_type_id == 3 )) ? 'layouts.adminlayout' : 'layout')
 @section('header')
     <div class="page-header clearfix">
-        <h1>
-            <i class="glyphicon glyphicon-align-justify"></i> Bloods
-            <a class="btn btn-success pull-right" href="{{ route('bloods.create') }}"><i class="glyphicon glyphicon-plus"></i> Create</a>
-        </h1>
-
-    </div>
+    <h1 style="margin-left: 80px;">
+        <i class="glyphicon glyphicon-align-justify"></i>Blood Cases
+    </h1>
+</div>
+<ol class="breadcrumb">
+        <li><a href="{{URL::to('/admin')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="{{URL::to('/logout')}}"> logout</a> </li>
+    </ol>
+    <script src="/Admin/jquery-1.11.3.min.js" type="text/javascript"></script>
+    <script src="/Admin/vaild.js" type="text/javascript"></script>
 @endsection
 
 @section('content')
     <div class="row">
         <div class="col-md-12">
             @if($bloods->count())
-                <table class="table table-condensed table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>BLOODTYPE</th>
-                        <th>AMOUNT</th>
-                        <th>HOSPITAL</th>
-                        <th>ADDRESS</th>
-                            <th class="text-right">OPTIONS</th>
-                        </tr>
-                    </thead>
+                @foreach($bloods as $blood)
+                    <div class="col-md-4">
+                      <!-- Widget: user widget style 1 -->
+                      <div class="box box-widget widget-user">
+                        <!-- Add the bg color to the header using any of the bg-* classes -->
+                        <div class="widget-user-header" style="background: url('{{ asset("img/1.jpg") }}') center center;">
+                          <a href="{{ route('bloods.show', $blood->id) }}"><h3 class="widget-user-username">{{$blood->person->personInfo->name}}</h3></a>
+                          
+                        </div>
+                        <div class="widget-user-image">
+                          <img class="img-circle" src="{{ asset("img/1.png") }}" alt="User Avatar">
+                        </div>
+                        <div class="box-footer">
+                          <div class="row">
+                            <div class="col-sm-4 border-right">
+                              <div class="description-block">
+                                <h5 class="description-header">Amount</h5>
+                                <span class="description-text">{{$blood->amount}}</span>
+                              </div><!-- /.description-block -->
+                            </div><!-- /.col -->
+                            <div class="col-sm-4 border-right">
+                              <div class="description-block">
+                                <h5 class="description-header">Blood Type</h5>
+                                <span class="description-text">{{$blood->bloodtype}}</span>
+                              </div><!-- /.description-block -->
+                            </div><!-- /.col -->
+                            <div class="col-sm-4">
+                              <div class="description-block">
+                                <h5 class="description-header">Hospital</h5>
+                                <span class="description-text">{{$blood->hospital}}</span>
+                              </div><!-- /.description-block -->
+                            </div><!-- /.col -->
+                          </div><!-- /.row -->
+                        </div>
+                      </div><!-- /.widget-user -->
+                    </div><!-- /.col -->
 
-                    <tbody>
-                        @foreach($bloods as $blood)
-                            <tr>
-                                <td>{{$blood->id}}</td>
-                                <td>{{$blood->bloodtype}}</td>
-                    <td>{{$blood->amount}}</td>
-                    <td>{{$blood->hospital}}</td>
-                    <td>{{$blood->address}}</td>
-                                <td class="text-right">
-                                    <a class="btn btn-xs btn-primary" href="{{ route('bloods.show', $blood->id) }}"><i class="glyphicon glyphicon-eye-open"></i> View</a>
-                                    <a class="btn btn-xs btn-warning" href="{{ route('bloods.edit', $blood->id) }}"><i class="glyphicon glyphicon-edit"></i> Edit</a>
-                                    <form action="{{ route('bloods.destroy', $blood->id) }}" method="POST" style="display: inline;" onsubmit="if(confirm('Delete? Are you sure?')) { return true } else {return false };">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <button type="submit" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i> Delete</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                @endforeach
+                             
                 {!! $bloods->render() !!}
             @else
                 <h3 class="text-center alert alert-info">Empty!</h3>

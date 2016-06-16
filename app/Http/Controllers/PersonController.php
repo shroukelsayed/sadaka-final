@@ -28,7 +28,7 @@ class PersonController extends Controller {
 
 	public function __construct()
 	{
-	    $this->middleware('auth');
+	    $this->middleware('auth', ['except' => ['index','cases']]);
 	}
 	/**
 	 * Display a listing of the resource.
@@ -37,9 +37,9 @@ class PersonController extends Controller {
 	 */
 	public function index()
 	{
-		$people = Person::orderBy('id', 'desc')->paginate(10);
+		$personinfo = Person::orderBy('id', 'desc')->paginate(10);
 
-		return view('people.index', compact('people'));
+		return view('people.index', compact('personinfo'));
 	}
 	
 	public function cases()
@@ -80,16 +80,20 @@ class PersonController extends Controller {
 		try {
 			//first stage:
 			//creating PersonInfo Object ...
-			$person_info = new PersonInfo();
-			$person_info->name = $request->input("name");
-	        $person_info->address = $request->input("address");
-	        $person_info->birthDate = $request->input("birthdate");
-	        $person_info->gender = $request->input("gender");
-	        $person_info->maritalstatus = $request->input("maritalstatus");
-	        $person_info->phone = $request->input("phone");
-	        $person_info->city_id = $request->city_id;
-	        $person_info->governorate_id = $request->governorate_id;
-			$person_info->save();
+			if($request->input("checked_person")){
+				$person_info = PersonInfo::findOrFail($request->input("checked_person"));
+			}else{
+				$person_info = new PersonInfo();
+				$person_info->name = $request->input("name");
+		        $person_info->address = $request->input("address");
+		        $person_info->birthDate = $request->input("birthdate");
+		        $person_info->gender = $request->input("gender");
+		        $person_info->maritalstatus = $request->input("maritalstatus");
+		        $person_info->phone = $request->input("phone");
+		        $person_info->city_id = $request->city_id;
+		        $person_info->governorate_id = $request->governorate_id;
+				$person_info->save();
+			}
 		} catch(ValidationException $e)
 		{
 		    // Rollback and then redirect
@@ -136,6 +140,7 @@ class PersonController extends Controller {
 			        $blood->amount = $request->input("amount");
 			        $blood->hospital = $request->input("hospital");
 			        $blood->address = $request->input("address");
+			        $blood->end_date = $request->input("end_date");
 			        $blood->city_id = $request->c_id;
 			        $blood->governorate_id = $request->g_id;
 			        $blood->person_id = $person->id;
@@ -184,7 +189,7 @@ class PersonController extends Controller {
 					//  Donation Type = Medicine .. Medicine must be stored in DB  with id = 3
 
 					$medicine = new Medicine();
-					$medicine->name = $request->input("name");
+					$medicine->name = $request->input("medicine_name");
 			        $medicine->amount = $request->input("amount");
 			        $medicine->person_id = $person->id;
 					$medicine->save();
@@ -275,6 +280,9 @@ class PersonController extends Controller {
 		    // start count how many uploaded
 		    $uploadcount = 0;
 
+		    $descs = $request->desc;
+		    // var_dump($request->desc);die;
+
 		    // preparing upload path ...
 	        if($person->donation_type_id == 1){
 	        	$destinationPath = 'Case/PersonDocument/blood'; 
@@ -291,20 +299,25 @@ class PersonController extends Controller {
 
 	        // creating num of objs = files num 
 		    foreach($files as $file) {
-		      $rules = array('file' => 'required'); 
-		      $validator = Validator::make(array('file'=> $file), $rules);
-		      if($validator->passes()){
+		    	
+			      $rules = array('file' => 'required'); 
+			      $validator = Validator::make(array('file'=> $file), $rules);
+			      if($validator->passes()){
 
-		        $filename = $file->getClientOriginalName();
-		        $upload_success = $file->move($destinationPath, $filename);
-		        $uploadcount ++;
+			        $filename = $file->getClientOriginalName();
+			        $upload_success = $file->move($destinationPath, $filename);
+			        $uploadcount ++;
 
-		        $doc = new PersonDocument();
-	    		$doc->document=$filename;
-	    		$doc->person_id=$person->id;
-	    		$doc->save();
+			        $doc = new PersonDocument();
+		    		$doc->document=$filename;
+		    		foreach($descs as $desc) {
+		    			$doc->desc = $desc;
+		    		}
+		    		$doc->person_id=$person->id;
+		    		$doc->save();
 
-		      }
+			      
+			    }
 		    }
 		  
 		} catch(ValidationException $e)
@@ -403,6 +416,38 @@ class PersonController extends Controller {
 		$person->delete();
 
 		return redirect()->route('people.index')->with('message', 'Item deleted successfully.');
+	}
+
+	// function check for existing person in system --> by shrouk
+	public function check(Request $request)
+	{
+		if ($request->input("action")=="name")
+		{	
+			// var_dump($request->input("action"));die;
+			$name=PersonInfo::where('name','=',$request->input("name"))->get();
+			// var_dump($name); die;
+			return $name;
+		}
+	}
+
+	// function seacrh for existing person in system to add new case for him --> by shrouk
+	public function search(Request $request)
+	{
+		if ($request->input("action")=="person_name")
+		{	
+			$name=PersonInfo::where('name','LIKE', '%' . $request->input("person_name"). '%')->get();
+			// echo "<pre>";
+			// var_dump($name); die;
+			return $name;
+		}
+	}
+
+	public function periodicCases()
+	{
+		$personinfo = Person::where('interval_type_id','!=','1')->get();
+		// echo "<pre>";
+		// var_dump($cases);die;
+		return view('people.periodicCases',compact('personinfo'));
 	}
 
 }

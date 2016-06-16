@@ -18,6 +18,7 @@ class CreateBloodsTable extends Migration {
             $table->integer('amount');
             $table->text('hospital');
             $table->text('address');
+            $table->text('description');
             $table->integer('city_id')->unsigned()->index();
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
             $table->integer('governorate_id')->unsigned()->index();

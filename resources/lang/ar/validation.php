@@ -10,10 +10,46 @@ return [
     | such as the size rules. Feel free to tweak each of these messages.
     |
     */
+    'Arabic'               => 'اللغة العربية ',
+    'English'              => 'اللغة الانجليزية',
     'sadaka'               => 'صــدقة ',
-    'login'                =>'تسجيل الدخول',
+    'login'                => 'تسجيل الدخول',
+    'logout'               => 'تسجيل الخروج ',
     'register'             => 'انشاء حساب جديد',
     'home'                 => 'الصفحة الرئيسية',
+    'AllCharities'         => 'الجمعيات الخيرية',
+    'AllBenefactors'       => 'فاعلى الخير',
+    'AllPersons'           => 'الاشخاص',
+    'AllCases'             => 'الحاﻻت',
+    'AllCompaigns'         => 'الحملات',
+    'cases'                => 'الحاﻻت',
+    'compaigns'            => 'الحملات',
+    'NewCase'              => 'حالة جديدة',
+    'NewCompaign'          => 'حملة جديدة',
+    'BloodCases'           => 'حالات الدم ',
+    'MoneyCases'           => 'حالات مادية',
+    'MedicineCases'        => 'حالات الادوية',
+    'OtherCases'           => 'حالات اخرى',
+    'contact'              => 'اتصل بنا',
+    'profile'              => 'حسابى',
+    'slug'                 =>'معا نستطيع جعل حياتهم افضل ',
+    'budget'               =>'الميلغ الاجمالى:',
+    'location'             =>'الموقع:',
+    'description'          =>'الوصف:',
+    'aboutus'              =>'من نحن',
+    'Money'                =>'مالية ',
+    'Blood'                =>'دم',
+    'Medicine'             =>'ادوية',
+    'Other'                =>'اخرى',
+    'donatenow'            =>'تبرع الان',
+    'allCasesByBloodType'  => 'حالات الدم / فصيلة الدم',
+    'allCasesByMedicineName'=> 'حالات الادوية / اسم الدواء',
+    ''=>'',
+    ''=>'',
+    ''=>'',
+    ''=>'',
+    ''=>'',
+    ''=>'',
     'validate'             => 'تصحيح',
     'accepted'             => 'يجب قبول الحقل :attribute',
     'active_url'           => 'الحقل :attribute لا يُمثّل رابطًا صحيحًا',
@@ -96,9 +132,9 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
             
-        ],
-        [
+        ],[
         'email' => [
+            'required' => 'الحقل :attribute مطلوب.',
             'unique' => 'قيمة الحقل :attribute مُستخدمة من قبل',
             ],
         ],[
@@ -106,12 +142,21 @@ return [
                 'same' => 'يجب أن يتطابق الحقل :attribute مع :other',
             ],
         ],[
-        'phone' => [
+        'phone' => array(
             'regex' => 'صيغة الحقل :attribute .غير صحيحة',
-            ],
+            ),
         ],[
-        'email' => [
+        'email' => array(
             'email' => 'يجب أن يكون :attribute عنوان بريد إلكتروني صحيح البُنية',
+            ),
+        ],[
+        'name' => array(
+            'required' => 'الحقل :attribute مطلوب.',
+            'unique' => 'قيمة الحقل :attribute مُستخدمة من قبل',
+            ),
+        ],[
+        'password' => [
+            'required' => 'الحقل :attribute مطلوب.',
             ],
         ],
     ],

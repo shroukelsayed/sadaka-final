@@ -6,6 +6,7 @@
     <div class="page-header">
         <h1><i class="glyphicon glyphicon-plus"></i> Bloods / Create </h1>
     </div>
+    
     <script src="/Admin/jquery-1.11.3.min.js" type="text/javascript"></script>
     <script src="/Admin/vaild.js" type="text/javascript"></script>
 @endsection

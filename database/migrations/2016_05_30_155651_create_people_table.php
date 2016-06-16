@@ -14,7 +14,7 @@ class CreatePeopleTable extends Migration {
 	{
 		Schema::create('people', function(Blueprint $table) {
             $table->increments('id');
-            $table->dateTime('publishat');
+            $table->date('publishat');
             $table->integer('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('interval_type_id')->unsigned()->index();

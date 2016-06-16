@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->double('phone');
+            $table->string('phone');
 
             $table->integer('user_type_id')->index();
             // $table->foreign('userType_id')->references('id')->on('user_types');

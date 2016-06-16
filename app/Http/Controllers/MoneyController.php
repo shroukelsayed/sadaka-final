@@ -1,4 +1,5 @@
-<?php namespace App\Http\Controllers;
+<?php
+ namespace App\Http\Controllers;
 
 
 use App\Http\Requests;
@@ -25,7 +26,12 @@ class MoneyController extends Controller {
 
 	public function __construct()
 	{
-	    $this->middleware('auth');
+        if(Auth::guest() || Auth::user()->user_type_id == 4){  
+          
+	    	$this->middleware('auth',['except' =>[ 'show','index']]);
+	    }
+	  	else
+	   		$this->middleware('auth', ['except' => ['index']]);
 	}
 	
 	/**
@@ -36,8 +42,14 @@ class MoneyController extends Controller {
 	public function index()
 	{
 		$money = Money::orderBy('id', 'desc')->paginate(10);
+		if(Auth::guest() || Auth::user()->user_type_id == 4){
+            
+            return view('money.money',  compact('money'));
+        }
+        else{
 
-		return view('money.index', compact('money'));
+			return view('money.index', compact('money'));
+		}
 	}
 
 	/**
@@ -196,9 +208,16 @@ class MoneyController extends Controller {
 	public function show($id)
 	{
 		$money = Money::findOrFail($id);
+		if(Auth::guest() || Auth::user()->user_type_id == 4){
+            
+            return view('money.more',  compact('money'));
+        }
+        else{
 
-		return view('money.show', compact('money'));
+			return view('money.show', compact('money'));
+		}
 	}
+
 
 	/**
 	 * Show the form for editing the specified resource.
@@ -245,10 +264,11 @@ class MoneyController extends Controller {
         $person_info->gender = $request->input("gender");
         $person_info->maritalstatus = $request->input("maritalstatus");
         $person_info->phone = $request->input("phone");
-        $person_info->city_id = 1;
-        $person_info->governorate_id = 1;
+        $person_info->city_id = $request->input("city_id");
+        $person_info->governorate_id = $request->input("governorate_id");
 		
 		$person->person_status_id = 1;
+		$person->interval_type_id = $request->input("interval_type_id");
 
 		$money->amount = $request->input("amount");
 		
@@ -262,11 +282,8 @@ class MoneyController extends Controller {
 	        \Input::file('case_doc')->move($destinationPath, $fileName);
 	        $docs = $person->personDocs;
 	        foreach ($docs as $personDoc) {
-	        	// Delete old image
-	        	// var_dump($personDoc->document);die;  
-     			// var_dump(File::delete('Case/PersonDocument/money/',$personDoc->document));die; 
-	        	$personDoc->document=$fileName;
-	        	// var_dump($personDoc->document);die;
+	        	$personDoc->document = $fileName;
+	        	$personDoc->desc = $request->input("desc");
 	    		$personDoc->save();
 	        }	
 	    }	

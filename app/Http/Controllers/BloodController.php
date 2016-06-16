@@ -1,4 +1,5 @@
-<?php namespace App\Http\Controllers;
+<?php 
+namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -23,7 +24,8 @@ class BloodController extends Controller {
 
 	public function __construct()
 	{
-	    $this->middleware('auth');
+		$this->middleware('auth',['except' =>[ 'show','index']]);
+	    
 	}
 	
 	/**
@@ -34,9 +36,16 @@ class BloodController extends Controller {
 	public function index()
 	{
 		$bloods = Blood::orderBy('id', 'desc')->paginate(10);
+		if(Auth::guest() || Auth::user()->user_type_id == 4){
+            
+            return view('bloods.blood',  compact('bloods'));
+        }
+        else{
 
-		return view('bloods.index', compact('bloods'));
+			return view('bloods.index', compact('bloods'));
+		}
 	}
+
 
 	/**
 	 * Show the form for creating a new resource.
@@ -199,9 +208,16 @@ class BloodController extends Controller {
 	public function show($id)
 	{
 		$blood = Blood::findOrFail($id);
+		if(Auth::guest() || Auth::user()->user_type_id == 4){
+            
+            return view('bloods.more',  compact('blood'));
+        }
+        else{
 
-		return view('bloods.show', compact('blood'));
+			return view('bloods.show', compact('blood'));
+		}
 	}
+	
 
 	/**
 	 * Show the form for editing the specified resource.
@@ -245,13 +261,15 @@ class BloodController extends Controller {
         $person_info->gender = $request->input("gender");
         $person_info->maritalstatus = $request->input("maritalstatus");
         $person_info->phone = $request->input("phone");
-        $person_info->city_id = 1;
-        $person_info->governorate_id = 1;
+        $person_info->city_id = $request->input("city_id");
+        $person_info->governorate_id = $request->input("governorate_id");
 		
+		$person->interval_type_id = $request->input("interval_type_id");
 		$blood->bloodtype = $request->input("bloodtype");
         $blood->amount = $request->input("amount");
         $blood->hospital = $request->input("hospital");
         $blood->address = $request->input("address");
+        $blood->end_date = $request->input("end_date");
 
 		$person->person_status_id = 1;
 
@@ -264,6 +282,7 @@ class BloodController extends Controller {
 	        $docs = $person->personDocs;
 	        foreach ($docs as $personDoc) {
 	        	$personDoc->document=$fileName;
+	        	$personDoc->desc = $request->input("desc");
 	    		$personDoc->save();
 	        }	
 	    }	
@@ -289,6 +308,13 @@ class BloodController extends Controller {
 		$blood->delete();
 
 		return redirect()->route('bloods.index')->with('message', 'Item deleted successfully.');
+	}
+
+	public function allCasesByBloodType($bloodtype)
+	{
+		$bloods = Blood::where('bloodtype','=',$bloodtype)->get();
+		// var_dump($bloods);die;
+		return view('bloods.allCasesByBloodType',compact('bloods'));
 	}
 
 }

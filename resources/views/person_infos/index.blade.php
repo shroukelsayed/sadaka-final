@@ -1,62 +1,81 @@
 @extends('layouts.adminlayout')
 
 @section('header')
-    <div class="page-header clearfix">
-        <h1>
-            <i class="glyphicon glyphicon-align-justify"></i> PersonInfos
-            <a class="btn btn-success pull-right" href="{{ route('person_infos.create') }}"><i class="glyphicon glyphicon-plus"></i> Create</a>
-        </h1>
-
-    </div>
+<div class="page-header clearfix">
+    <h1 style="margin-left: 80px;">
+         Persons
+    </h1>
+</div>
+<ol class="breadcrumb">
+    @if(Auth::user()->user_type_id  == 1)
+      <li><a href="{{URL::to('/admin')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+    @else
+      <li><a href="{{URL::to('/people')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+    @endif
+    <li><a href="{{URL::to('/logout')}}"> logout</a> </li>
+</ol>
+<script src="/Admin/jquery-1.11.3.min.js" type="text/javascript"></script>
+    <script src="/Admin/vaild.js" type="text/javascript"></script>
 @endsection
 
 @section('content')
-    <div class="row">
-        <div class="col-md-12">
-            @if($person_infos->count())
-                <table class="table table-condensed table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>NAME</th>
-                        <th>ADDRESS</th>
-                        <th>BIRTHDATE</th>
-                        <th>GENDER</th>
-                        <th>MARITALSTATUS</th>
-                        <th>PHONE</th>
-                            <th class="text-right">OPTIONS</th>
-                        </tr>
-                    </thead>
+<div class="row">
+    @if($person_infos->count())
 
-                    <tbody>
-                        @foreach($person_infos as $person_info)
-                            <tr>
-                                <td>{{$person_info->id}}</td>
-                                <td>{{$person_info->name}}</td>
-                    <td>{{$person_info->address}}</td>
-                    <td>{{$person_info->birthdate}}</td>
-                    <td>{{$person_info->gender}}</td>
-                    <td>{{$person_info->maritalstatus}}</td>
-                    <td>{{$person_info->phone}}</td>
-                                <td class="text-right">
-                                    <a class="btn btn-xs btn-primary" href="{{ route('person_infos.show', $person_info->id) }}"><i class="glyphicon glyphicon-eye-open"></i> View</a>
-                                    <a class="btn btn-xs btn-warning" href="{{ route('person_infos.edit', $person_info->id) }}"><i class="glyphicon glyphicon-edit"></i> Edit</a>
-                                    <form action="{{ route('person_infos.destroy', $person_info->id) }}" method="POST" style="display: inline;" onsubmit="if(confirm('Delete? Are you sure?')) { return true } else {return false };">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <button type="submit" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i> Delete</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-                {!! $person_infos->render() !!}
-            @else
-                <h3 class="text-center alert alert-info">Empty!</h3>
-            @endif
-
+        @foreach ($person_infos as $one)
+        <div class="col-md-4">
+        <!-- Widget: user widget style 1 -->
+          <div class="box box-widget widget-user ">
+            <!-- Add the bg color to the header using any of the bg-* classes -->
+            <div class="widget-user-header" style="background-color:#00A7D0">
+              <a href="{{ route('people.show', $one->id) }}"><h3 style="color: white;" class="widget-user-username">{{$one->name}}</h3></a>
+              <h5 class="widget-user-desc"></h5>
+            </div>
+            <div class="widget-user-image">
+              <img class="img-circle" src="{{ asset("img/1.png") }}" alt="User Avatar">
+            </div>
+            <div class="box-footer" style="height: 150px;">
+              <div class="row">
+                <div class="col-sm-4 border-right">
+                  <div class="description-block">
+                    <h5 class="description-header">
+                        Address
+                    </h5>
+                    <span>
+                        {{$one->address}}
+                    </span>
+                  </div>
+                </div>
+                <div class="col-sm-4 border-right">
+                  <div class="description-block">
+                    <h5 class="description-header">
+                        Phone
+                    </h5>
+                    <span>
+                        {{$one->phone}}
+                    </span>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="description-block">
+                    <h5 class="description-header">
+                        Gender
+                    </h5>
+                    <span>
+                        {{$one->gender}}
+                    </span>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
+        @endforeach
+    @else
+        <h3 class="text-center alert alert-info">Empty!</h3>
+    @endif
+
+</div>
 
 @endsection

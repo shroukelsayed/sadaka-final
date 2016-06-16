@@ -3,6 +3,28 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/css/bootstrap-datepicker.css" rel="stylesheet">
 @endsection
 @section('header')
+<script src="/Admin/jquery-1.11.3.min.js" type="text/javascript"></script>
+    <script src="/Admin/vaild.js" type="text/javascript"></script>
+  <script>
+      
+      $(document).ready(function () {
+
+          $('#governorate_id_field').change(function(){
+                  $.get("{{ url('api/dropdown')}}", 
+                      { option: $(this).val() }, 
+                      function(data) {
+                        console.log(data);
+                          var city = $('#citySelect');
+                          city.empty();
+                          console.log(city.id);
+                          $.each(data, function(index, element) {
+                              city.append("<option value='"+ element['id'] +"'>" + element['name'] + "</option>");
+                          });
+                      });
+              });
+        });
+    </script>
+    
     <div class="page-header">
         <h1><i class="glyphicon glyphicon-edit"></i> People / Edit #{{$person->id}}</h1>
     </div>
@@ -40,38 +62,62 @@
                         <span class="help-block">{{ $errors->first("birthdate") }}</span>
                        @endif
                     </div>
-
-
-
                     <div class="form-group">
                       <label for="governorate_id_field">Governorate Name </label>
                       <select name="governorate_id" id="governorate_id_field">
-                          @foreach ($governorates as $key => $value)
-                              <option value="{{ $key+1 }}" selected>{{ $person->personInfo->governorate->name }}</option>
+                         @foreach ($governorates as $key => $value)
+                              @if($value["name"] == $person->personInfo->governorate->name )
+                                <option value="{{ $key+1 }}" selected>{{ $value["name"] }}</option>
+                              @else
+                                <option value="{{ $key+1 }}">{{ $value["name"] }}</option>
+                              @endif
                           @endforeach
                       </select>
                     </div>
                     <div class="form-group">
                       <label for="city_id_field">City Name </label>
-                      <select name="city_id" id="city_id_field">
-                          @foreach ($cities as $key => $value)
-                              <option value="{{ $key+1 }}">{{ $person->personInfo->city->name }}</option>
-                          @endforeach
+                      <select required name="city_id" id="citySelect" class="form-control">
+                          <option value="$person->personInfo->city->id">{{$person->personInfo->city->name}}</option>
+                          <option></option>
+                            
                       </select>
-
-
-
-
                     <div class="form-group @if($errors->has('gender')) has-error @endif">
                        <label for="gender-field">Gender</label>
-                    <input type="text" id="gender-field" name="gender" class="form-control" value="{{ $person->personInfo->gender }}"/>
-                       @if($errors->has("gender"))
-                        <span class="help-block">{{ $errors->first("gender") }}</span>
-                       @endif
+                     <select required id="gender-field" name="gender" class="form-control">
+                        @if ( $person->personInfo->gender == "male")
+                            <option value="male" selected>male</option>
+                            <option value="female">female</option>
+                        @else
+                            <option value="male">male</option>
+                            <option value="female" selected>female</option>
+                        @endif
+                    </select>
                     </div>
                     <div class="form-group @if($errors->has('maritalstatus')) has-error @endif">
                        <label for="maritalstatus-field">Maritalstatus</label>
-                    <input type="text" id="maritalstatus-field" name="maritalstatus" class="form-control" value="{{ $person->personInfo->maritalstatus }}"/>
+                    <select required type="text" id="maritalstatus-field" name="maritalstatus" class="form-control">
+                    @if($person->personInfo->maritalstatus == "single")
+                        <option value="single" selected>Single</option>
+                        <option value="married">Married</option>
+                        <option value="divorced">Divorced</option>
+                        <option value="widow">Widow</option>
+                    @elseif($person->personInfo->maritalstatus == "married")
+                        <option value="single">Single</option>
+                        <option value="married" selected>Married</option>
+                        <option value="divorced">Divorced</option>
+                        <option value="widow">Widow</option>
+                    @elseif($person->personInfo->maritalstatus == "divorced")
+                        <option value="single">Single</option>
+                        <option value="married">Married</option>
+                        <option value="divorced" selected>Divorced</option>
+                        <option value="widow">Widow</option>
+                    @else
+                        <option value="single">Single</option>
+                        <option value="married">Married</option>
+                        <option value="divorced">Divorced</option>
+                        <option value="widow" selected>Widow</option>
+                    @endif
+                    </select>
                        @if($errors->has("maritalstatus"))
                         <span class="help-block">{{ $errors->first("maritalstatus") }}</span>
                        @endif
@@ -83,11 +129,6 @@
                         <span class="help-block">{{ $errors->first("phone") }}</span>
                        @endif
                     </div>
-
-
-
-
-
                 <div class="form-group @if($errors->has('publishat')) has-error @endif">
                        <label for="publishat-field">Publishat</label>
                     <input type="text" id="publishat-field" name="publishat" class="form-control" value="{{ $person->publishat }}" disabled/>
@@ -95,9 +136,6 @@
                         <span class="help-block">{{ $errors->first("publishat") }}</span>
                        @endif
                     </div>
-
-
-
                 <div class="form-group">
                       <label for="donation_type_id_field">Donation Type </label>
                       <select name="donation_type_id" id="donation_type_id_field" disabled>
@@ -112,7 +150,11 @@
                       <label for="interval_type_id_field">Interval Type </label>
                       <select name="interval_type_id" id="interval_type_id_field" disabled>
                           @foreach ($interval_types as $key => $value)
-                              <option value="{{ $key+1 }}">{{ $person->intervalType->type }}</option>
+                              @if($value['type'] == $person->intervalType->type )
+                                <option value="{{ $person->intervalType->id }}" selected>{{ $person->intervalType->type }}</option>
+                              @else
+                                <option value="{{ $key+1 }}">{{ $value['type']}}</option>
+                              @endif
                           @endforeach
                       </select>
                     </div>

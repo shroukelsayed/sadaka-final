@@ -1,53 +1,67 @@
-@extends('layout')
+@extends('layouts.adminlayout')
 
 @section('header')
-    <div class="page-header clearfix">
-        <h1>
-            <i class="glyphicon glyphicon-align-justify"></i> UserInfos
-            <a class="btn btn-success pull-right" href="{{ route('user_infos.create') }}"><i class="glyphicon glyphicon-plus"></i> Create</a>
-        </h1>
 
-    </div>
+<h1 style="margin-left: 100px;">
+    <i class="glyphicon glyphicon-align-justify"></i> All Benefactors
+    
+</h1>
+
+<ol class="breadcrumb">
+    <li><a href="{{URL::to('/admin')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a href="{{URL::to('/logout')}}"> logout</a> </li>
+</ol>
+    <script src="/Admin/jquery-1.11.3.min.js" type="text/javascript"></script>
+    <script src="/Admin/vaild.js" type="text/javascript"></script>
 @endsection
 
 @section('content')
-    <div class="row">
+    <div class="row" style="margin-top: 50px;">
         <div class="col-md-12">
-            @if($user_infos->count())
-                <table class="table table-condensed table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>NATIONALID</th>
-                        <th>ADDRESS</th>
-                        <th>BIRTHDATE</th>
-                        <th>GENDER</th>
-                            <th class="text-right">OPTIONS</th>
-                        </tr>
-                    </thead>
+            @if(count($user_infos))
+                
+                @foreach($user_infos as $user_info)
 
-                    <tbody>
-                        @foreach($user_infos as $user_info)
-                            <tr>
-                                <td>{{$user_info->id}}</td>
-                                <td>{{$user_info->nationalid}}</td>
-                    <td>{{$user_info->address}}</td>
-                    <td>{{$user_info->birthdate}}</td>
-                    <td>{{$user_info->gender}}</td>
-                                <td class="text-right">
-                                    <a class="btn btn-xs btn-primary" href="{{ route('user_infos.show', $user_info->id) }}"><i class="glyphicon glyphicon-eye-open"></i> View</a>
-                                    <a class="btn btn-xs btn-warning" href="{{ route('user_infos.edit', $user_info->id) }}"><i class="glyphicon glyphicon-edit"></i> Edit</a>
-                                    <form action="{{ route('user_infos.destroy', $user_info->id) }}" method="POST" style="display: inline;" onsubmit="if(confirm('Delete? Are you sure?')) { return true } else {return false };">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <button type="submit" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i> Delete</button>
-                                    </form>
-                                </td>
-                            </tr>
+            <div class="col-md-6">
+              <!-- Widget: user widget style 1 -->
+              <div class="box box-widget widget-user">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header bg-aqua-active">
+                  <h3 class="widget-user-username"><a style="color: white;" href="{{ route('user_infos.show', $user_info->id) }}">{{$user_info->firstName}} {{$user_info->lastName}}</a></h3>
+                  <h5 class="widget-user-desc">Benefactor</h5>
+                </div>
+                <div class="widget-user-image">
+                  <a href="{{ route('user_infos.show', $user_info->id) }}">
+                  <img class="img-circle" style="width: 120px;height: 100px;margin-left: -12px;margin-top: -8px;border:3px solid white;" src="{{ asset("img/1.png") }}" alt="User Avatar">
+                </a>
+                </div>
+                <div class="box-footer">
+                  <div class="row">
+                    <div class="col-sm-4 border-right">
+                      <div class="description-block">
+                        <h5 class="description-header">National ID</h5>
+                        <span class="description-text">{{$user_info->nationalid}}</span>
+                      </div><!-- /.description-block -->
+                    </div><!-- /.col -->
+                    <div class="col-sm-4 border-right">
+                      <div class="description-block">
+                        <h5 class="description-header">Phone</h5>
+                        <span class="description-text">{{$user_info->user->phone}}</span>
+                      </div><!-- /.description-block -->
+                    </div><!-- /.col -->
+                    <div class="col-sm-4">
+                      <div class="description-block">
+                        <h5 class="description-header">Gender</h5>
+                        <span >{{$user_info->gender}}</span>
+                      </div><!-- /.description-block -->
+                    </div><!-- /.col -->
+                  </div><!-- /.row -->
+                </div>
+              </div><!-- /.widget-user -->
+            </div><!-- /.col -->
+
                         @endforeach
-                    </tbody>
-                </table>
-                {!! $user_infos->render() !!}
+                
             @else
                 <h3 class="text-center alert alert-info">Empty!</h3>
             @endif

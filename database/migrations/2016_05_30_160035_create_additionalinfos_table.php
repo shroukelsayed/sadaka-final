@@ -14,8 +14,8 @@ class CreateAdditionalInfosTable extends Migration {
 	{
 		Schema::create('additional_infos', function(Blueprint $table) {
             $table->increments('id');
-            $table->dateTime('firsttime');
-            $table->dateTime('nexttime');
+            $table->date('firsttime');
+            $table->date('nexttime');
             $table->integer('ramainingtime');
             $table->integer('person_id')->unsigned()->index();
             $table->foreign('person_id')->references('id')->on('people')->onDelete('cascade');

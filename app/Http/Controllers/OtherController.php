@@ -15,6 +15,7 @@ use App\City;
 use Carbon\Carbon;
 use App\PersonStatus;
 use App\PersonDocument;
+use App\Interval;
 
 use Input;
 
@@ -25,7 +26,12 @@ class OtherController extends Controller {
 
 	public function __construct()
 	{
-	    $this->middleware('auth');
+        if(Auth::guest() || Auth::user()->user_type_id == 4){  
+          
+	    	$this->middleware('auth',['except' =>[ 'show','index']]);
+	    }
+	  	else
+	    	$this->middleware('auth', ['except' => ['index']]);
 	}
 	
 	/**
@@ -36,8 +42,14 @@ class OtherController extends Controller {
 	public function index()
 	{
 		$others = Other::orderBy('id', 'desc')->paginate(10);
+		if(Auth::guest() || Auth::user()->user_type_id == 4){
+            
+            return view('others.other',  compact('others'));
+        }
+        else{
 
-		return view('others.index', compact('others'));
+			return view('others.index', compact('others'));
+		}
 	}
 
 	/**
@@ -197,8 +209,14 @@ class OtherController extends Controller {
 	public function show($id)
 	{
 		$other = Other::findOrFail($id);
+		if(Auth::guest() || Auth::user()->user_type_id == 4){
+            
+            return view('others.more',  compact('other'));
+        }
+        else{
 
-		return view('others.show', compact('other'));
+			return view('others.show', compact('other'));
+		}
 	}
 
 	/**
@@ -243,9 +261,19 @@ class OtherController extends Controller {
         $person_info->gender = $request->input("gender");
         $person_info->maritalstatus = $request->input("maritalstatus");
         $person_info->phone = $request->input("phone");
-        $person_info->city_id = 1;
-        $person_info->governorate_id = 1;
+        $person_info->city_id = $request->input("city_id");
+        $person_info->governorate_id = $request->input("governorate_id");
+        if($request->input("interval_type_id") == 1){
+        	$person->interval_type_id = $request->input("interval_type_id");
+        }else{
+        	$person->interval_type_id = $request->input("interval_type_id");
+        	$interval = new Interval();
+			$interval->numtimes = $request->input("numtimes");
+			$interval->person_id = $person->id;
+			$interval->save();
+        }
 		
+
 		$other->description = $request->input("description");
 
 		$person->person_status_id = 1;
@@ -259,6 +287,7 @@ class OtherController extends Controller {
 	        $docs = $person->personDocs;
 	        foreach ($docs as $personDoc) {
 	        	$personDoc->document=$fileName;
+	        	$personDoc->desc = $request->input("desc");
 	    		$personDoc->save();
 	        }	
 	    }	

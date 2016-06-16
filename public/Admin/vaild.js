@@ -1,14 +1,25 @@
-$(document).ready(function(){  
 
-      $("#enddate").change(function () {
-          var startDate = document.getElementById("startdate").value;
-          var endDate = document.getElementById("enddate").value;
-          if ((Date.parse(startDate) >= Date.parse(endDate))) {
-              alert("End date should be greater than Start date");
-              document.getElementById("enddate").value = "";
-          }
+$(document).ready(function(){
+
+    //dropdownlist governartor 
+
+    $('#governorate').on('change',function(e){
+
+    console.log(e);
+    var governrate_id =e.target.value;
+
+    //Ajax
+
+  $.get('/ajax-governrate?governorate_id='+ governrate_id,function(data){
+         $('#city').empty();
+        console.log(data);
+        $.each(data,function(index,cityobj){
+
+          $('#city').append('<option value="'+cityobj.id+'">'+cityobj.name+'</option>');
+
+          });
       });
-
+  });
       //---------- vaild title Compaign-----------
       $('#title').blur(function() {
         $('span.error-keyup-2').remove();
@@ -57,7 +68,7 @@ $(document).ready(function(){
     $('#name-field').blur(function() {
         $('span.error-keyup-2').remove();
         var inputVal = $(this).val();
-        var characterReg = /^[a-zA-Z\s]*$/;
+        var characterReg = /^\s*[a-zA-Z\s]+\s*$/;
         if(!characterReg.test(inputVal)) {
             $(this).after('<span class="error error-keyup-2">No special characters allowed.</span>');
             $(this).focus();
@@ -76,15 +87,15 @@ $(document).ready(function(){
         }
     });
 
-    //---------- vaild Phone blood-----------
-    // $('.keyup-phone').keyup(function() {
-    //     $('span.error-keyup-4').remove();
-    //     var inputVal = $(this).val();
-    //     var characterReg = /^[2-9]\d{2}-\d{3}-\d{4}$/;
-    //     if(!characterReg.test(inputVal)) {
-    //         $(this).after('<span class="error error-keyup-4">Format xxx-xxx-xxxx</span>');
-    //     }
-    // });
+   $('#phone-field').blur(function() {
+        $('span.error-keyup-2').remove();
+        var inputVal = $(this).val();
+        var characterReg = /^[0-9]{11}$/;
+        if(!characterReg.test(inputVal)) {
+            $(this).after('<span class="error error-keyup-2">phone must be 11 numbers</span>');
+            $(this).focus();
+        }
+    }); 
 
 
     //---------- vaild Amount blood-----------    
@@ -144,5 +155,7 @@ $(document).ready(function(){
             $(this).focus();
         }
     });
-   
-}); 
+
+ });   
+//------------------------------------------------------
+

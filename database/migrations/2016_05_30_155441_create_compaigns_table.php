@@ -16,8 +16,8 @@ class CreateCompaignsTable extends Migration {
             $table->increments('id');
             $table->string('title');
             $table->text('location');
-            $table->dateTime('startDate');
-            $table->dateTime('endDate');
+            $table->date('startdate');
+            $table->date('enddate');
             $table->double('budget');
             $table->text('description');
             $table->integer('owner')->unsigned()->index();

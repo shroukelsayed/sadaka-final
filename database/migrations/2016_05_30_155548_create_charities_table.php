@@ -14,8 +14,8 @@ class CreateCharitiesTable extends Migration {
 	{
 		Schema::create('charities', function(Blueprint $table) {
             $table->increments('id');
-            $table->integer('taxnum');
-            $table->dateTime('publishdate');
+            $table->string('taxnum');
+            $table->date('publishdate');
             $table->integer('user_id')->unsigned()->index()->unique();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

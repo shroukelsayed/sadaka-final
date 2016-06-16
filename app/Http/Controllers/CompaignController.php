@@ -4,10 +4,23 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Governorate;
 use App\City;
+use Auth;
 use App\Compaign;
 use Illuminate\Http\Request;
+use Input;
+
 
 class CompaignController extends Controller {
+	
+	public function __construct()
+	{
+        if(Auth::guest() || Auth::user()->user_type_id == 4){  
+          
+	    	$this->middleware('auth',['except' =>[ 'show','index','comps']]);
+	    }
+	  	else
+	    	$this->middleware('auth', ['except' => ['index']]);
+	}
 
 	/**
 	 * Display a listing of the resource.
@@ -49,43 +62,37 @@ class CompaignController extends Controller {
 	public function store(Request $request)
 	{
 		
-		// try{
-		// 	$this->validate($request, [
-		//         'title' => 'required|max:255',
-		//         'location' => 'required',
-		//         'startdate' => 'required',
-		//         'enddate' => 'required',
-		//         'budget' => 'required',
-		//         'description' => 'required',
-		//         'city_id' => 'required',
-		//         'governrate' => 'required',
-		//         'city' => 'required'
-
-	 //    	]);
-
-	    	$compaign = new Compaign();
-			$compaign->title = $request->input("title");
-	        $compaign->location = $request->input("location");
-	        $compaign->startdate = $request->input("startdate");
-	        $compaign->enddate = $request->input("enddate");
-	        $compaign->budget = $request->input("budget");
-	        $compaign->description = $request->input("description");
-	        $compaign->governorate_id = $request->input("governrate");
-	        $compaign->city_id = $request->input("city");
-	        // $compaign->governorate_id=1;
-	        // $compaign->city_id=1;
-	        $compaign->owner=1;
-
-			$compaign->save();
-
-			return redirect()->route('compaigns.index')->with('message', 'Item created successfully.');
-		// }
 		
-		// catch (\Exception $e){
+    	$compaign = new Compaign();
+		$compaign->title = $request->input("title");
+        $compaign->location = $request->input("location");
+        $compaign->startdate = $request->input("startdate");
+        $compaign->enddate = $request->input("enddate");
+        $compaign->budget = $request->input("budget");
+        $compaign->description = $request->input("description");
+        $compaign->governorate_id = $request->input("governorate");
+        $compaign->city_id = $request->input("city");
+        
+        $compaign->owner=Auth::user()->id;
 
-		// 	 return redirect()->route('compaigns.create');
-		// }		
+        if ($request->hasFile('image')) {
+        $file = array('image' => Input::file('image'));
+        $destinationPath = 'compagin/'; // upload path
+        $extension = Input::file('image')->getClientOriginalExtension(); 
+        $fileName = rand(11111,99999).'.'.$extension; // renaming image
+        Input::file('image')->move($destinationPath, $fileName);
+       
+    	$compaign->image=$fileName;
+    		
+        }
+        else
+       {
+        echo "Please Upload Your Profile Image!";
+       }
 
+		$compaign->save();
+
+		return redirect()->route('compaigns.index')->with('message', 'Item created successfully.');
 		
 	}
 
@@ -98,8 +105,14 @@ class CompaignController extends Controller {
 	public function show($id)
 	{
 		$compaign = Compaign::findOrFail($id);
+		if(Auth::guest() || Auth::user()->user_type_id == 4){
+            
+            return view('compaigns.more',  compact('compaign'));
+        }
+        else{	
 
-		return view('compaigns.show', compact('compaign'));
+			return view('compaigns.show', compact('compaign'));
+		}
 	}
 
 	/**
@@ -112,9 +125,9 @@ class CompaignController extends Controller {
 	{
 		$compaign = Compaign::findOrFail($id);
 		$governrates=Governorate::all();
-		$city=City::all();	
+		$cities=City::all();	
 
-		return view('compaigns.edit', compact('compaign','governrates','city'));
+		return view('compaigns.edit', compact('compaign','governrates','cities'));
 	}
 
 	/**
@@ -126,14 +139,26 @@ class CompaignController extends Controller {
 	 */
 	public function update(Request $request, $id)
 	{
-		$compaign = Compaign::findOrFail($id);
-
+		$compaign = Compaign::findOrFail($id);	
 		$compaign->title = $request->input("title");
         $compaign->location = $request->input("location");
         $compaign->startdate = $request->input("startdate");
         $compaign->enddate = $request->input("enddate");
+     	$compaign->governorate_id = $request->input("governorate");
+        $compaign->city_id = $request->input("city_id");
         $compaign->budget = $request->input("budget");
         $compaign->description = $request->input("description");
+
+        if ($request->hasFile('image')) {
+	        $file = array('image' => \Input::file('image'));
+	        $destinationPath = 'compagin/'; // upload path
+	        $extension = \Input::file('image')->getClientOriginalExtension(); 
+	        $fileName = rand(11111,99999).'.'.$extension; // renaming case_doc
+	        \Input::file('image')->move($destinationPath, $fileName);
+	        	$compaign->image=$fileName;
+	    		    	
+	    }	
+
 
 		$compaign->save();
 

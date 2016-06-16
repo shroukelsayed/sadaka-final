@@ -11,6 +11,8 @@
             </div>
         </form>
     </div>
+    <script src="/Admin/jquery-1.11.3.min.js" type="text/javascript"></script>
+    <script src="/Admin/vaild.js" type="text/javascript"></script>
 @endsection
 
 @section('content')
@@ -54,16 +56,6 @@
                             {{$p->donationType->type}}</p>
                      @endforeach
                 </div> 
-
-               
-                     <div class="form-group">
-                     <label for="Amount">Blood Type</label>
-                     
-                     @foreach($person_info->people as $b)
-                         <p class="form-control-static">
-                            {{$b->blood->bloodtype}}</p>
-                     @endforeach
-                </div>  
             </form>
 
             <a class="btn btn-link" href="{{ route('person_infos.index') }}"><i class="glyphicon glyphicon-backward"></i>  Back</a>

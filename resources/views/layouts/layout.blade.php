@@ -2,7 +2,7 @@
 <html class="no-js">
     <head>
         <meta charset="utf-8">
-        <title>@lang('validation.sadaka')</title>
+        <title>SADAKA | Charity / Non-profit responsive Bootstrap HTML5 template</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Bootsrap -->
@@ -85,31 +85,26 @@
 
                     <ul class="nav navbar-nav">
 
-                        <li><a  href="{{URL::to('/')}}">@lang('validation.home')</a></li>
-                        <li><a href="#contact">@lang('validation.contact')</a></li>
-                        <li class="has-child"><a href="{{URL::to('/cases')}}">@lang('validation.cases')</a>
+                        <li><a  href="{{URL::to('/')}}">HOME</a></li>
+                        <li><a href="#contact">CONTACT</a></li>
+                        <li class="has-child"><a href="{{URL::to('/cases')}}">CASES</a>
 
                             <ul class="submenu">
-                                <li class="submenu-item"><a href="{{URL::to('/cases')}}">
-                                @lang('validation.AllCases') </a></li>
-                                <li class="submenu-item"><a href="{{URL::to('/bloods')}}">@lang('validation.BloodCases') </a></li>
-                                <li class="submenu-item"><a href="{{URL::to('/money')}}">
-                                @lang('validation.MoneyCases')</a></li>
-                                <li class="submenu-item"><a href="{{URL::to('/medicines')}}">
-                                @lang('validation.MedicineCases')</a></li>
-                                <li class="submenu-item"><a href="{{URL::to('/others')}}">
-                                @lang('validation.OtherCases')</a></li>
+                                <li class="submenu-item"><a href="{{URL::to('/cases')}}">Cases list </a></li>
+                                <li class="submenu-item"><a href="{{URL::to('/money')}}">Mony Cases </a></li>
+                                <li class="submenu-item"><a href="{{URL::to('/bloods')}}">Blood Cases </a></li>
+                                <li class="submenu-item"><a href="{{URL::to('/medicines')}}">Medicine Cases </a></li>
                             </ul>
+
+
                         </li>
-                        <li><a href="{{URL::to('/comp')}}">@lang('validation.compaigns')</a></li>
+                        <li><a href="{{URL::to('/comp')}}">COMPAIGNS</a></li>
                    
 
-                        @if (Auth::guest()) <li><a href="{{ url('/login') }}">
-                        @lang('validation.login') / @lang('validation.register')
-                        </a></li>
+                        @if (Auth::guest()) <li><a href="{{ url('/login') }}">LOGIN / REGISTER</a></li>
                         @elseif(Auth::user()->user_type_id == 2)
-                         <li><a href="{{ route('user_infos.show',Auth::user()->charity->id )}}" >PROFILE</a></li><li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> {{ Auth::user()->name }} <span class="caret"></span> </a> <ul class="dropdown-menu" role="menu"> <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>@lang('validation.logout')</a></li> </ul> </li>
-                        @else <li><a href="{{ route('user_infos.show',Auth::user()->userInfo->id )}}" >PROFILE</a></li><li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> {{ Auth::user()->name }} <span class="caret"></span> </a> <ul class="dropdown-menu" role="menu"> <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>@lang('validation.logout')</a></li> </ul> </li> @endif
+                         <li><a href="{{ route('user_infos.show',Auth::user()->charity->id )}}" >PROFILE</a></li><li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> {{ Auth::user()->name }} <span class="caret"></span> </a> <ul class="dropdown-menu" role="menu"> <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>logout</a></li> </ul> </li>
+                        @else <li><a href="{{ route('user_infos.show',Auth::user()->userInfo->id )}}" >PROFILE</a></li><li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> {{ Auth::user()->name }} <span class="caret"></span> </a> <ul class="dropdown-menu" role="menu"> <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>logout</a></li> </ul> </li> @endif
 
 
                     </ul>
@@ -130,9 +125,9 @@
 
     <div class="container zoomIn animated">
       
-      <h1 class="page-title">@lang('validation.sadaka')<span class="title-under"></span></h1>
+      <h1 class="page-title">SADAKA <span class="title-under"></span></h1>
       <p class="page-description">
-       @lang('validation.slug')
+       Together we can improve their lives
       </p>
       
     </div>

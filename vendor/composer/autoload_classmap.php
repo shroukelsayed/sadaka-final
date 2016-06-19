@@ -8,10 +8,11 @@ $baseDir = dirname($vendorDir);
 return array(
     'AddApprovedToUsers' => $baseDir . '/database/migrations/2016_06_04_082728_add_approved_to_users.php',
     'AddCreditToCharities' => $baseDir . '/database/migrations/2016_06_15_113840_add_credit_to_charities.php',
-    'AddDescToPeople' => $baseDir . '/database/migrations/2016_06_15_110558_add_desc_to_people.php',
+    'AddDescToPeople' => $baseDir . '/database/migrations/2016_06_17_095323_add_desc_to_people.php',
     'AddDescToPersonDocuments' => $baseDir . '/database/migrations/2016_06_13_122713_add_desc_to_person_documents.php',
     'AddEndDateToBloods' => $baseDir . '/database/migrations/2016_06_13_122459_add_end_date_to_bloods.php',
     'AddImageToCompaigns' => $baseDir . '/database/migrations/2016_06_11_133448_add_image_to_compaigns.php',
+    'AddNationalIdToPersonInfos' => $baseDir . '/database/migrations/2016_06_16_120705_add_national_id_to_person_infos.php',
     'AddPaidToMoney' => $baseDir . '/database/migrations/2016_06_15_112435_add_paid_to_money.php',
     'AddPaymentToUserpeople' => $baseDir . '/database/migrations/2016_06_15_113142_add_payment_to_userpeople.php',
     'AddTitleToPeople' => $baseDir . '/database/migrations/2016_06_15_110607_add_title_to_people.php',

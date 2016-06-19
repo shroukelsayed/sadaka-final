@@ -21,6 +21,7 @@ use App\Governorate;
 use App\City;
 use App\Interval;
 use App\PersonDocument;
+use App\PersonStatus;
 
 use Illuminate\Http\Request;
 
@@ -28,7 +29,8 @@ class PersonController extends Controller {
 
 	public function __construct()
 	{
-	    $this->middleware('auth', ['except' => ['index','cases']]);
+	    $this->middleware('auth', ['except' => ['cases','allCasesByCityName','allCasesByStatusName']]);
+	    $this->middleware('role',['except' => ['cases','allCasesByCityName','allCasesByStatusName']]);
 	}
 	/**
 	 * Display a listing of the resource.
@@ -37,9 +39,11 @@ class PersonController extends Controller {
 	 */
 	public function index()
 	{
-		$personinfo = Person::orderBy('id', 'desc')->paginate(10);
-
-		return view('people.index', compact('personinfo'));
+		$personinfo = Person::where('person_status_id','!=','3')->where('user_id','=',Auth::user()->id)->get();
+		
+        $cities = DB::table('cities')->select('name')->get();
+        $statuses = DB::table('person_statuses')->select('type')->get();
+		return view('people.index', compact('personinfo','statuses','cities'));
 	}
 	
 	public function cases()
@@ -84,6 +88,7 @@ class PersonController extends Controller {
 				$person_info = PersonInfo::findOrFail($request->input("checked_person"));
 			}else{
 				$person_info = new PersonInfo();
+				$person_info->nationalid = $request->input("national_id");
 				$person_info->name = $request->input("name");
 		        $person_info->address = $request->input("address");
 		        $person_info->birthDate = $request->input("birthdate");
@@ -114,6 +119,8 @@ class PersonController extends Controller {
 			$person = new Person();
 			$person->user_id = Auth::user()->id;
 			$person->person_info_id = $person_info->id;
+			$person->title = $request->input("title");
+			$person->desc = $request->input("casedesc");
 			$person->publishat = Carbon::now();
 
 			// third stage:
@@ -141,8 +148,6 @@ class PersonController extends Controller {
 			        $blood->hospital = $request->input("hospital");
 			        $blood->address = $request->input("address");
 			        $blood->end_date = $request->input("end_date");
-			        $blood->city_id = $request->c_id;
-			        $blood->governorate_id = $request->g_id;
 			        $blood->person_id = $person->id;
 					$blood->save();
 				} catch(ValidationException $e)
@@ -435,9 +440,8 @@ class PersonController extends Controller {
 	{
 		if ($request->input("action")=="person_name")
 		{	
-			$name=PersonInfo::where('name','LIKE', '%' . $request->input("person_name"). '%')->get();
-			// echo "<pre>";
-			// var_dump($name); die;
+			$name=PersonInfo::where('nationalid','LIKE', '%' . $request->input("person_name"). '%')->orWhere('name','LIKE', '%' . $request->input("person_name"). '%')->get();
+	
 			return $name;
 		}
 	}
@@ -448,6 +452,39 @@ class PersonController extends Controller {
 		// echo "<pre>";
 		// var_dump($cases);die;
 		return view('people.periodicCases',compact('personinfo'));
+	}
+
+	public function allCasesByCityName($city)
+	{
+		$city_name = City::where('name',$city)->first();
+		
+		$personinfo = PersonInfo::where('city_id','=',$city_name->id)->get();
+        $cities = DB::table('cities')->select('name')->get();
+        foreach ($personinfo as $p) {
+        	foreach ($p->people as $k) {
+        		foreach ($k->personDocs as $doc) {
+        			// var_dump($d);die;
+        		}	
+        	}
+        }
+        
+        if(Auth::guest() || Auth::user()->user_type_id == 4){
+        	return view('people.casesByCityName',compact('personinfo','cities','doc'));
+        }else{
+			return view('people.allCasesByCityName',compact('personinfo','cities'));	
+        }	
+	}
+
+	public function allCasesByStatusName($status)
+	{
+		$status_name = PersonStatus::where('type',$status)->first();
+		
+		$personinfo = Person::where('person_status_id','=',$status_name->id)->get();
+
+        $statuses = DB::table('person_statuses')->select('type')->get();
+        
+		return view('people.allCasesByStatusName',compact('personinfo','statuses'));	
+        	
 	}
 
 }

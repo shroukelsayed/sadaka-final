@@ -1,11 +1,6 @@
 @extends((Auth::user()->user_type_id == 2 or Auth::user()->user_type_id == 3 ) ? 'layouts.adminlayout' : 'layout')
 @section('header')
-<div class="page-header">
-    <div class="btn-group pull-right" role="group" aria-label="...">
-        <a class="btn btn-primary btn-group" role="group" href="{{ route('medicines.edit', $medicine->id) }}"><i class="glyphicon glyphicon-edit"></i> Edit</a>
-    </div>
-        
-</div>
+
 <link rel="stylesheet" type="text/css" media="screen" href="http://cdnjs.cloudflare.com/ajax/libs/fancybox/1.3.4/jquery.fancybox-1.3.4.css" />
 
 <style>
@@ -62,13 +57,16 @@ a.fancybox:hover img {
               <div class="box box-widget widget-user-2">
                 <!-- Add the bg color to the header using any of the bg-* classes -->
                 <div class="widget-user-header" style="background-color: #EDB6B6;">
+                    <div class="btn-group pull-right" role="group" aria-label="...">
+                        <a class="btn btn-primary btn-group" role="group" href="{{ route('medicines.edit', $medicine->id) }}" style="margin-right: 20px; margin-top: 10px;"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+                    </div>
                   <div class="widget-user-image">
                     <img class="img-circle" style="width: 120px;height: 70px;" src="{{ asset("img/1.png") }}" alt="User Avatar">
                   </div><!-- /.widget-user-image -->
                   <h3 class="widget-user-username" style="margin-left:150px; ">{{$medicine->person->personInfo->name}}</h3>
                   <h7 class="widget-user-desc" style="margin-left:30px; ">
                   <i class="fa fa-clock-o" aria-hidden="true"></i>
-                    Published At : {{$medicine->person->publishat}}</h7>
+                    Published At : {{date('F d, Y', strtotime($medicine->person->publishat))}}</h7>
                   
                 </div>
                 <div class="box-footer no-padding">
@@ -78,6 +76,13 @@ a.fancybox:hover img {
                             <div class="col-md-3"><strong><i class="fa fa-user" aria-hidden="true"></i>
                             <label for="nome">Case Name</label></strong></div>
                             <div class="col-md-9"><h7 style="margin-left: 40px;" class="form-control-static">{{$medicine->person->personInfo->name}}</h7></div>
+                        </div>
+                    </a></li>
+                    <li><a>
+                        <div class="row">
+                            <div class="col-md-3"><strong><i class="fa fa-list-alt" aria-hidden="true"></i>
+                            <label for="name">National ID</label></strong></div>
+                            <div class="col-md-9"><h7 style="margin-left: 40px;" class="form-control-static">{{$medicine->person->personInfo->nationalid}}</h7></div>
                         </div>
                     </a></li>
                     <li><a>
@@ -103,6 +108,27 @@ a.fancybox:hover img {
                     </a></li>
                     <li><a>
                         <div class="row">
+                            <div class="col-md-3"><strong><i class="fa fa-th-list" aria-hidden="true"></i>
+                            <label for="description">Title</label></strong></div>
+                            <div class="col-md-9"><h7 style="margin-left: 40px;" class="form-control-static">{{$medicine->person->title}}</h7></div>
+                        </div>
+                    </a></li>
+                    <li><a>
+                        <div class="row">
+                            <div class="col-md-3"><strong><i class="fa fa-align-justify" aria-hidden="true"></i>s
+                            <label for="phone">Description</label></strong></div>
+                            <div class="col-md-9"><h7 style="margin-left: 40px;" class="form-control-static">{{$medicine->person->desc}}</h7></div>
+                        </div>
+                    </a></li>
+                    <li><a>
+                        <div class="row">
+                            <div class="col-md-3"><strong><i class="fa fa-clock-o" aria-hidden="true"></i>
+                            <label for="phone">Status</label></strong></div>
+                            <div class="col-md-9"><h7 style="margin-left: 40px;" class="form-control-static">{{$medicine->person->personStatus->type}}</h7></div>
+                        </div>
+                    </a></li>
+                    <li><a>
+                        <div class="row">
                             <div class="col-md-3"><strong><i class="fa fa-calendar" aria-hidden="true"></i>
                             <label for="birthdate">Birth Date</label></strong></div>
                             <div class="col-md-9"><h7 style="margin-left: 40px;" class="form-control-static">{{$medicine->person->personInfo->birthdate}}</h7></div>
@@ -110,13 +136,17 @@ a.fancybox:hover img {
                     </a></li>
                     <li><a>
                         <div class="row">
-                            <div class="col-md-3"><label for="gender">Gender</label></div>
+                            <div class="col-md-3">
+                            <i class="fa fa-male" aria-hidden="true"></i>/<i class="fa fa-female" aria-hidden="true"></i> 
+                            <label for="gender">Gender</label></div>
                             <div class="col-md-9"><h7 style="margin-left: 40px;" class="form-control-static">{{$medicine->person->personInfo->gender}}</h7></div>
                         </div>
                     </a></li>
                      <li><a>
                         <div class="row">
-                            <div class="col-md-3"><label for="maritalstatus">Marital Status</label></div>
+                            <div class="col-md-3">
+                            <i class="fa fa-circle-o" aria-hidden="true"></i>
+                            <label for="maritalstatus">Marital Status</label></div>
                             <div class="col-md-9"><h7 style="margin-left: 40px;" class="form-control-static">{{$medicine->person->personInfo->maritalstatus}}</h7></div>
                         </div>
                     </a></li>

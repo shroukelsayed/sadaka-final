@@ -1,14 +1,23 @@
 @extends(( (isset(Auth::user()->id) and Auth::user()->user_type_id ) == 2 or ( isset(Auth::user()->id) and Auth::user()->user_type_id == 3 )) ? 'layouts.adminlayout' : 'layout')
 @section('header')
+
+<div class="row pull-right">
+    <div id="filterSelect" class="col-md-12">
+        <label> Select Blood Type </label>
+        <select class="form-control" onChange="window.location.href=this.value">
+          <option selected >Plz Choose Bloodtype</option>
+          @foreach($bloodtypes as $bloodtype)
+          <option value='{{URL::to("allCasesByBloodType","$bloodtype->bloodtype" )}}'>{{$bloodtype->bloodtype}}</option>
+          @endforeach
+        </select>
+    </div>
+</div>
     <div class="page-header clearfix">
     <h1 style="margin-left: 80px;">
         <i class="glyphicon glyphicon-align-justify"></i>Blood Cases
     </h1>
 </div>
-<ol class="breadcrumb">
-        <li><a href="{{URL::to('/admin')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="{{URL::to('/logout')}}"> logout</a> </li>
-    </ol>
+
     <script src="/Admin/jquery-1.11.3.min.js" type="text/javascript"></script>
     <script src="/Admin/vaild.js" type="text/javascript"></script>
 @endsection

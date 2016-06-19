@@ -8,6 +8,16 @@
     <script src="/Admin/vaild.js" type="text/javascript"></script>
     <script>
       $(document).ready(function () {
+        //------------- DateTime Picker ----------------
+           $("#datetimepicker").keydown(function(event){
+                event.preventDefault();          
+            }); 
+
+            $("#datetimepicker").datepicker({
+                dateFormat: 'yy/mm/dd'
+            }); 
+
+        
         $('#governorate_id_field').change(function(){
                   $.get("{{ url('api/dropdown')}}", 
                       { option: $(this).val() }, 
@@ -25,7 +35,7 @@
       
     </script>
     <div class="page-header">
-        <h1><i class="glyphicon glyphicon-edit"></i> PersonInfos / Edit #{{$person_info->id}}</h1>
+        <h1><i class="glyphicon glyphicon-edit"></i> {{$person_info->name}}</h1>
     </div>
 @endsection
 
@@ -39,16 +49,18 @@
                 <input type="hidden" name="_method" value="PUT">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
+                <fieldset style="border: 2px solid lightgray;padding: 20px;margin-bottom: 20px;">
+                  <legend>Update Information</legend>
                 <div class="form-group @if($errors->has('name')) has-error @endif">
                        <label for="name-field">Name</label>
-                    <textarea class="form-control" id="name-field" rows="3" name="name">{{ $person_info->name }}</textarea>
+                    <input required type="text" class="form-control" id="name-field" rows="3" name="name" value="{{ $person_info->name }}"/>
                        @if($errors->has("name"))
                         <span class="help-block">{{ $errors->first("name") }}</span>
                        @endif
                     </div>
                     <div class="form-group @if($errors->has('address')) has-error @endif">
                        <label for="address-field">Address</label>
-                    <textarea class="form-control" id="address-field" rows="3" name="address">{{ $person_info->address }}</textarea>
+                    <input required type="text" class="form-control" id="address-field" rows="3" name="address" value="{{ $person_info->address }}"/>
                        @if($errors->has("address"))
                         <span class="help-block">{{ $errors->first("address") }}</span>
                        @endif
@@ -74,7 +86,7 @@
                     </div>
                     <div class="form-group @if($errors->has('birthdate')) has-error @endif">
                        <label for="birthdate-field">BirthDate</label>
-                    <input type="text" id="birthdate-field" name="birthdate" class="form-control" value="{{ $person_info->birthdate }}"/>
+                    <input required type="text" id="datetimepicker" name="birthdate" class="form-control" value="{{ $person_info->birthdate }}"/>
                        @if($errors->has("birthdate"))
                         <span class="help-block">{{ $errors->first("birthdate") }}</span>
                        @endif
@@ -125,11 +137,12 @@
                     </div>
                     <div class="form-group @if($errors->has('phone')) has-error @endif">
                        <label for="phone-field">Phone</label>
-                    <input type="text" id="phone-field" name="phone" class="form-control" value="{{ $person_info->phone }}"/>
+                    <input required type="text" id="phone-field" name="phone" class="form-control" value="{{ $person_info->phone }}"/>
                        @if($errors->has("phone"))
                         <span class="help-block">{{ $errors->first("phone") }}</span>
                        @endif
                     </div>
+                    </fieldset>
                 <div class="well well-sm">
                     <button type="submit" class="btn btn-primary">Save</button>
                     <a class="btn btn-link pull-right" href="{{ route('person_infos.index') }}"><i class="glyphicon glyphicon-backward"></i>  Back</a>

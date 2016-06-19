@@ -17,7 +17,7 @@ class AdminMiddleware
      */
     public function handle($request, Closure $next )
     {
-        if (!(Auth::guest()) and Auth::user()->user_type_id == 1 ){
+        if (!(Auth::guest()) and Auth::user()->user_type_id == 1 and Auth::user()->approved == 1){
             return $next($request);
         }
         else {

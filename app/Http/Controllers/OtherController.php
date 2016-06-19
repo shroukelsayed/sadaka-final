@@ -251,18 +251,9 @@ class OtherController extends Controller {
 		// Getting Case with it's all info ..
 		$other = Other::findOrFail($id);
 		$person = Person::findOrFail($other->person_id);
-		$person_info = $person->personInfo;
 
 		// Second Stage:
 		// Getting new Data .. 
-		$person_info->name = $request->input("name");
-        $person_info->address = $request->input("address");
-        $person_info->birthDate = $request->input("birthdate");
-        $person_info->gender = $request->input("gender");
-        $person_info->maritalstatus = $request->input("maritalstatus");
-        $person_info->phone = $request->input("phone");
-        $person_info->city_id = $request->input("city_id");
-        $person_info->governorate_id = $request->input("governorate_id");
         if($request->input("interval_type_id") == 1){
         	$person->interval_type_id = $request->input("interval_type_id");
         }else{
@@ -276,7 +267,7 @@ class OtherController extends Controller {
 
 		$other->description = $request->input("description");
 
-		$person->person_status_id = 1;
+		$person->person_status_id = $request->input("status_type_id");
 		
 		if ($request->hasFile('case_doc')) {
 	        $file = array('case_doc' => \Input::file('case_doc'));
@@ -295,7 +286,6 @@ class OtherController extends Controller {
 
 		// Third Stage:
 		// Saving Case object ..
-		$person_info->save();
 		$person->save();
 		$other->save();
 

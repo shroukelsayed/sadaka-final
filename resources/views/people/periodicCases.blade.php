@@ -6,14 +6,7 @@
          Cases
     </h1>
 </div>
-<ol class="breadcrumb">
-    @if(Auth::user()->user_type_id  == 1)
-      <li><a href="{{URL::to('/admin')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-    @else
-      <li><a href="{{URL::to('/people')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-    @endif
-    <li><a href="{{URL::to('/logout')}}"> logout</a> </li>
-</ol>
+
 <script src="/Admin/jquery-1.11.3.min.js" type="text/javascript"></script>
     <script src="/Admin/vaild.js" type="text/javascript"></script>
 @endsection

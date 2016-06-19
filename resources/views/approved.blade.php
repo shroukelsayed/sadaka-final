@@ -10,7 +10,15 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Request Pendding</div>
                 <div class="panel-body" style="height: 300px; text-align: center;padding: 50px;">
-                    <h3 style="font-family: tahoma;">Plz , wait whlie Admin approve your request .</h3>
+                    <h3 style="font-family: tahoma;">@lang('validation.approveMsg')</h3>
+                    @if(isset(Auth::user()->id) and (Auth::user()->approved == 0 and Auth::user()->why != "" ))
+                        <h3> 
+                            @lang('validation.msgWhy')
+                        </h3>
+                        <h4>
+                            <a href="mailto:sadakateam@gmail.com">sadakateam@gmail.com</a>
+                        </h4>
+                    @endif
                 </div>
             </div>
         </div>

@@ -1,4 +1,4 @@
-@extends('layouts.header')
+@extends('layouts.layout')
 @section('content')
 <div class="section-home our-causes animate-onscroll fadeIn">
 
@@ -13,38 +13,22 @@
                 <div class="col-md-3 col-sm-6">
 
                     <div class="cause">
-            
-                        <div class="progress cause-progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 30%;">
-                                10$ / 500$
-             </div>
-                        </div>
-
                             <h4 class="cause-title" style='text-transform:uppercase'>
-
-
-                                            <a class="is-active" href="{{ route('money.show',$one->id) }}"><h1>{{$one->person->personInfo->name}}</h1></a></h4>              
+                                @foreach($one->person->personDocs as $doc)
+                                    <?php $img=$doc->document;?>
+                                @endforeach
+                                <img id="xx" src="{{ asset("Case/PersonDocument/money/$doc->document") }}" alt="$doc->document">
+                                <a class="is-active" href="{{ route('money.show',$one->id) }}"><h3>{{$one->person->title}}</h3></a></h4>              
                             
                             <div class="cause-details" id="mycase">
-                                <label>ADDRESS: </label><span> {{ $one->person->personInfo->address }}</span><br/>
-                                <label>CHARITY: </label><span> {{ $one->person->user->name }}</span><br/>
-                                <label>AMOUNT: </label><span>{{ $one->amount }}.LE</span><br/>
-                                <label>INTERVAL TYPE: </label><span> {{ $one->person->intervaltype->type }}</span><br/>
-
-
+                                <p><h4> {{$one->person->desc}}</h4></p>
                             </div>
 
                             <div class="btn-holder text-center">
 
-                                @if (Auth::guest())
-                                    <a href="{{ url('/login') }}" class="btn btn-primary" > DONATE NOW</a>
-
-                                @else
-
-
-                                    <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#donateModal"> DONATE NOW</a>
+                                <a href="{{ route('money.show',$one->id) }}" class="btn btn-primary" > DONATE NOW</a>
                                     
-                                @endif
+                                
 
                             </div>
 
@@ -206,59 +190,6 @@
 
 </footer>
 
-<div class="modal fade" id="donateModal" tabindex="-1" role="dialog" aria-labelledby="donateModalLabel" aria-hidden="true">
-
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="donateModalLabel">DONATE NOW</h4>
-            </div>
-            <div class="modal-body">
-               
-                <form class="form-donation" action="{{ route('userpeople.store') }}" method="POST">
-                    <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
-                     
-
-                    <h3 class="title-style-1 text-center">Thank you for your donation <span class="title-under"></span>  </h3>
-
-                    <div class="row">
-
-                        <div class="form-group col-md-12 ">
-                            @if($money->count())
-                                @foreach($money as $one)
-                                    <?php $case_id= $one->person->id;
-                                    echo "<input type='hidden' name='id' value='$case_id '>";
-                                    ?>
-                                @endforeach
-                                    <input type="text" class="form-control" name="amount"  id="amount" placeholder="AMOUNT OF MONEY:-">
-                            @endif    
-                        </div>
-                    </div>
-
-                    <div class="row">
-
-                        <div class="form-group col-md-12">
-                            <input type="date" class="form-control" name="date" placeholder="DATE">
-                        </div>
-
-                    </div>
-
-
-                    <div class="row">
-
-                        <div class="form-group col-md-12">
-                            <button type="submit" class="btn btn-primary pull-right" name="donateNow" >DONATE NOW</button>
-                        </div>
-
-                    </div>
-                </form>
-
-            </div>
-        </div>
-    </div>
-
-</div>
 
 <!-- jQuery -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>

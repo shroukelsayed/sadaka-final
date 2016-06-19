@@ -31,8 +31,15 @@ Route::group(['middleware' => ['web']], function () {
 	Route::group(['middleware' => ['auth' ,'role']], function () {
 		
 		// routes --> by shrouk 
-		
+
+		Route::get('/changePassword/{id}','UserInfoController@changePassword');
+		Route::post('/change','UserInfoController@change');
+
 		// end routes --> by shrouk
+		Route::get('/home', [ function(){
+    	
+		    },'uses' => 'CharityController@home'
+		]);
 	});
 
 
@@ -43,8 +50,9 @@ Route::group(['middleware' => ['web']], function () {
 	Route::post('disapproveCharity/{charity_id}','CharityController@disapprove');
 		
 
-	Route::resource("user_infos","UserInfoController");
-	Route::resource("charities","CharityController");
+	
+		Route::resource("user_infos","UserInfoController");
+		Route::resource("charities","CharityController");
 	Route::resource("compaigns","CompaignController");
 	Route::resource("people","PersonController");
 	Route::resource("person_infos","PersonInfoController"); 
@@ -87,9 +95,14 @@ Route::group(['middleware' => ['web']], function () {
 	Route::post('/people/create','PersonController@check');
 
 	// filtering ...
+
+	Route::get('casesByBloodType','BloodController@casesByBloodType');
 	Route::get('allCasesByBloodType/{bloodtype}','BloodController@allCasesByBloodType');
+	Route::get('casesByMedicineName','MedicineController@casesByMedicineName');
 	Route::get('allCasesByMedicineName/{name}','MedicineController@allCasesByMedicineName');
 	Route::get('periodicCases','PersonController@periodicCases');
-	
+	Route::get('allCasesByCityName/{city}','PersonController@allCasesByCityName');
+	Route::get('allCasesByStatusName/{status}','PersonController@allCasesByStatusName');
+
 	// end routes --> by shrouk
 });

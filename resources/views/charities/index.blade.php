@@ -11,7 +11,11 @@
     <li><a href="{{URL::to('/admin')}}"><i class="fa fa-dashboard"></i> Home</a></li>
     <li><a href="{{URL::to('/logout')}}"> logout</a> </li>
 </ol>
-    
+
+ <script src="/Admin/jquery-1.11.3.min.js" type="text/javascript"></script>
+
+<script src="/Admin/vaild.js" type="text/javascript"></script>
+
 @endsection
 
 @section('content')

@@ -1,15 +1,7 @@
 @extends(( (isset(Auth::user()->id)) and Auth::user()->user_type_id  == 1 or Auth::user()->user_type_id  == 2 or ( isset(Auth::user()->id) and Auth::user()->user_type_id == 3 )) ? 'layouts.adminlayout' : 'layout')
 
 @section('header')
-    <h1>
-        {{$charity->user->name}}
-        <small>Profile</small>
-    </h1>
-
-    <ol class="breadcrumb">
-        <li><a href="{{URL::to('/admin')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="{{URL::to('/logout')}}"> logout</a> </li>
-    </ol>
+  
     <link rel="stylesheet" type="text/css" media="screen" href="http://cdnjs.cloudflare.com/ajax/libs/fancybox/1.3.4/jquery.fancybox-1.3.4.css" />
 
 <style>
@@ -27,18 +19,23 @@
 
         width:250px;
         height:150px;
-        margin-left:150px;
-    }
-
-    #apro{
-
-         margin-top:60px;
-         z-index: 6;
-         margin-right:30px;
+        margin-left:45px;
     }
 
     </style>
 
+     <script src="/Admin/jquery-1.11.3.min.js" type="text/javascript"></script>
+      
+    <script src="/Admin/vaild.js" type="text/javascript"></script>
+    <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X');ga('send','pageview');
+        </script>
+ <div><br></div>  
 @endsection
 @section('content')
 
@@ -65,32 +62,28 @@
     });
     $.noConflict();
 </script>
+<div><br><br></div>
     <div class="row">
         <div class="col-md-12">
-
-            <div id="approve" class="page-header">
-                 <div class="btn-group pull-right" role="group" aria-label="...">
-                @if(Auth::user()->user_type_id === 1)
-                    @if ($charity->user->approved === 0)
-                        <a id="apro" class="btn btn-primary btn-group" name="approve" role="group" href="{!! URL::to('approveCharity',['charity_id'=>$charity->id]) !!}"><i class="glyphicon glyphicon-edit"></i> Approve</a>
-
-                    @elseif ($charity->user->approved === 1)
-
-                        <a style="margin-right: 20px;" href="#" class="btn btn-primary" data-toggle="modal" data-target="#disapproveModel"> Disapprove</a>
-
-                    @endif
-                @else
-                    <a id="apro" class="btn btn-primary btn-group" role="group" href="{{ route('charities.edit', $charity->id) }}"><i class="glyphicon glyphicon-edit"></i> Edit</a>
-                @endif
-            </div>
-        </div>
-
-            
 
              <!-- Widget: user widget style 1 -->
               <div id="info" class="box box-widget widget-user-2">
                 <!-- Add the bg color to the header using any of the bg-* classes -->
                 <div class="widget-user-header" style="background-color: #EDB6B6;">
+                    <div class= "pull-right">
+                        @if(Auth::user()->user_type_id === 1)
+                            @if ($charity->user->approved === 0)
+                                <a  class="btn btn-primary" name="approve" href="{!! URL::to('approveCharity',['charity_id'=>$charity->id]) !!}"><i class="glyphicon glyphicon-edit"></i> Approve</a>
+
+                            @elseif ($charity->user->approved === 1)
+
+                                <a  href="#" class="btn btn-primary" data-toggle="modal" data-target="#disapproveModel"> <i class="glyphicon glyphicon-edit"></i>Disapprove</a>
+
+                            @endif
+                        @else
+                            <a id="apro" class="btn btn-primary" href="{{ route('charities.edit', $charity->id) }}"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+                        @endif
+                    </div>
                   <div class="widget-user-image">
                     <img class="img-circle" style="width: 120px;height: 70px;" src="{{ asset("img/1.png") }}" alt="User Avatar">
                   </div><!-- /.widget-user-image -->
@@ -100,38 +93,61 @@
                 <div class="box-footer no-padding">
                   <ul class="nav nav-stacked">
                     <li><a>
-                        <label for="nationalid">Tax Number</label>
-                        <h7 style="margin-left: 40px;" class="form-control-static">{{$charity->taxnum}}</h7>
+                        <div class="row">
+                            <div class="col-md-3"><strong> 
+                            <label for="nationalid">Tax Number</label></strong></div>
+                            <div class="col-md-9"><h7 style="margin-left: 40px;" class="form-control-static">{{$charity->taxnum}}</h7></div>
+                        </div>
                     </a></li>
                     <li><a>
-                        <label for="gender">E-mail</label>
-                        <h7 style="margin-left: 40px;" class="form-control-static">{{$charity->user->email}}</h7>
+                        <div class="row">
+                            <div class="col-md-3"><strong> 
+                            <label for="gender">E-mail</label></strong></div>
+                            <div class="col-md-9"><h7 style="margin-left: 40px;" class="form-control-static">{{$charity->user->email}}</h7></div>
+                        </div>
+
                     </a></li>
                     <li><a>
-                        <label for="gender">Phone</label>
-                        <h7 style="margin-left: 40px;" class="form-control-static">{{$charity->user->phone}}</h7>
+                    <div class="row">
+                            <div class="col-md-3"><strong> 
+                            <label for="gender">Phone</label></strong></div>
+                            <div class="col-md-9">
+                            <h7 style="margin-left: 40px;" class="form-control-static">{{$charity->user->phone}}</h7></div>
+                        </div>
                     </a></li>
                     <li><a>
-                        <label for="birthdate">Date Of Publicity</label>
-                        <h7 style="margin-left: 40px;" class="form-control-static">{{$charity->publishdate}}</h7>
+                         <div class="row">
+                            <div class="col-md-3"><strong> 
+                            <label for="birthdate">Date Of Publicity</label></strong></div>
+                            <div class="col-md-9">
+                            <h7 style="margin-left: 40px;" class="form-control-static">{{$charity->publishdate}}</h7></div>
+                        </div>
                     </a></li>
                     @foreach($charity->charityAddress as $address) 
                     <li><a>
-                        <strong><i class="fa fa-map-marker margin-r-5"></i>
-                        <label for="address">Address</label></strong>
-                        <h7 style="margin-left: 40px;" class="form-control-static">
-                            {{$address->governorate->name}},
-                            {{$address->city->name}},
-                            {{$address->address}}
+                        <div class="row">
+                            <div class="col-md-3"><strong> 
+                            <i class="fa fa-map-marker margin-r-5"></i>
+                            <label for="address">Address</label></strong></div>
+                            <div class="col-md-9">
+                            <h7 style="margin-left: 40px;" class="form-control-static">
+                                {{$address->governorate->name}},
+                                {{$address->city->name}},
+                                {{$address->address}}
 
-                        </h7>
+                            </h7></div>
+                        </div>
                         
                     </a></li>
                     @endforeach
                     @foreach($charity->charityDocument as $docs)
                     <li><a>
-                        <label for="address">Charity Documents</label>                     
-                            <img id="imgdosc" class="fancybox" src="{{asset("img/$docs->doc")}}" >
+                        <div class="row">
+                            <div class="col-md-3"><strong> 
+                            <label for="address">Charity Documents</label></strong></div>
+                            <div class="col-md-9">                     
+                            <img id="imgdosc" class="fancybox" src="{{asset("img/$docs->doc")}}" ></div>
+                        </div>
                     </a></li>
                     @endforeach
                   </ul>
@@ -161,7 +177,7 @@
                             <form action="{!! URL::to('disapproveCharity',['charity_id'=>$charity->id]) !!}" method="POST">
                                 <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
                          
-                                <label class="form-control">Reason for Disapprove</label>
+                                <label>Reason for Disapprove</label>
                                 <textarea class="form-control" name="why"></textarea>
                                 <button type="submit" class="btn btn-primary pull-right" style="margin: 10px;"  >Disapprove</button>
                             </form>

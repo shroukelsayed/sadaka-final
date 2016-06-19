@@ -24,7 +24,7 @@ class BloodController extends Controller {
 
 	public function __construct()
 	{
-		$this->middleware('auth',['except' =>[ 'show','index']]);
+		$this->middleware('auth',['except' =>[ 'show','index','allCasesByBloodType']]);
 	    
 	}
 	
@@ -41,8 +41,8 @@ class BloodController extends Controller {
             return view('bloods.blood',  compact('bloods'));
         }
         else{
-
-			return view('bloods.index', compact('bloods'));
+        	$bloodtypes = DB::table('bloods')->select('bloodtype')->get();
+			return view('bloods.index', compact('bloods','bloodtypes'));
 		}
 	}
 
@@ -251,18 +251,9 @@ class BloodController extends Controller {
 		// Getting Case with it's all info ..
 		$blood = Blood::findOrFail($id);
 		$person = Person::findOrFail($blood->person_id);
-		$person_info = $person->personInfo;
 
 		// Second Stage:
 		// Getting new Data .. 
-		$person_info->name = $request->input("name");
-        $person_info->address = $request->input("address");
-        $person_info->birthDate = $request->input("birthdate");
-        $person_info->gender = $request->input("gender");
-        $person_info->maritalstatus = $request->input("maritalstatus");
-        $person_info->phone = $request->input("phone");
-        $person_info->city_id = $request->input("city_id");
-        $person_info->governorate_id = $request->input("governorate_id");
 		
 		$person->interval_type_id = $request->input("interval_type_id");
 		$blood->bloodtype = $request->input("bloodtype");
@@ -271,7 +262,7 @@ class BloodController extends Controller {
         $blood->address = $request->input("address");
         $blood->end_date = $request->input("end_date");
 
-		$person->person_status_id = 1;
+		$person->person_status_id = $request->input("status_type_id");
 
 		if ($request->hasFile('case_doc')) {
 	        $file = array('case_doc' => \Input::file('case_doc'));
@@ -289,7 +280,6 @@ class BloodController extends Controller {
 
 		// Third Stage:
 		// Saving Case object ..
-		$person_info->save();
 		$person->save();
 		$blood->save();
 
@@ -314,7 +304,27 @@ class BloodController extends Controller {
 	{
 		$bloods = Blood::where('bloodtype','=',$bloodtype)->get();
 		// var_dump($bloods);die;
-		return view('bloods.allCasesByBloodType',compact('bloods'));
+		$bloodtypes = DB::table('bloods')->select('bloodtype')->get();
+		if(Auth::guest() || Auth::user()->user_type_id == 4){
+			return view('bloods.casesByBloodType',compact('bloods','bloodtypes'));
+		}
+		else{
+			return view('bloods.allCasesByBloodType',compact('bloods','bloodtypes'));
+		}
+	}
+
+	public function casesByBloodType(){
+
+		$bloods = Blood::get();
+		$personinfo = Person::get();
+       
+    	foreach ($personinfo as $k) {
+    		foreach ($k->personDocs as $doc) {
+    			// var_dump($d);die;
+    		}	
+    	}
+
+		return view('bloods.casesByBloodType',compact('personinfo','bloods','doc'));
 	}
 
 }

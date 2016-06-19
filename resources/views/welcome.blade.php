@@ -1,6 +1,9 @@
 @extends(( (isset(Auth::user()->id)) and Auth::user()->user_type_id  == 2 or (isset(Auth::user()->id)) and Auth::user()->user_type_id  == 1 or ( isset(Auth::user()->id) and Auth::user()->user_type_id == 3 )) ? 'layouts.adminlayout' : 'layout')
 
 @section('content')
+    <script src="/Admin/jquery-1.11.3.min.js" type="text/javascript"></script>
+    <script src="/Admin/vaild.js" type="text/javascript"></script>
+    
 <div class="container">
     <div class="row">
         <div class="col-md-9" style="margin-top: 50px;">

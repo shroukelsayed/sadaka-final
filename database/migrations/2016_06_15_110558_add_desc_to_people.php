@@ -13,7 +13,7 @@ class AddDescToPeople extends Migration
     public function up()
     {
         Schema::table('people', function($table) {
-            $table->text('desc');
+            $table->string('desc');
         });
     }
 

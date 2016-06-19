@@ -234,10 +234,7 @@ class MoneyController extends Controller {
 		$cities = City::all();
 		$status = PersonStatus::all();
 		$docs = $money->person->personDocs;
-		// var_dump($money->person->personDocs);die;
-		// foreach ($money->person->personDocs as $doc) {
-		// 	var_dump($doc->document);die();
-		// }
+
 		return view('money.edit', compact('money','interval_types','governorates','cities','status','docs'));
 	}
 
@@ -254,24 +251,13 @@ class MoneyController extends Controller {
 		// Getting Case with it's all info ..
 		$money = Money::findOrFail($id);
 		$person = Person::findOrFail($money->person_id);
-		$person_info = $person->personInfo;
 		
 		// Second Stage:
 		// Getting new Data .. 
-		$person_info->name = $request->input("name");
-        $person_info->address = $request->input("address");
-        $person_info->birthDate = $request->input("birthdate");
-        $person_info->gender = $request->input("gender");
-        $person_info->maritalstatus = $request->input("maritalstatus");
-        $person_info->phone = $request->input("phone");
-        $person_info->city_id = $request->input("city_id");
-        $person_info->governorate_id = $request->input("governorate_id");
-		
-		$person->person_status_id = 1;
 		$person->interval_type_id = $request->input("interval_type_id");
+		$person->person_status_id = $request->input("status_type_id");
 
 		$money->amount = $request->input("amount");
-		
 
 		if ($request->hasFile('case_doc')) {
 
@@ -290,7 +276,6 @@ class MoneyController extends Controller {
 
 		// Third Stage:
 		// Saving Case object ..
-		$person_info->save();
 		$person->save();
 		$money->save();
 		

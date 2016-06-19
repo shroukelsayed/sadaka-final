@@ -36,19 +36,15 @@ class HomeController extends Controller
             if(isset(Auth::user()->id) and (Auth::user()->approved == 1 )){
                 return \Redirect::to('/people');
             }else{
+                \Session::flush();
                 return view('approved');
             }
         }elseif(isset(Auth::user()->id) and (Auth::user()->user_type_id == 4)){
-
-            if(isset(Auth::user()->id) and (Auth::user()->approved == 1 )){
               
-                $people = PersonInfo::orderBy('id', 'desc')->paginate(10);
-                $compaigns=Compaign::orderBy('id')->paginate(2);
+            $people = PersonInfo::orderBy('id', 'desc')->paginate(10);
+            $compaigns=Compaign::orderBy('id')->paginate(2);
 
-                return view('home', compact('people','compaigns'));
-            }else{
-                return view('approved');
-            }
+            return view('home', compact('people','compaigns'));
         }
         else{
             $people = PersonInfo::orderBy('id', 'desc')->paginate(10);

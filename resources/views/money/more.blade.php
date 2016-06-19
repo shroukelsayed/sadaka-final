@@ -1,11 +1,6 @@
 @extends('layouts.layout')
 @section('header')
-<div class="page-header">
-        <h1>Case Name --- {{$money->person->personInfo->name}}</h1>
-        
 
-        
-    </div>
 <link rel="stylesheet" type="text/css" media="screen" href="http://cdnjs.cloudflare.com/ajax/libs/fancybox/1.3.4/jquery.fancybox-1.3.4.css" />
 
 <style>
@@ -18,16 +13,29 @@ a.fancybox img {
 a.fancybox:hover img {
     position: relative; z-index: 999; -o-transform: scale(1.03,1.03); -ms-transform: scale(1.03,1.03); -moz-transform: scale(1.03,1.03); -webkit-transform: scale(1.03,1.03); transform: scale(1.03,1.03);
 }
+lable{
 
+        font-size: 30px;
+            color: #005384;
+        }
+#case{
+    width:350px;
+    height:60px;
+}
 #imgdosc{
 
-    width:250px;
-    height:150px;
+    width:350px;
+    height:350px;
     margin-left:150px;
+}
+ .payments-bar {
+    background: none repeat scroll 0% 0% #31B0D5;
+    height: 30px;
+    color: #FFF;
+    font-size: 15px;
 }
 </style>
 @endsection
-
 @section('content')
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
@@ -50,79 +58,133 @@ a.fancybox:hover img {
         $('a.fancybox').fancybox({
             titlePosition: titlePosition
         });
+        $("#type").on("change", function () {
+            var optionSelected = $("option:selected", this);
+            var valueSelected = this.value;
+            var field;
+            field = "<input type='text' class='form-control' name='amount' id='aa' placeholder='AMOUNT(€)'>";
+            if (valueSelected ==1) {
+             <?php $credit="$money->person->user->charity->credit";?>
+                var amountDiv = document.getElementById("wel");
+                amountDiv.innerHTML ='<p><label>OUR BANK ACCOUNT:</label> '+document.getElementById("credit").value +'</p></br><label>AMOUNT OF MONEY(€)</label><input type="text" class="form-control" name="aa" id="we" /></br><label>DATE</label><input type="date" class="form-control" name="date"/>';
+            }
+           else if (valueSelected == 2) {
+               var amountDiv = document.getElementById("wel");
+               amountDiv.innerHTML = 
+               "<label>AMOUNT OF MONEY(€)</label><input type='text' class='form-control' name='aa' id='aa' />";
+           }
+
+        });
+
     });
     $.noConflict();
 </script>
 
-
-    <div class="row" style="margin-top: 50px;">
-        <div class="col-md-12">
-             <!-- Widget: user widget style 1 -->
-              <div class="box box-widget widget-user-2">
-                <!-- Add the bg color to the header using any of the bg-* classes -->
-                <div class="widget-user-header" style="background-color: #EDB6B6;"
-                  <h3 class="widget-user-username" style="margin-left:150px; ">{{$money->person->personInfo->name}}</h3>
-                  <h7 class="widget-user-desc" style="margin-left:30px; ">
-                  <i class="fa fa-clock-o" aria-hidden="true"></i>
-                    Published At : {{$money->person->publishat}}</h7>
-                  
-                </div>
+    <div class="row" style="margin-top: 30px;">
+        <div class="col-md-6">
                 <div class="box-footer no-padding">
-                  <ul class="nav nav-stacked">
-                    <li><a>
-                        <strong><i class="fa fa-user" aria-hidden="true"></i>
-                        <label for="nome">Case Name</label></strong>
-                        <h7 style="margin-left: 40px;" class="form-control-static">{{$money->person->personInfo->name}}</h7>
-                    </a></li>
-                    <li><a>
-                        <strong><i class="fa fa-list-alt" aria-hidden="true"></i>
-                        <label for="description">Donation Amount</label></strong>
-                        <h7 style="margin-left: 40px;" class="form-control-static">{{$money->amount}}</h7>
-                    </a></li>
-                    <li><a>
-                        <strong><i class="fa fa-clock-o" aria-hidden="true"></i>
-                        <label for="phone">Donation Interval</label></strong>
-                        <h7 style="margin-left: 40px;" class="form-control-static">{{$money->person->intervalType->type}}</h7>
-                    </a></li>
-                    <li><a>
-                        <strong><i class="fa fa-calendar" aria-hidden="true"></i>
-                        <label for="birthdate">Birth Date</label></strong>
-                        <h7 style="margin-left: 40px;" class="form-control-static">{{$money->person->personInfo->birthdate}}</h7>
-                    </a></li>
-                    <li><a>
-                        <label for="gender">Gender</label>
-                        <h7 style="margin-left: 40px;" class="form-control-static">{{$money->person->personInfo->gender}}</h7>
-                    </a></li>
-                     <li><a>
-                        <label for="maritalstatus">Marital Status</label>
-                        <h7 style="margin-left: 40px;" class="form-control-static">{{$money->person->personInfo->maritalstatus}}</h7>
-                    </a></li>
-                    <li><a>
-                        <strong><i class="fa fa-mobile"></i>
-                        <label for="phone">Phone</label></strong>
-                        <h7 style="margin-left: 40px;" class="form-control-static">{{$money->person->personInfo->phone}}</h7>
-                    </a></li>
-                    <li><a>
-                        <strong><i class="fa fa-map-marker margin-r-5"></i>
-                        <label for="address">Address</label></strong>
-                         <h7 style="margin-left: 40px;" class="form-control-static">{{$money->person->personInfo->governorate->name}}, {{$money->person->personInfo->city->name}}, {{$money->person->personInfo->address}}</h7>
-                    </a></li>
-                    @foreach($money->person->personDocs as $doc)
-                      <li><a>
-                        <strong><i class="fa fa-picture-o"></i>
-                        <label for="case_doc_field">Case Documents</label></strong>
-                          <br>
-                        <img id="imgdosc" class="fancybox" src="{{ asset("Case/PersonDocument/money/$doc->document") }}" alt="$doc->document" />
-                        <br>
-                        </a></li>
-                      @endforeach
-                  </ul>
+                        
+                        <h3 style="margin-left: 40px;" class="form-control-static"> neaded amount</h3>
+                
+             
+                        <h1 style="margin-left: 40px; font-size:120px;" class="form-control-static">{{$money->amount}}</h1>
+                <div class="payments-bar">
+                    <div class="amount-paid-bar" style="width:80%">
+                    274
+                     </div>
                 </div>
-              </div><!-- /.widget-user -->
+          
+                </div>
+                </div>
+                <div class="col-md-6">
+                @foreach($money->person->personDocs as $doc)
+                    <?php $img=$doc->document;?>
+                @endforeach
+                    <a>
+                    <br>
+                    <img id="imgdosc" class="fancybox" src="{{ asset("Case/PersonDocument/money/$img") }}" alt="$doc->document" />
+                    <br>
+                    </a>
+                    <div class="box box-widget widget-user-2">
+                      <h3 class="widget-user-username" style="margin-left:150px; ">{{$money->person->title}}</h3>
+                      <h7 class="widget-user-desc" style="margin-left:30px; ">        
+                    </div>
+                    <div class="box box-widget widget-user-2">
+                      <h5 class="" style="margin-left:150px; ">{{$money->person->desc}}</h5>
+                      <h7 class="" style="margin-left:30px; ">        
+                    </div>
+                <div class="container" style="margin-left: 50px;"> 
+                    @if (Auth::guest())
+                        <a  class="btn btn-info btn-lg"  href="{{ url('/login') }}" > Donate Now</a>
+                    @else
+                        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Donate Now</button>
+                    @endif
+                 <!-- Modal --> <div class="modal fade" id="myModal" role="dialog">
+                  <div class="modal-dialog"> <!-- Modal content--> 
+                  <div class="modal-content"> 
+                  <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal">&times;</button> 
+                   <h4 class="modal-title">DONATE NOW</h4> </div> 
+                   <div class="modal-body"> 
+                       <form class="form-donation" action="{{ route('userpeople.store') }}" method="POST">
+                        <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+                         
 
-            <a class="btn btn-link" href="{{ route('person_infos.index') }}"><i class="glyphicon glyphicon-backward"></i>  Back</a>
+                        <h3 class="title-style-1 text-center">Thank you for your donation <span class="title-under"></span>  </h3>
 
+                                @if($money->person->user->user_type_id==2)
+                                <div class="row">
+                                    <div class="form-group col-md-12" >
+                                        <label for="amount">PAYMENT TYPES </label>
+                                        <select name="type" id="type">
+
+                                                <option value="1">CREDIT</option>
+                                                <option value="2">OTHER</option>
+                                        </select>
+                                        <input type='hidden' name='' id='credit' value='{{ $money->person->user->charity->credit}}'/>
+                                        <input type='hidden' name='payment' value='1'/>
+                                        <input type='hidden' name='person' value="{{$money->person_id}}"/>
+                                        
+                                       </div>
+                                    </div>
+                                <div class="row">
+
+                                    <div class="form-group col-md-12 " style="height:200px;" id="wel">
+                                    </div>
+
+                                </div>
+
+                                @else
+                                <div class="row">
+                                    <div class="form-group col-md-12" >
+                                        <p> <span>YOU CAN CONTACT US THROUGH THIS NUMBER :</span>
+                                           {{$money->person->user->phone }} </br>
+                                           <span>AND THIS EMAIL:</span>
+                                           {{$money->person->user->email}}
+                                        </p>
+                                        <input type='hidden' name='person' value="{{$money->person_id}}"/>
+                                        <input type='hidden' name='payment' value='2'/>
+                                        <input type='hidden' name='date' value='0'/>
+                                        <input type="text" class="form-control" name='aa'  id="amount" placeholder="AMOUNT OF MONEY:-">
+                                </div>
+                                    </div>
+                                    @endif
+                            <div class="row">
+
+                                 <div class="form-group col-md-12">
+                                        <button type="submit" class="btn btn-primary pull-right" name="donateNow" >DONATE NOW</button>
+                                    </div>
+
+                            </div>  
+         
+                        </form>
+                    </div> 
+                   <div class="modal-footer"> 
+                   </div> </div> </div> </div> </div>
+                    <a class="btn btn-link" href="{{ route('money.index') }}"><i class="glyphicon glyphicon-backward"></i>  Back</a>
+            </div>
         </div>
     </div>
+
 
 @endsection

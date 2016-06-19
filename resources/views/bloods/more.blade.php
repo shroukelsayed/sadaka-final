@@ -13,12 +13,26 @@ a.fancybox img {
 a.fancybox:hover img {
     position: relative; z-index: 999; -o-transform: scale(1.03,1.03); -ms-transform: scale(1.03,1.03); -moz-transform: scale(1.03,1.03); -webkit-transform: scale(1.03,1.03); transform: scale(1.03,1.03);
 }
+lable{
 
+        font-size: 30px;
+            color: #005384;
+        }
+#case{
+    width:350px;
+    height:60px;
+}
 #imgdosc{
 
-    width:250px;
-    height:150px;
+    width:350px;
+    height:350px;
     margin-left:150px;
+}
+ .payments-bar {
+    background: none repeat scroll 0% 0% #31B0D5;
+    height: 30px;
+    color: #FFF;
+    font-size: 15px;
 }
 </style>
 @endsection
@@ -48,80 +62,84 @@ a.fancybox:hover img {
     $.noConflict();
 </script>
 
-    <div class="row" style="margin-top: 50px;">
-        <div class="col-md-12">
-             <!-- Widget: user widget style 1 -->
-              <div class="box box-widget widget-user-2">
-                <!-- Add the bg color to the header using any of the bg-* classes -->
-             <!-- /.widget-user-image -->
-                  <h3 class="widget-user-username" style="margin-left:150px; ">{{$blood->person->personInfo->name}}</h3>
-                  <h7 class="widget-user-desc" style="margin-left:30px; ">
-                  <i class="fa fa-clock-o" aria-hidden="true"></i>
-                    Published At : {{$blood->person->publishat}}</h7>
-                  
-                </div>
+    <div class="row" style="margin-top: 30px;">
+        <div class="col-md-6">
                 <div class="box-footer no-padding">
-                  <ul class="nav nav-stacked">
-                    <li><a>
-                        <strong><i class="fa fa-user" aria-hidden="true"></i>
-                        <label for="nome">Case Name</label></strong>
-                        <h7 style="margin-left: 40px;" class="form-control-static">{{$blood->person->personInfo->name}}</h7>
-                    </a></li>
-                    <li><a>
-                        <strong><i class="fa fa-list-alt" aria-hidden="true"></i>
-                        <label for="description">Amount</label></strong>
-                        <h7 style="margin-left: 40px;" class="form-control-static">{{$blood->amount}} Blood Bags</h7>
-                    </a></li>
-                    <li><a>
-                        <strong><i class="fa fa-map-marker margin-r-5"></i>
-                        <label for="address">Hospital Address</label></strong>
-                         <h7 style="margin-left: 40px;" class="form-control-static">{{$blood->governorate->name}}, {{$blood->city->name}}, {{$blood->address}}</h7>
-                    </a></li>
-                    <li><a>
-                        <strong><i class="fa fa-clock-o" aria-hidden="true"></i>
-                        <label for="phone">Donation Interval</label></strong>
-                        <h7 style="margin-left: 40px;" class="form-control-static">{{$blood->person->intervalType->type}}</h7>
-                    </a></li>
-                    <li><a>
-                        <strong><i class="fa fa-calendar" aria-hidden="true"></i>
-                        <label for="birthdate">Birth Date</label></strong>
-                        <h7 style="margin-left: 40px;" class="form-control-static">{{$blood->person->personInfo->birthdate}}</h7>
-                    </a></li>
-                    <li><a>
-                        <label for="gender">Gender</label>
-                        <h7 style="margin-left: 40px;" class="form-control-static">{{$blood->person->personInfo->gender}}</h7>
-                    </a></li>
-                     <li><a>
-                        <label for="maritalstatus">Marital Status</label>
-                        <h7 style="margin-left: 40px;" class="form-control-static">{{$blood->person->personInfo->maritalstatus}}</h7>
-                    </a></li>
-                    <li><a>
-                        <strong><i class="fa fa-mobile"></i>
-                        <label for="phone">Phone</label></strong>
-                        <h7 style="margin-left: 40px;" class="form-control-static">{{$blood->person->personInfo->phone}}</h7>
-                    </a></li>
-                    <li><a>
-                        <strong><i class="fa fa-map-marker margin-r-5"></i>
-                        <label for="address">Case Address</label></strong>
-                         <h7 style="margin-left: 40px;" class="form-control-static">{{$blood->person->personInfo->governorate->name}}, {{$blood->person->personInfo->city->name}}, {{$blood->person->personInfo->address}}</h7>
-                    </a></li>
-                    @foreach($blood->person->personDocs as $doc)
-                      <li><a>
-                        <strong><i class="fa fa-picture-o"></i>
-                        <label for="case_doc_field">Case Documents</label></strong>
-                          <br>
-                        <img id="imgdosc" class="fancybox" src="{{ asset("Case/PersonDocument/blood/$doc->document") }}" alt="$doc->document" />
-                        <br>
-                        </a></li>
-                      @endforeach
-                  </ul>
+                        
+                        <h3 style="margin-left: 40px;" class="form-control-static"> neaded amount</h3>
+                        <h1 style="margin-left: 40px; font-size:120px;" class="form-control-static"> {{$blood->amount}}</h1>
+                <div class="payments-bar">
+                    <div class="amount-paid-bar" style="width:80%">
+                    274
+                     </div>
                 </div>
-              </div><!-- /.widget-user -->
+          
+                </div>
+                </div>
+                <div class="col-md-6">
+                @foreach($blood->person->personDocs as $doc)
+                    <?php $img=$doc->document;?>
+                @endforeach
+                    <a>
+                    <br>
+                    <img id="imgdosc" class="fancybox" src="{{ asset("Case/PersonDocument/blood/$img") }}" alt="$doc->document" />
+                    <br>
+                    </a>
+                    <div class="box box-widget widget-user-2">
+                      <h3 class="widget-user-username" style="margin-left:150px; ">{{$blood->person->title}}</h3>
+                      <h7 class="widget-user-desc" style="margin-left:30px; ">        
+                    </div>
+                    <div class="box box-widget widget-user-2">
+                      <h5 class="" style="margin-left:150px; ">{{$blood->person->desc}}</h5>
+                      <h7 class="" style="margin-left:30px; ">        
+                    </div>
+                <div class="container"> 
+                    @if (Auth::guest())
+                        <a  class="btn btn-info btn-lg"  href="{{ url('/login') }}" > Donate Now</a>
+                    @else
+                        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Donate Now</button>
+                    @endif
+                 <!-- Modal --> <div class="modal fade" id="myModal" role="dialog">
+                  <div class="modal-dialog"> <!-- Modal content--> 
+                  <div class="modal-content"> 
+                  <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal">&times;</button> 
+                   <h4 class="modal-title">DONATE NOW</h4> </div> 
+                   <div class="modal-body"> 
+                   <form class="form-donation" action="{{ route('userpeople.store') }}" method="POST">
+                    <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+                     
 
-            <a class="btn btn-link" href="{{ route('person_infos.index') }}"><i class="glyphicon glyphicon-backward"></i>  Back</a>
+                    <h3 class="title-style-1 text-center">Thank you for your donation <span class="title-under"></span>  </h3>
 
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <input type='hidden' name='person' value="{{$blood->person_id}}">
+                                <input type="text" class="form-control" name='aa'  id="amount" placeholder="NUMBER OF BLOOD BAGS:-">
+                                <input type='hidden' name='payment' value='2'/>
+                            </div>
+                        </div>  
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <input type="date" class="form-control" name="date" placeholder="DATE">
+                            </div>
+                        </div> 
+
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                    <button type="submit" class="btn btn-primary pull-right" name="donateNow" >DONATE NOW</button>
+                            </div>
+                        </div>  
+     
+                </form>
+ </div> 
+                   <div class="modal-footer"> 
+                   </div> </div> </div> </div> </div>
+                    <a class="btn btn-link" href="{{ route('bloods.index') }}"><i class="glyphicon glyphicon-backward"></i>  Back</a>
+            </div>
         </div>
     </div>
+
 
 @endsection
 

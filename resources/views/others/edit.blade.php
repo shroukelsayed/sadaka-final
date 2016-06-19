@@ -67,100 +67,89 @@
             <form action="{{ route('others.update', $other->id) }}" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="_method" value="PUT">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
-
-                 <div class="form-group @if($errors->has('name')) has-error @endif">
-                       <label for="name-field">Case Name</label>
-                    <input required type="text" class="form-control" id="name-field" rows="3" name="name" value="{{ $other->person->personInfo->name }}"></input type="text">
-                       @if($errors->has("name"))
-                        <span class="help-block">{{ $errors->first("name") }}</span>
-                       @endif
+                    <fieldset style="border: 2px solid lightgray;padding: 20px;margin-bottom: 20px;">
+                  <legend>Person Information</legend>
+                <div class="row">
+                  <div class="col-md-6">
+                  <div class="row">
+                      <div class="col-md-5">
+                        <label for="name-field"> Name</label>
+                      </div>
+                      <div class="col-md-7">
+                        {{ $other->person->personInfo->name }}
+                      </div>
                     </div>
-                    <div class="form-group @if($errors->has('address')) has-error @endif">
-                       <label for="address-field">Case Address</label>
-                    <input required type="text" class="form-control" id="address-field" rows="3" name="address" value="{{ $other->person->personInfo->address }}"></input type="text">
-                       @if($errors->has("address"))
-                        <span class="help-block">{{ $errors->first("address") }}</span>
-                       @endif
+                    <div class="row">
+                      <div class="col-md-5">
+                        <label for="address-field"> National ID</label>
+                      </div>
+                      <div class="col-md-7">
+                        {{ $other->person->personInfo->nationalid }}
+                      </div>
                     </div>
-                    <div class="form-group @if($errors->has('birthdate')) has-error @endif">
-                       <label for="birthdate-field">Case BirthDate</label>
-                    <input required type="date" id="birthdate-field" name="birthdate" class="form-control" value="{{ $other->person->personInfo->birthdate }}"/>
-                       @if($errors->has("birthdate"))
-                        <span class="help-block">{{ $errors->first("birthdate") }}</span>
-                       @endif
+                    <div class="row">
+                      <div class="col-md-5">
+                        <label for="birthdate-field"> BirthDate</label>
+                      </div>
+                      <div class="col-md-7">
+                        {{ $other->person->personInfo->birthdate }}
+                      </div>
                     </div>
-                    <div class="form-group">
-                      <label for="governorate_id_field">Case Governorate Name </label>
-                      <select required name="governorate_id" id="governorate_id_field" class="form-control">
-                          @foreach ($governorates as $key => $value)
-                              @if($value["name"] == $other->person->personInfo->governorate->name )
-                                <option value="{{ $key+1 }}" selected>{{ $value["name"] }}</option>
-                              @else
-                                <option value="{{ $key+1 }}">{{ $value["name"] }}</option>
-                              @endif
-                          @endforeach
-                      </select>
+                    <div class="row">
+                      <div class="col-md-5">
+                        <label for="governorate_id_field"> Address </label>
+                      </div>
+                      <div class="col-md-7">
+                        {{$other->person->personInfo->address}}
+                      </div>       
                     </div>
-                    <div class="form-group">
-                      <label for="city_id_field">Case City Name </label>
-                      <select required name="city_id" id="citySelect" class="form-control">
-                          <option value="{{$other->person->personInfo->city_id}}">{{$other->person->personInfo->city->name}}</option>
-                          <option></option>
-                            
-                      </select>
+                    <div class="row">
+                      <div class="col-md-5">
+                        <label for="governorate_id_field"> Governorate Name </label>
+                      </div>
+                      <div class="col-md-7">
+                        {{$other->person->personInfo->governorate->name}}
+                      </div>       
                     </div>
-                 <div class="form-group @if($errors->has('gender')) has-error @endif">
-                       <label for="gender-field">Case Gender</label>
-                        <select required id="gender-field" name="gender" class="form-control">
-                        @if ( $other->person->personInfo->gender == "male")
-                            <option value="male" selected>male</option>
-                            <option value="female">female</option>
-                        @else
-                            <option value="male">male</option>
-                            <option value="female" selected>female</option>
-                        @endif
-                        </select>
-                       @if($errors->has("gender"))
-                        <span class="help-block">{{ $errors->first("gender") }}</span>
-                       @endif
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row">
+                      <div class="col-md-5">
+                        <label for="city_id_field"> City Name </label>
+                      </div>
+                      <div class="col-md-7">
+                        {{$other->person->personInfo->city->name}}
+                      </div>  
+                      </div>
+                    <div class="row">
+                      <div class="col-md-5">
+                        <label for="gender-field"> Gender</label>
+                      </div>
+                      <div class="col-md-7">
+                        {{ $other->person->personInfo->gender }}
+                      </div>
                     </div>
-                    <div class="form-group @if($errors->has('maritalstatus')) has-error @endif">
-                       <label for="maritalstatus-field">Case Marital Status</label>
-                    <select required type="text" id="maritalstatus-field" name="maritalstatus" class="form-control">
-                    @if($other->person->personInfo->maritalstatus == "single")
-                        <option value="single" selected>Single</option>
-                        <option value="married">Married</option>
-                        <option value="divorced">Divorced</option>
-                        <option value="widow">Widow</option>
-                    @elseif($other->person->personInfo->maritalstatus == "married")
-                        <option value="single">Single</option>
-                        <option value="married" selected>Married</option>
-                        <option value="divorced">Divorced</option>
-                        <option value="widow">Widow</option>
-                    @elseif($other->person->personInfo->maritalstatus == "divorced")
-                        <option value="single">Single</option>
-                        <option value="married">Married</option>
-                        <option value="divorced" selected>Divorced</option>
-                        <option value="widow">Widow</option>
-                    @else
-                        <option value="single">Single</option>
-                        <option value="married">Married</option>
-                        <option value="divorced">Divorced</option>
-                        <option value="widow" selected>Widow</option>
-                    @endif
-                    </select>
-                       @if($errors->has("maritalstatus"))
-                        <span class="help-block">{{ $errors->first("maritalstatus") }}</span>
-                       @endif
+                    <div class="row">
+                      <div class="col-md-5">
+                        <label for="maritalstatus-field"> Marital Status</label>
+                      </div>
+                      <div class="col-md-7">
+                        {{ $other->person->personInfo->maritalstatus }}
+                      </div>
                     </div>
-                    <div class="form-group @if($errors->has('phone')) has-error @endif">
-                       <label for="phone-field">Case Phone</label>
-                    <input required type="text" id="phone-field" name="phone" class="form-control" value="{{ $other->person->personInfo->phone }}"/>
-                       @if($errors->has("phone"))
-                        <span class="help-block">{{ $errors->first("phone") }}</span>
-                       @endif
+                    <div class="row">
+                      <div class="col-md-5">
+                        <label for="phone-field"> Phone</label>
+                      </div>
+                      <div class="col-md-7">
+                        {{ $other->person->personInfo->phone }}
+                      </div>
                     </div>
+                    </div>
+                    </div>
+                 </fieldset>
+                <fieldset style="border: 2px solid lightgray;padding: 20px;margin-bottom: 20px;">
+                <legend>Case Information</legend>
                 <div class="form-group @if($errors->has('publishat')) has-error @endif">
                        <label for="publishat-field">Case Publishat</label>
                     <input required type="text" id="publishat-field" name="publishat" class="form-control" value="{{ $other->person->publishat }}" disabled/>
@@ -192,6 +181,18 @@
                     @endif
                     <div class="form-group" id="intervalDiv">
                     </div> 
+                    <div class="form-group">
+                      <label for="interval_type_id_field">Status </label>
+                      <select required class="form-control" name="status_type_id" id="interval_type_id_field">
+                           @foreach ($status as $key => $value)
+                              @if($value['type'] == $other->person->personStatus->type )
+                                <option value="{{ $other->person->person_status_id}}" selected>{{ $other->person->personStatus->type }}</option>
+                              @else
+                                <option value="{{ $key+1 }}">{{ $value['type']}}</option>
+                              @endif
+                          @endforeach
+                      </select>
+                    </div>
                 <div class="form-group @if($errors->has('description')) has-error @endif">
                        <label for="description-field">Case Description</label>
                     <textarea required class="form-control" id="description-field" rows="3" name="description">{{ $other->description }}</textarea>
@@ -224,6 +225,7 @@
                          @endif
                       @endforeach
                     </div>
+                    </fieldset>
                 <div class="well well-sm">
                     <button type="submit" class="btn btn-primary">Save</button>
                     <a class="btn btn-link pull-right" href="{{ route('others.index') }}"><i class="glyphicon glyphicon-backward"></i>  Back</a>

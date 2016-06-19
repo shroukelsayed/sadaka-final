@@ -2,7 +2,7 @@
 <html class="no-js">
 <head>
     <meta charset="utf-8">
-    <title>@lang('validation.sadaka')</title>
+    <title>SADAKA | Charity / Non-profit responsive Bootstrap HTML5 template</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootsrap -->
@@ -37,11 +37,16 @@
         	margin-left:-150px;
         }
         #mycase{
-            height:195px;
+            height:30px;
+            width:260px;
         }
         #mycomp span{
             font-size: 30px;
             color:white;
+        }
+        #xx{
+            width:261px;
+            height:200px;
         }
 
     </style>
@@ -104,7 +109,7 @@
                         <span class="icon-bar"></span>
 
                     </button>
-                    
+
                     <a class="navbar-brand" href="{{URL::to('/')}}"><img src="assets/images/sadaka-logo.png" alt=""></a>
 
                 </div>
@@ -112,44 +117,27 @@
                 <div id="navbar" class="navbar-collapse collapse pull-right">
 
                     <ul class="nav navbar-nav">
-                        
-                        <li><a  href="{{URL::to('/')}}">@lang('validation.home')</a></li>
-                        <li><a href="#contact">@lang('validation.contact')</a></li>
-                        <li class="has-child"><a  href="{{URL::to('/cases')}}">@lang('validation.cases')</a>
+
+                        <li><a  href="{{URL::to('/')}}">HOME</a></li>
+                        <li><a href="#contact">CONTACT</a></li>
+                        <li class="has-child"><a  href="{{URL::to('/cases')}}">CASES</a>
 
                             <ul class="submenu">
-                                <li class="submenu-item"><a href="{{URL::to('/cases')}}">
-                                @lang('validation.AllCases') </a></li>
-                                <li class="submenu-item"><a href="{{URL::to('/bloods')}}">@lang('validation.BloodCases') </a></li>
-                                <li class="submenu-item"><a href="{{URL::to('/money')}}">
-                                @lang('validation.MoneyCases')</a></li>
-                                <li class="submenu-item"><a href="{{URL::to('/medicines')}}">
-                                @lang('validation.MedicineCases')</a></li>
-                                <li class="submenu-item"><a href="{{URL::to('/others')}}">
-                                @lang('validation.OtherCases')</a></li>
-
+                                <li class="submenu-item"><a href="{{URL::to('/cases')}}">Cases list </a></li>
+                                <li class="submenu-item"><a href="{{URL::to('/money')}}">Mony Cases </a></li>
+                                <li class="submenu-item"><a href="{{URL::to('/bloods')}}">Blood Cases </a></li>
+                                <li class="submenu-item"><a href="{{URL::to('/medicines')}}">Medicine Cases </a></li>
                             </ul>
+
+
                         </li>
-                        <li><a href="{{URL::to('/comp')}}">@lang('validation.compaigns')</a></li>
+                        <li><a href="{{URL::to('/comp')}}">COMPAIGNS</a></li>
                    
 
-                        @if (Auth::guest()) <li><a href="{{ url('/login') }}">@lang('validation.login') / @lang('validation.register')</a></li>  @else <li><a href="{{ route('user_infos.show',Auth::user()->userInfo->id ) }}" >@lang('validation.profile')</a></li><li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> {{ Auth::user()->name }} <span class="caret"></span> </a> <ul class="dropdown-menu" role="menu"> <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>logout</a></li> </ul> </li> @endif
-                        <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            @lang('validation.'. Config::get('languages')[App::getLocale()]) 
+                        @if (Auth::guest()) <li><a href="{{ url('/login') }}">LOGIN / REGISTER</a></li>  @else <li><a href="{{ route('user_infos.show',Auth::user()->userInfo->id ) }}" >PROFILE</a></li><li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> {{ Auth::user()->name }} <span class="caret"></span> </a> <ul class="dropdown-menu" role="menu"> <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>logout</a></li> </ul> </li> @endif
 
-                            <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                @foreach (Config::get('languages') as $lang => $language)
-                                @if ($lang != App::getLocale())
-                                <li>
-                                    <a href="{{ route('lang.switch', $lang) }}">@lang('validation.'.$language)</a>
-                                </li>
-                                @endif
-                                @endforeach
-                            </ul>
-                        </li>
-                </ul>
+
+                    </ul>
 
 
                 </div> <!-- /#navbar -->
@@ -265,9 +253,9 @@
 
                     <div class="on-hover hidden-xs" id="mycomp">
 
-                        <label>@lang('validation.budget') </label> <span>{{ $comp->budget}} .LE</span><br/>
-                        <label>@lang('validation.location') </label><span> {{ $comp->location }}</span><br/>
-                        <label>@lang('validation.description') </label><span> {{ $comp->description}}</span><br/>
+                        <label>BUDgET: </label> <span>{{ $comp->budget}} .LE</span><br/>
+                        <label>LOCATION: </label><span> {{ $comp->location }}</span><br/>
+                        <label>DESCRIPTION: </label><span> {{ $comp->description}}</span><br/>
 
                     </div>
                 </div>
@@ -283,287 +271,167 @@
 
 </div> <!-- /.home-reasons -->
  @yield('content')
-<footer class="main-footer">
+  </div><!-- /.container -->
 
-    <div class="footer-top">
+    <footer class="main-footer">
 
-    </div>
-
-
-    <div class="footer-main">
-        <div class="container">
-
-            <div class="row">
-                <div class="col-md-4">
-
-                    <div class="footer-col">
-
-                        <h4 class="footer-title">@lang('validation.aboutus')<span class="title-under"></span></h4>
-
-                        <div class="footer-content">
-                            <p>
-                                <strong>Sadaka</strong> ipsum dolor sit amet, consectetur adipiscing elit. Ut at eros rutrum turpis viverra elementum semper quis ex. Donec lorem nulla, aliquam quis neque vel, maximus lacinia urna.
-                            </p>
-
-                            <p>
-                                ILorem ipsum dolor sit amet, consectetur adipiscing elit. Ut at eros rutrum turpis viverra elementum semper quis ex. Donec lorem nulla, aliquam quis neque vel, maximus lacinia urna.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="col-md-4">
-
-                    <div class="footer-col">
-
-                        <h4 class="footer-title">LAST TWEETS <span class="title-under"></span></h4>
-
-                        <div class="footer-content">
-                            <ul class="tweets list-unstyled">
-                                <li class="tweet">
-
-                                    20 Surprise Eggs, Kinder Surprise Cars 2 Thomas Spongebob Disney Pixar  http://t.co/fTSazikPd4
-
-                                </li>
-
-                                <li class="tweet">
-
-                                    20 Surprise Eggs, Kinder Surprise Cars 2 Thomas Spongebob Disney Pixar  http://t.co/fTSazikPd4
-
-                                </li>
-
-                                <li class="tweet">
-
-                                    20 Surprise Eggs, Kinder Surprise Cars 2 Thomas Spongebob Disney Pixar  http://t.co/fTSazikPd4
-
-                                </li>
-
-                            </ul>
-                        </div>
-
-                    </div>
-
-                </div>
+        <div class="footer-top">
+            
+        </div>
 
 
-                <div class="col-md-4">
+        <div class="footer-main">
+            <div class="container">
+                
+                <div class="row">
+                    <div class="col-md-4">
 
-                    <div class="footer-col">
+                        <div class="footer-col">
 
-                        <h4 id="contact" class="footer-title">@lang('validation.contact') <span class="title-under"></span></h4>
+                            <h4 class="footer-title">About us <span class="title-under"></span></h4>
 
-                        <div class="footer-content">
+                            <div class="footer-content">
+                                <p>
+                                    <strong>Sadaka</strong> ipsum dolor sit amet, consectetur adipiscing elit. Ut at eros rutrum turpis viverra elementum semper quis ex. Donec lorem nulla, aliquam quis neque vel, maximus lacinia urna.
+                                </p> 
 
-                            <div class="footer-form" >
-
-                                <form action="php/mail.php" class="ajax-form">
-
-                                    <div class="form-group">
-                                        <input type="text" name="name" class="form-control" placeholder="Name" required>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <input type="email" name="email" class="form-control" placeholder="E-mail" required>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <textarea name="message" class="form-control" placeholder="Message" required></textarea>
-                                    </div>
-
-                                    <div class="form-group alerts">
-
-                                        <div class="alert alert-success" role="alert">
-
-                                        </div>
-
-                                        <div class="alert alert-danger" role="alert">
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-submit pull-right">Send message</button>
-                                    </div>
-
-                                </form>
+                                <p>
+                                    ILorem ipsum dolor sit amet, consectetur adipiscing elit. Ut at eros rutrum turpis viverra elementum semper quis ex. Donec lorem nulla, aliquam quis neque vel, maximus lacinia urna.
+                                </p>
 
                             </div>
+                            
                         </div>
 
                     </div>
+
+                    <div class="col-md-4">
+
+                        <div class="footer-col">
+
+                            <h4 class="footer-title">LAST TWEETS <span class="title-under"></span></h4>
+
+                            <div class="footer-content">
+                                <ul class="tweets list-unstyled">
+                                    <li class="tweet"> 
+
+                                        20 Surprise Eggs, Kinder Surprise Cars 2 Thomas Spongebob Disney Pixar  http://t.co/fTSazikPd4 
+
+                                    </li>
+
+                                    <li class="tweet"> 
+
+                                        20 Surprise Eggs, Kinder Surprise Cars 2 Thomas Spongebob Disney Pixar  http://t.co/fTSazikPd4 
+
+                                    </li>
+
+                                    <li class="tweet"> 
+
+                                        20 Surprise Eggs, Kinder Surprise Cars 2 Thomas Spongebob Disney Pixar  http://t.co/fTSazikPd4 
+
+                                    </li>
+
+                                </ul>
+                            </div>
+                            
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <div class="footer-col">
+
+                            <h4 id="contact" class="footer-title">Contact us <span class="title-under"></span></h4>
+
+                            <div class="footer-content">
+
+                                <div class="footer-form" >
+                                    
+                                    <form action="php/mail.php" class="ajax-form">
+
+                                        <div class="form-group">
+                                            <input type="text" name="name" class="form-control" placeholder="Name" required>
+                                        </div>
+
+                                         <div class="form-group">
+                                            <input type="email" name="email" class="form-control" placeholder="E-mail" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <textarea name="message" class="form-control" placeholder="Message" required></textarea>
+                                        </div>
+
+                                        <div class="form-group alerts">
+                        
+                                            <div class="alert alert-success" role="alert">
+                                              
+                                            </div>
+
+                                            <div class="alert alert-danger" role="alert">
+                                              
+                                            </div>
+                                            
+                                        </div>
+
+                                         <div class="form-group">
+                                            <button type="submit" class="btn btn-submit pull-right">Send message</button>
+                                        </div>
+                                        
+                                    </form>
+
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+
+
 
                 </div>
-                <div class="clearfix"></div>
+                
+                
+            </div>
+
+            
+        </div>
+
+        <div class="footer-bottom">
+
+            <div class="container text-right">
+                Sadaka @ copyrights 2015 - by <a href="http://www.ouarmedia.com" target="_blank">Ouarmedia</a>
             </div>
         </div>
-        </div>
-    </div>
-
-    <div class="footer-bottom">
-
-        <div class="container text-right">
-            Sadaka @ copyrights 2015 - by <a href="#" target="_blank">Ouarmedia</a>
-        </div>
-    </div>
-
-</footer>
+        
+    </footer>
 
 
-<div class="modal fade" id="donateModal" tabindex="-1" role="dialog" aria-labelledby="donateModalLabel" aria-hidden="true">
-
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="donateModalLabel">@lang('validation.donatenow')</h4>
-            </div>
-            <div class="modal-body">
-               
-                <form class="form-donation" action="{{ route('userpeople.store') }}" method="POST">
-                    <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
-                     
-
-                    <h3 class="title-style-1 text-center">Thank you for your donation <span class="title-under"></span>  </h3>
-
-                    <div class="row">
-
-                        <div class="form-group col-md-12 ">
-
-                        @foreach($people as $person_info)
-                        <?php $donation=$p->donationType->id; ?>
-                        <?php
-                        if($person_info)
-                        {
-                        echo "<input type='hidden' name='id' value='$case_id '>";
-                        ?>
-                            <?php
-                                    if ($donation == 1)
-                                    {
-                                        echo '<input type="text" class="form-control" name="amount"  id="amount" placeholder="NUMBER OF BLOOD BAGES:-">';
-                                    }
-                                    elseif ($donation == 2){
-                                       echo '<input type="text" class="form-control" name="amount"  id="amount" placeholder="AMOUNT OF MONEY:-">';
-                                    }
-                                    elseif ($donation == 3)
-                                    {
-                                        echo '<input type="text" class="form-control" name="amount"  id="amount" placeholder="NUMBER OF PACKETS OR AMOUNT OF MONEY:-">';
-                                    }
-
-                             } ?>
-                        
-
-                        @endforeach
-                        </div>
-                    </div>
-
-                    <div class="row">
-
-                        <div class="form-group col-md-12">
-                            <input type="date" class="form-control" name="date" placeholder="DATE">
-                        </div>
-
-                    </div>
 
 
-                    <div class="row">
+       
+        
+        <!-- jQuery -->
+        <script src="/Admin/jquery-1.11.3.min.js"></script>
+        <script>window.jQuery || document.write('<script src="/assets/js/jquery-1.11.1.min.js"><\/script>')</script>
 
-                        <div class="form-group col-md-12">
-                            <button type="submit" class="btn btn-primary pull-right" name="donateNow" >@lang('validation.donatenow')</button>
-                        </div>
+        <!-- Bootsrap javascript file -->
+        <script src="/assets/js/bootstrap.min.js"></script>
 
-                    </div>
-                </form>
 
-            </div>
-        </div>
-    </div>
+        <!-- Template main javascript -->
+        <script src="/assets/js/main.js"></script>
 
-</div><!-- /.modal -->
-<div class="modal fade" id="donateModel" tabindex="-1" role="dialog" aria-labelledby="donateModalLabel" aria-hidden="true">
-
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="donateModalLabel">@lang('validation.donatenow')</h4>
-            </div>
-            <div class="modal-body">
-
-                @foreach($compaigns as $comp)
-                <form class="form-donation" action="{{ route('usercompaign.store') }}" method="POST">
-                    <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
-                    <?php
-                    if($comp)
-                    echo "<input type='hidden' name='id' value='$id '>";
-                    ?>
-
-                    <h3 class="title-style-1 text-center">Thank you for your donation <span class="title-under"></span>  </h3>
-                    <div class="row">
-                        <div class="form-group col-md-12" >
-                            <label for="amount">SHARE TYPES </label>
-                            <select name="type" id="sharetype">
-
-                                    <option value="1">SHARE</option>
-                                    <option value="2">DONATE</option>
-                                    <option value="3">SHARE AND DONATE</option>
-
-                            </select>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-
-                        <div class="form-group col-md-12 " style="height:200px;" id="wel">
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-
-                        <div class="form-group col-md-12">
-                            <button type="submit" class="btn btn-primary pull-right" name="donateNow" >@lang('validation.donatenow')</button>
-                        </div>
-
-                    </div>
-                </form>
-                @endforeach
-
-            </div>
-        </div>
-    </div>
-
-</div> <!-- /.modal -->
-
-<!--  Scripts
-================================================== -->
-
-<!-- jQuery -->
-<script src="/Admin/jquery-1.11.3.min.js"></script>
-<script>window.jQuery || document.write('<script src="assets/js/jquery-1.11.1.min.js"><\/script>')</script>
-
-<!-- Bootsrap javascript file -->
-<script src="assets/js/bootstrap.min.js"></script>
-
-<!-- owl carouseljavascript file -->
-<script src="assets/js/owl.carousel.min.js"></script>
-
-<!-- Template main javascript -->
-<script src="assets/js/main.js"></script>
-
-<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-<script>
-    (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
             function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-        e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-        e.src='';
-        r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-    ga('create','UA-XXXXX-X');ga('send','pageview');
-</script>
-</body>
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X');ga('send','pageview');
+        </script>
+    </body>
 </html>
-

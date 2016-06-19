@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Http\Requests;
 use App\Userperson;
+use App\usercompaign;
 class UserpersonController extends Controller
 {
     /**
@@ -15,7 +16,9 @@ class UserpersonController extends Controller
      */
     public function index()
     {
-        //
+        $infos=Userperson::all();
+        $comps=usercompaign::all();
+        return view('userperson.index', compact('infos','comps'));
     }
 
     /**
@@ -54,7 +57,11 @@ class UserpersonController extends Controller
      */
     public function show($id)
     {
-        //
+        $person_info=Userperson::findOrFail($id);
+    
+        // var_dump($person_info->user->name);die;
+        
+        return view('userperson.show', compact('person_info'));
     }
 
     /**

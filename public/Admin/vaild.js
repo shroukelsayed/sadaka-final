@@ -156,6 +156,18 @@ $(document).ready(function(){
         }
     });
 
+     // ----------- vaild nationalid-----------------------
+
+    $('#nationalid-field').blur(function() {
+        $('span.error-keyup-2').remove();
+        var inputVal = $(this).val();
+        var characterReg = /^[0-9]{14}$/;
+        if(!characterReg.test(inputVal)) {
+            $(this).after('<span class="error error-keyup-2">National id must 14 numbers</span>');
+            $(this).focus();
+        }
+    }); 
+
  });   
 //------------------------------------------------------
 

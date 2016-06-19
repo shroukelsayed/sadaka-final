@@ -27,4 +27,7 @@ class Compaign extends Model
 
         return $this->belongsTo(Governorate::class); 
     }
+
+     
+
 }

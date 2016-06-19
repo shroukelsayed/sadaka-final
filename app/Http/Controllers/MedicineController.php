@@ -25,10 +25,12 @@ class MedicineController extends Controller {
 	{
         if(Auth::guest() || Auth::user()->user_type_id == 4){  
           
-	    	$this->middleware('auth',['except' =>[ 'show','index']]);
+	    	$this->middleware('auth',['except' =>[ 'show','index','allCasesByMedicineName']]);
 	    }
 	  	else
-	    	$this->middleware('auth', ['except' => ['index']]);
+	  	{	
+	    	$this->middleware('auth', ['except' => ['index','allCasesByMedicineName']]);
+	  	}
 	}
 	
 	/**
@@ -45,7 +47,8 @@ class MedicineController extends Controller {
         }
         else{
 
-			return view('medicines.index', compact('medicines'));
+        	$medicineNames = DB::table('medicines')->select('name')->get();
+			return view('medicines.index', compact('medicines','medicineNames'));
 		}
 	}
 
@@ -251,24 +254,16 @@ class MedicineController extends Controller {
 		// Getting Case with it's all info ..
 		$medicine = Medicine::findOrFail($id);
 		$person = Person::findOrFail($medicine->person_id);
-		$person_info = $person->personInfo;
-
+		
 		// Second Stage:
 		// Getting new Data .. 
-		$person_info->name = $request->input("name");
-        $person_info->address = $request->input("address");
-        $person_info->birthDate = $request->input("birthdate");
-        $person_info->gender = $request->input("gender");
-        $person_info->maritalstatus = $request->input("maritalstatus");
-        $person_info->phone = $request->input("phone");
-        $person_info->city_id = $request->input("city_id");
-        $person_info->governorate_id = $request->input("governorate_id");
+		
 		$person->interval_type_id = $request->input("interval_type_id");		
 
 		$medicine->name = $request->input("medicine_name");
         $medicine->amount = $request->input("amount");
 
-        $person->person_status_id = 1;
+        $person->person_status_id = $request->input("status_type_id");
 		
 		if ($request->hasFile('case_doc')) {
 	        $file = array('case_doc' => \Input::file('case_doc'));
@@ -287,7 +282,6 @@ class MedicineController extends Controller {
 
 		// Third Stage:
 		// Saving Case object ..
-		$person_info->save();
 		$person->save();
 		$medicine->save();
 
@@ -312,7 +306,22 @@ class MedicineController extends Controller {
 	{
 		$medicines = Medicine::where('name','=',$name)->get();
 		// var_dump($medicines);die;
-		return view('medicines.allCasesByMedicineName',compact('medicines'));
-	}
 
+        $medicineNames = DB::table('medicines')->select('name')->get();
+		return view('medicines.allCasesByMedicineName',compact('medicines','medicineNames'));
+	}
+	
+	public function casesByMedicineName(){
+
+		$medicines = Medicine::get();
+		$personinfo = Person::get();
+       
+    	foreach ($personinfo as $k) {
+    		foreach ($k->personDocs as $doc) {
+    			// var_dump($d);die;
+    		}	
+    	}
+
+		return view('medicines.casesByMedicineName',compact('personinfo','medicines','doc'));
+	}
 }

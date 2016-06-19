@@ -11,12 +11,12 @@ use Illuminate\Http\Request;
 
 class UserInfoController extends Controller {
 
-	// public function __construct()
-	// {
-	// 	$this->middleware('auth',['except' =>[ 'show','index','create','store']]);
-	// 	$this->middleware('admin',['except' =>[ 'show','create']]);
+	public function __construct()
+	{
+		$this->middleware('auth',['except' =>[ 'show','create','store','check']]);
+		$this->middleware('admin',['only' =>[ 'index','approve','disapprove']]);
 	    
-	// }
+	}
 
 	/**
 	 * Display a listing of the resource.
@@ -228,8 +228,9 @@ class UserInfoController extends Controller {
 	{
 		$user = User::findOrFail($user_id);
 		$user->approved = 1;
+		$user->why = "";
 		$user->save();
-		return redirect()->route('user_infos.show', $user_id);
+		return redirect()->route('user_infos.show', $user->userInfo->id);
 	}
 
 	public function disapprove($user_id ,Request $request)
@@ -238,7 +239,30 @@ class UserInfoController extends Controller {
 		$user->approved = 0;
 		$user->why = $request->input('why');
 		$user->save();
-		return redirect()->route('user_infos.show', $user_id);
+		return redirect()->route('user_infos.show', $user->userInfo->id);
+	}
+
+	public function changePassword($userid){
+		$id = $userid;
+		// $user = User::findOrFail(Auth::user()->id);
+		// var_dump($user->password);die;
+		return view('user_infos.changePassword', compact('id'));	
+	}
+
+	public function change(Request $request){
+		$user = User::findOrFail(Auth::user()->id);
+		// var_dump($user->password);
+
+		var_dump(bcrypt($user->password) == bcrypt($request->input('oldpassword'))); die;
+
+		if ($user->password == $request->input('oldpassword')){
+
+			$user->password = $request->input('password');
+			return Redirect::to('/login');
+		}
+		else{
+			return view('welcome');
+		}
 	}
 	//end of 2 functions --> by shrouk
 	

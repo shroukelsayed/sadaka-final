@@ -1,19 +1,38 @@
 @extends('layouts.adminlayout')
 
 @section('header')
+<div class="row pull-right">
+    <div id="filterSelect" class="col-md-12">
+        <label>
+          Filter by Status
+        </label>
+        <select class="form-control" onChange="window.location.href=this.value">
+          <option selected >Plz Choose Status</option>
+          @foreach($statuses as $status)
+          <option value='{{URL::to("allCasesByStatusName","$status->type" )}}'>{{$status->type}}</option>
+          @endforeach
+        </select>
+    </div>
+</div>
+<div class="row pull-right">
+    <div id="filterSelect" class="col-md-12">
+        <label>
+          Filter by City
+        </label>
+        <select class="form-control" onChange="window.location.href=this.value">
+          <option selected >Plz Choose City</option>
+          @foreach($cities as $city)
+          <option value='{{URL::to("allCasesByCityName","$city->name" )}}'>{{$city->name}}</option>
+          @endforeach
+        </select>
+    </div>
+</div>
 <div class="page-header clearfix">
     <h1 style="margin-left: 80px;">
          Cases
     </h1>
 </div>
-<ol class="breadcrumb">
-    @if(Auth::user()->user_type_id  == 1)
-      <li><a href="{{URL::to('/admin')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-    @else
-      <li><a href="{{URL::to('/people')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-    @endif
-    <li><a href="{{URL::to('/logout')}}"> logout</a> </li>
-</ol>
+
 <script src="/Admin/jquery-1.11.3.min.js" type="text/javascript"></script>
     <script src="/Admin/vaild.js" type="text/javascript"></script>
 @endsection

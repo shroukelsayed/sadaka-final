@@ -14,4 +14,10 @@ class usercompaign extends Model
 
         return $this->belongsTo(Compaign::class);
     }
+
+    public function compType(){
+        return $this->belongsTo(CompaignDonateType::class);
+    }
+
+   
 }

@@ -16,7 +16,8 @@ class UserCompaignController extends Controller
      */
     public function index()
     {
-        //
+         
+        
     }
 
     /**
@@ -64,7 +65,11 @@ class UserCompaignController extends Controller
      */
     public function show($id)
     {
-        //
+        $person_info=usercompaign::findOrFail($id);
+    
+        $image = $person_info->compaign->image;
+        
+        return view('usercompaign.show', compact('person_info','image'));   
     }
 
     /**

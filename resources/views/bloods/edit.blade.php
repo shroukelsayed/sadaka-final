@@ -9,6 +9,15 @@
       
       $(document).ready(function () {
 
+         //------------- DateTime Picker ----------------
+           $("#datetimepicker").keydown(function(event){
+                event.preventDefault();          
+            }); 
+
+            $("#datetimepicker").datepicker({
+                dateFormat: 'yy/mm/dd'
+            }); 
+
           $('#governorate_id_field').change(function(){
               $.get("{{ url('api/dropdown')}}", 
                   { option: $(this).val() }, 
@@ -79,10 +88,10 @@
                     </div>
                     <div class="row">
                       <div class="col-md-5">
-                        <label for="address-field"> Address</label>
+                        <label for="address-field"> National ID</label>
                       </div>
                       <div class="col-md-7">
-                        {{ $blood->person->personInfo->address }}
+                        {{ $blood->person->personInfo->nationalid }}
                       </div>
                     </div>
                     <div class="row">
@@ -92,6 +101,14 @@
                       <div class="col-md-7">
                         {{ $blood->person->personInfo->birthdate }}
                       </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-5">
+                        <label for="governorate_id_field"> Address </label>
+                      </div>
+                      <div class="col-md-7">
+                        {{$blood->person->personInfo->address}}
+                      </div>       
                     </div>
                     <div class="row">
                       <div class="col-md-5">
@@ -147,7 +164,7 @@
                     </div>
                     <div class="form-group @if($errors->has('end_date')) has-error @endif">
                        <label for="end_date-field">Case End Date</label>
-                    <input required type="text" id="end_date-field" name="end_date" class="form-control" value="{{ $blood->person->end_date }}"/>
+                    <input required type="text" id="datetimepicker" name="end_date" class="form-control" value="{{ $blood->end_date }}"/>
                        
                     </div>
                     <div class="form-group">
@@ -173,6 +190,18 @@
                     @endif
                     <div class="form-group" id="intervalDiv">
                     </div> 
+                    <div class="form-group">
+                      <label for="interval_type_id_field">Status </label>
+                      <select required class="form-control" name="status_type_id" id="interval_type_id_field">
+                           @foreach ($status as $key => $value)
+                              @if($value['type'] == $blood->person->personStatus->type )
+                                <option value="{{ $blood->person->person_status_id}}" selected>{{ $blood->person->personStatus->type }}</option>
+                              @else
+                                <option value="{{ $key+1 }}">{{ $value['type']}}</option>
+                              @endif
+                          @endforeach
+                      </select>
+                    </div>
                 <div class="form-group @if($errors->has('bloodtype')) has-error @endif">
                        <label for="bloodtype-field">Case Bloodtype</label>
                     <select required type="text" id="bloodtype-field" name="bloodtype" class="form-control" value="{{ $blood->bloodtype }}">
@@ -268,22 +297,6 @@
                         <span class="help-block">{{ $errors->first("hospital") }}</span>
                        @endif
                     </div>
-                    <div class="form-group">
-                      <label for="governorate_id_field">Hospital .. Governorate Name </label>
-                      <select required name="governorate_id" id="governorate_id_field" class="form-control">
-                          @foreach ($governorates as $key => $value)
-                              <option value="{{ $key+1 }}" selected>{{ $blood->governorate->name }}</option>
-                          @endforeach
-                      </select>
-                    </div>
-                    <div class="form-group">
-                      <label for="city_id_field">Hospital .. City Name </label>
-                      <select required name="city_id" id="city_id_field" class="form-control">
-                          @foreach ($cities as $key => $value)
-                              <option value="{{ $key+1 }}">{{ $blood->city->name }}</option>
-                          @endforeach
-                      </select>
-                      </div>
                     <div class="form-group @if($errors->has('address')) has-error @endif">
                        <label for="address-field">Hospital Address</label>
                     <input required type="text" class="form-control" id="address-field" rows="3" name="address" value="{{ $blood->address }}"></input type="text">
@@ -296,11 +309,12 @@
 
                        @foreach($docs as $doc)
                         <div class="row">
+                         <hr style="border: 1px dashed gray;">
                         <div class="col-md-4">
                         <img style="width: 200px; height: 200px;" src="{{ asset("Case/PersonDocument/blood/$doc->document") }}" alt="$doc->document" /></div>
                         <div class="col-md-8">
                         <label for="case_doc_field">Document Description :</label>
-                        <input name="desc" class="form-control" value="{{$doc->desc}}" /></div>
+                        <input name="desc" class="form-control" value="{{$doc->desc}}" disabled /></div>
                         </div>
                         <div class="row">
                         <div class="col-md-4" style="margin-top: 5px;">
@@ -310,6 +324,7 @@
                         <label for="case_doc_field">Document Description :</label>
                         <input name="desc" class="form-control"/></div>
                         </div>
+                  
                          @if($errors->has("case_doc"))
                           <span class="help-block">{{ $errors->first("case_doc") }}</span>
                          @endif

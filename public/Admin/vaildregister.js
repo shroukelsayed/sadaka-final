@@ -12,7 +12,7 @@ $(document).ready(function($) {
 
 
 	//------------- Dropdown list ajax ----------------
-	console.log("shrouk");
+	// console.log("shrouk");
 
 
 
@@ -68,19 +68,33 @@ $(document).ready(function($) {
  //    }); 
 
     //----------- vaild  password ----------------------
+    $("#password").blur(function () {
+        $('span.error-keyup-2').remove();
+        var password = $("#password").val();
+        var confirmPassword = $("#confirm_password").val();
+        // alert("hello");
+        if ( password.length < 8 )
+        {
+            
+            $('#password').after('<span class="error error-keyup-2">Password must be Minimum 8 characters.</span>');
+            $('#password').focus();
+        }else{
+        
+             $("#confirm_password").blur(function () {
+                $('span.error-keyup-2').remove();
+                var password = $("#password").val();
+                var confirmPassword = $("#confirm_password").val();
+            	 if (password != confirmPassword) {
+                        $('#confirm_password').after('<span class="error error-keyup-2">Password Not Match.</span>');
+                    	$('#password').select();
+                        $('#password').focus();
+                    }
 
-    $("#confirm_password").blur(function () {
+            });
 
-    	var password = $("#password").val();
-    	var confirmPassword = $("#confirm_password").val();
-    	 if (password != confirmPassword) {
-                $('#confirm_password').after('<span class="error error-keyup-2">Password Not Match.</span>');
-            	$('#password').select();
-                $('#password').focus();
-            }	
-
+        }    
     });
-
+        
     //----------- vaild  email ----------------------
 
     // $('#email').blur(function() {
@@ -122,6 +136,17 @@ $(document).ready(function($) {
         $('span.error-keyup-2').remove();
         var inputVal = $(this).val();
         var characterReg = /^[0-9]{11}$/;
+        if(!characterReg.test(inputVal)) {
+            $(this).after('<span class="error error-keyup-2">phone must be 11 numbers</span>');
+            $(this).focus();
+        }
+    }); 
+
+
+        $('#credit').blur(function() {
+        $('span.error-keyup-2').remove();
+        var inputVal = $(this).val();
+        var characterReg = /^[0-9]$/;
         if(!characterReg.test(inputVal)) {
             $(this).after('<span class="error error-keyup-2">phone must be 11 numbers</span>');
             $(this).focus();

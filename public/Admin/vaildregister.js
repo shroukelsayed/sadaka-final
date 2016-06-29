@@ -148,7 +148,7 @@ $(document).ready(function($) {
         var inputVal = $(this).val();
         var characterReg = /^[0-9]$/;
         if(!characterReg.test(inputVal)) {
-            $(this).after('<span class="error error-keyup-2">phone must be 11 numbers</span>');
+            $(this).after('<span class="error error-keyup-2">Credit must be 11 numbers</span>');
             $(this).focus();
         }
     }); 

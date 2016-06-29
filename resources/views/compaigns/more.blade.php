@@ -1,5 +1,4 @@
-@extends('layouts.layout' )
-
+@extends('layouts.layout')
 @section('header')
 
 <link rel="stylesheet" type="text/css" media="screen" href="http://cdnjs.cloudflare.com/ajax/libs/fancybox/1.3.4/jquery.fancybox-1.3.4.css" />
@@ -14,40 +13,37 @@ a.fancybox img {
 a.fancybox:hover img {
     position: relative; z-index: 999; -o-transform: scale(1.03,1.03); -ms-transform: scale(1.03,1.03); -moz-transform: scale(1.03,1.03); -webkit-transform: scale(1.03,1.03); transform: scale(1.03,1.03);
 }
+label{
 
+        font-size: 15px;
+        color: #005384;
+    }
+#case{
+    width:350px;
+    height:60px;
+}
 #imgdosc{
 
-    width:250px;
-    height:150px;
+    width: 100%;
+    overflow: hidden;
+    margin: 10px 0px;
+    border: 1px dashed #DDD;
+    height: 400px;
+    }
+ .payments-bar {
+    background: none repeat scroll 0% 0% #31B0D5;
+    height: 40px;
+    color: #FFF;
+    font-size: 15px;
+}
+#bb{
     margin-left:150px;
 }
-
-#apro{
-
-     margin-top:30px;
-     z-index: 6;
-     margin-right:40px;
-     position:relative;
+#data{
+    height:70px;
 }
-
-#apro1{
-
-     margin-top:30px;
-     z-index: 6;
-     margin-right:100px;
-      position:relative;
-}
-
 </style>
-
-
-
-
-
-
 @endsection
-
-
 @section('content')
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
@@ -70,79 +66,131 @@ a.fancybox:hover img {
         $('a.fancybox').fancybox({
             titlePosition: titlePosition
         });
+            $("#sharetype").on("change", function () {
+
+            var optionSelected = $("option:selected", this);
+            var valueSelected = this.value;
+            var field;
+            field = "<input type='text' class='form-control' name='amount' required id='aa' placeholder='AMOUNT(€)'>";
+            if (valueSelected == 2) {
+              
+                var amountDiv = document.getElementById("wel");
+               
+                var f = "<label>AMOUNT(€)</label><input type='text' class='form-control' name='amount'  required id='aa' />";
+                amountDiv.innerHTML =f;
+            }
+           else if (valueSelected == 3) {
+               var amountDiv = document.getElementById("wel");
+               amountDiv.innerHTML = "<label>AMOUNT(€)</label><input type='text' class='form-control' name='amount' required id='aa' />";
+           }
+
+        });
+
+       
     });
     $.noConflict();
 </script>
 
+        <div class="row">
 
-
-    <div class="row" style="margin-top: 10px;">
-        <div class="col-md-12">
-             <!-- Widget: user widget style 1 -->
-               <div id="info" class="box box-widget widget-user-2">
-                <!-- Add the bg color to the header using any of the bg-* classes -->
-                <div class="widget-user-header" ">
-
-                  <h3 class="widget-user-username" style="margin-left:150px; ">{{$compaign->title}}</h3>
-                  <h5 class="widget-user-desc" style="margin-left:160px; ">Compagin</h5>
-                </div>
+            <div class="col-sm-6 right-section">
+                    <?php $img=$compaign->image;
+                        $id=$compaign->id;
+                    ?>
+               
+                        <a>
+                        <br>
+                        <img id="imgdosc" class="fancybox" src="{{ asset("compagin/$img") }}" alt="$doc->document" />
+                        <br>
+                        </a>                    
+            </div>
+            <div class="col-sm-6 left-section">
                 <div class="box-footer no-padding">
-                  <ul class="nav nav-stacked">
-                    <li><a>
-                        <label for="nationalid">LOCATION</label>
-                        <h7 style="margin-left: 40px;" class="form-control-static">{{$compaign->location}}</h7>
-                    </a></li>
-                    <li><a>
-                        <label for="gender">STARTDATE</label>
-                        <h7 style="margin-left: 40px;" class="form-control-static">{{$compaign->startDate}}</h7>
-                    </a></li>
+                    <div class="box box-widget widget-user-2">
+                        <h2 style="font-family:tahoma; "class="widget-user-username"  >{{$compaign->title}}</h2>
+                        <div id="data">
+                            <h4 class=""  ><p style="font-family:tahoma; ">{{$compaign->description}}</p></h4> 
+                        </div>    
+                    </div>
+                        <h2 class="form-control-static" style="font-family:tahoma; ">Compaign Budget</h2>
+                        <h1 style=" font-size:50px; font-family:tahoma; " class="form-control-static">{{$compaign->budget}}</h1>
 
-                    <li><a>
-                        <label for="gender">ENDDATE</label>
-                        <h7 style="margin-left: 40px;" class="form-control-static">{{$compaign->endDate}}</h7>
-                    </a></li>
-
-                    <li><a>
-                        <label for="birthdate">BUDGET</label>
-                        <h7 style="margin-left: 40px;" class="form-control-static">{{$compaign->budget}}</h7>
-                    </a></li>
-
-                    <li><a>
-                        <label for="birthdate">Description</label>
-                        <h7 style="margin-left: 40px;" class="form-control-static">{{$compaign->description}}</h7>
-                    </a></li>
- 
-                    <li><a>
-                        <strong><i class="fa fa-map-marker margin-r-5"></i>
-                        <label for="address">Address</label></strong>
-                        <h7 style="margin-left: 40px;" class="form-control-static">
-                            {{$compaign->governorate->name}},
-                            {{$compaign->city->name}},
-                        </h7>
-                    </a></li>
+                    <div class="payments-bar">
+                        <div class="amount-paid-bar" style="width:80%">
+                            <p style="font-family:tahoma ; margin-left:30px; font-size:20px;" > Compaign Location :{{ $compaign->location}}</p>
+                         </div>
+                    </div>
+             <div class="container" style="margin-top: 20px;"> 
                     
 
-                    <div>
-                        <label for="address">Image</label>    
-                        <li>   
-                            <img id="imgdosc" class="fancybox" src="{{asset("compagin/$compaign->image")}}" >
-                        </li>
+                                @if (Auth::guest())
+                                    <a href="{{ url('/login') }}" class="btn btn-primary mybtn" style="background-color: #5bc0de;">Donate </a>
+
+                                @else
+
+
+                                    <a href="#" class="btn btn-primary mybtn" style="background-color: #5bc0de;" data-toggle="modal" data-target="#donateModal"> Donate</a>
+                                    
+                                @endif
+
+                           
+                <div class="modal fade" id="donateModal" tabindex="-1" role="dialog" aria-labelledby="donateModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="donateModalLabel">DONATE NOW</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-donation" action="{{ route('usercompaign.store') }}" method="POST">
+                    <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+                
+                    <input type='hidden' name='id' value='{{$id}} '>
+                    
+              
+                    <h3 class="title-style-1 text-center">Thank you for your donation <span class="title-under"></span>  </h3>
+                    <div class="row">
+                        <div class="form-group col-md-12" >
+                            <label for="amount">SHARE TYPES </label>
+                            <select name="type" id="sharetype">
+
+                                    <option value="1">Volunteer</option>
+                                    <option value="2">Donate</option>
+                                    <option value="3">Volunteer & Donate</option>
+
+                            </select>
+                        </div>
+
                     </div>
-                    <br>
-                  </ul>
+
+                    <div class="row">
+
+                        <div class="form-group col-md-12 " id="wel">
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-md-12">
+                            <button type="submit" class="btn btn-primary pull-right" name="donateNow" >DONATE NOW</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div> <!-- /.modal -->
+
+
                 </div>
-              </div>
-
-        
-
-
-
-            <a class="btn btn-link" href="{{ route('charities.index') }}"><i class="glyphicon glyphicon-backward"></i>  Back</a>
-
+            </div>
         </div>
     </div>
 
 
 @endsection
-
 

@@ -8,7 +8,7 @@
     </div> -->
     <script src="/Admin/jquery-1.11.3.min.js" type="text/javascript"></script>
     <script src="/Admin/jquery-ui.min.js" type="text/javascript"></script>
-    <script src="/assets/js/user_validation1.js"></script>
+    <script src="/Admin/user_validation1.js"></script>
 
     <script src="/Admin/vaildregister.js"></script>
     <style>
@@ -67,6 +67,9 @@
 {
   margin-left:300px;
   margin-bottom:30px;
+}
+span{
+  font-size: 14px;
 }
 </style>
 

@@ -7,6 +7,10 @@ use Auth;
 use App\Http\Requests;
 use App\Userperson;
 use App\usercompaign;
+use App\Blood;
+use App\Money;
+use App\Medicine;
+
 class UserpersonController extends Controller
 {
     /**
@@ -40,15 +44,15 @@ class UserpersonController extends Controller
     public function store(Request $request)
     {
         $donate = new Userperson();
-
-        $donate->amount = $request->input("amount");
+        $donate->amount = $request->input("aa");
         $donate->donationdate =$request->input("date");
         $donate->user_id=Auth::user()->id;
-        $donate->person_id=$request->input("id");
+        $donate->person_id=$request->input("person");
+        $donate->payment=$request->input("payment");
+        $donate->checked=0;
         $donate->save();
         return redirect()->action("PersonController@cases")->with('message', 'Item created successfully.');
     }
-
     /**
      * Display the specified resource.
      *
@@ -96,5 +100,20 @@ class UserpersonController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function approveDonation($id){
+        // var_dump($id) or die;
+        $personDonator = Userperson::findOrFail($id);
+        $personDonator->checked = 1;
+
+        if($personDonator->person->donation_type_id == 2){
+            $money = Money::findOrFail($personDonator->person->money->id);
+            $money->paid = $money->paid+$personDonator->amount;
+            $money->save();
+        }
+
+        $personDonator->save();
+        return redirect()->action('UserpersonController@show',$id);
     }
 }

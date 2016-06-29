@@ -41,14 +41,14 @@ class HomeController extends Controller
             }
         }elseif(isset(Auth::user()->id) and (Auth::user()->user_type_id == 4)){
               
-            $people = PersonInfo::orderBy('id', 'desc')->paginate(10);
-            $compaigns=Compaign::orderBy('id')->paginate(2);
+                $people = Person::where('person_status_id','!=','3')->limit(8)->get();
+                $compaigns= Compaign::orderBy('id', 'desc')->limit(2)->get();
 
             return view('home', compact('people','compaigns'));
         }
         else{
-            $people = PersonInfo::orderBy('id', 'desc')->paginate(10);
-            $compaigns=Compaign::orderBy('id')->paginate(4);
+                $people = Person::where('person_status_id','!=','3')->limit(8)->get();
+                $compaigns= Compaign::orderBy('id', 'desc')->limit(2)->get();
 
             return view('home', compact('people','compaigns'));
         }

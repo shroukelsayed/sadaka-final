@@ -2,7 +2,7 @@
 <html class="no-js">
 <head>
     <meta charset="utf-8">
-    <title>SADAKA | Charity / Non-profit responsive Bootstrap HTML5 template</title>
+    <title>@lang('validation.sadaka')</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootsrap -->
@@ -21,16 +21,27 @@
     <script src="assets/js/modernizr-2.6.2.min.js"></script>
     <style>
 
-        lable{
+        label{
 
-            font-size: 20px;
+            font-size:23px;
             color: #005384;
+            width:120px;
         }
+        .btn {
+        padding: 10px 16px;
+        font-size: 18px;
+        line-height: 1.33;
+        border-radius: 6px;
+    }
 
         span{
 
-            font-size: 22px;
+            font-size: 15px;
             color: #005384;
+        }
+        #p {
+           font-size: 25px;
+           font-family:tahoma; 
         }
         .mainfooter{
         	width:1500px;
@@ -47,6 +58,9 @@
         #xx{
             width:261px;
             height:200px;
+        }
+        #compimage{
+            height:500px;
         }
 
     </style>
@@ -70,8 +84,8 @@
                     <div class="col-sm-6 col-xs-12">
 
                         <ul class="list-unstyled list-inline header-contact">
-                            <li> <i class="fa fa-phone"></i> <a href="tel:">+212 658 986 213 </a> </li>
-                            <li> <i class="fa fa-envelope"></i> <a href="mailto:contact@sadaka.org">contact@sadaka.org</a> </li>
+                            <li> <i class="fa fa-phone"></i> <a href="tel:">+201 124 372 854</a> </li>
+                            <li> <i class="fa fa-envelope"></i> <a href="mailto:sadakateam@gmail.com">sadakateam@gmail.com</a> </li>
                         </ul> <!-- /.header-contact  -->
 
                     </div>
@@ -118,25 +132,41 @@
 
                     <ul class="nav navbar-nav">
 
-                        <li><a  href="{{URL::to('/')}}">HOME</a></li>
-                        <li><a href="#contact">CONTACT</a></li>
-                        <li class="has-child"><a  href="{{URL::to('/cases')}}">CASES</a>
+                        <li><a  href="{{URL::to('/')}}">@lang('validation.home')</a></li>
+                        <li><a href="#contact">@lang('validation.contact')</a></li>
+                        <li class="has-child"><a  href="{{URL::to('/cases')}}">@lang('validation.cases')</a>
 
                             <ul class="submenu">
-                                <li class="submenu-item"><a href="{{URL::to('/cases')}}">Cases list </a></li>
-                                <li class="submenu-item"><a href="{{URL::to('/money')}}">Mony Cases </a></li>
-                                <li class="submenu-item"><a href="{{URL::to('/bloods')}}">Blood Cases </a></li>
-                                <li class="submenu-item"><a href="{{URL::to('/medicines')}}">Medicine Cases </a></li>
+                                <li class="submenu-item"><a href="{{URL::to('/cases')}}">@lang('validation.AllCases') </a></li>
+                                <li class="submenu-item"><a href="{{URL::to('/money')}}"> </a>@lang('validation.MoneyCases')</li>
+                                <li class="submenu-item"><a href="{{URL::to('/bloods')}}">@lang('validation.BloodCases') </a></li>
+                                <li class="submenu-item"><a href="{{URL::to('/medicines')}}">@lang('validation.MedicineCases') </a></li>
                             </ul>
 
 
                         </li>
-                        <li><a href="{{URL::to('/comp')}}">COMPAIGNS</a></li>
+                        <li><a href="{{URL::to('/comp')}}">@lang('validation.compaigns')</a></li>
                    
 
-                        @if (Auth::guest()) <li><a href="{{ url('/login') }}">LOGIN / REGISTER</a></li>  @else <li><a href="{{ route('user_infos.show',Auth::user()->userInfo->id ) }}" >PROFILE</a></li><li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> {{ Auth::user()->name }} <span class="caret"></span> </a> <ul class="dropdown-menu" role="menu"> <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>logout</a></li> </ul> </li> @endif
+                        @if (Auth::guest()) <li><a href="{{ url('/login') }}">@lang('validation.login') / @lang('validation.register')</a></li>  @else <li><a href="{{ route('user_infos.show',Auth::user()->userInfo->id ) }}" >@lang('validation.profile')</a></li><li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> {{ Auth::user()->name }} <span class="caret"></span> </a> <ul class="dropdown-menu" role="menu"> <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>@lang('validation.logout')</a></li> </ul> </li> @endif
 
 
+                        <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            @lang('validation.'. Config::get('languages')[App::getLocale()]) 
+
+                            <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                @foreach (Config::get('languages') as $lang => $language)
+                                @if ($lang != App::getLocale())
+                                <li>
+                                    <a href="{{ route('lang.switch', $lang) }}">@lang('validation.'.$language)</a>
+                                </li>
+                                @endif
+                                @endforeach
+                            </ul>
+                        </li>
+                        
                     </ul>
 
 
@@ -237,12 +267,13 @@
 
         <div class="row">
             @foreach($compaigns as $comp)
-                <?php $id=$comp->id;?>
+                <?php $id=$comp->id;
+                $img=$comp->image;
+                ?>
             <div class="col-md-6">
-
                 <div class="reasons-col animate-onscroll fadeIn">
 
-                    <img src="assets/images/reasons/we-fight-togother.jpg" alt="">
+                    <img id="compimage" src="{{ asset("compagin/$img") }}"alt="xxx">
 
                     <div class="reasons-titles">
 
@@ -253,9 +284,9 @@
 
                     <div class="on-hover hidden-xs" id="mycomp">
 
-                        <label>BUDgET: </label> <span>{{ $comp->budget}} .LE</span><br/>
-                        <label>LOCATION: </label><span> {{ $comp->location }}</span><br/>
-                        <label>DESCRIPTION: </label><span> {{ $comp->description}}</span><br/>
+                        <label>Budget: </label> <span>{{ $comp->budget}} .LE</span><br/>
+                        <label>Location: </label><span> {{ $comp->location }}</span><br/></br>
+                        <p id="p"> {{ $comp->description}}</p><br/>
 
                     </div>
                 </div>
@@ -288,7 +319,7 @@
 
                         <div class="footer-col">
 
-                            <h4 class="footer-title">About us <span class="title-under"></span></h4>
+                            <h4 class="footer-title">@lang('validation.aboutus') <span class="title-under"></span></h4>
 
                             <div class="footer-content">
                                 <p>
@@ -305,45 +336,11 @@
 
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-8">
 
                         <div class="footer-col">
 
-                            <h4 class="footer-title">LAST TWEETS <span class="title-under"></span></h4>
-
-                            <div class="footer-content">
-                                <ul class="tweets list-unstyled">
-                                    <li class="tweet"> 
-
-                                        20 Surprise Eggs, Kinder Surprise Cars 2 Thomas Spongebob Disney Pixar  http://t.co/fTSazikPd4 
-
-                                    </li>
-
-                                    <li class="tweet"> 
-
-                                        20 Surprise Eggs, Kinder Surprise Cars 2 Thomas Spongebob Disney Pixar  http://t.co/fTSazikPd4 
-
-                                    </li>
-
-                                    <li class="tweet"> 
-
-                                        20 Surprise Eggs, Kinder Surprise Cars 2 Thomas Spongebob Disney Pixar  http://t.co/fTSazikPd4 
-
-                                    </li>
-
-                                </ul>
-                            </div>
-                            
-                        </div>
-
-                    </div>
-
-
-                    <div class="col-md-4">
-
-                        <div class="footer-col">
-
-                            <h4 id="contact" class="footer-title">Contact us <span class="title-under"></span></h4>
+                            <h4 id="contact" class="footer-title">@lang('validation.contact') <span class="title-under"></span></h4>
 
                             <div class="footer-content">
 
@@ -402,7 +399,7 @@
         <div class="footer-bottom">
 
             <div class="container text-right">
-                Sadaka @ copyrights 2015 - by <a href="http://www.ouarmedia.com" target="_blank">Ouarmedia</a>
+                Sadaka @ copyrights 2015 - by <a href="mailto:sadakateam@gmail.com">sadakateam@gmail.com</a>
             </div>
         </div>
         

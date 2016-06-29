@@ -3,6 +3,7 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Auth;
+use DB;
 use App\UserInfo;
 use App\User;
 use App\City;
@@ -73,38 +74,72 @@ class UserInfoController extends Controller {
 			'nationalid'=>'required',
 			'gender' => 'in:male,female',
 			]);
-		$user= new User();
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->password = bcrypt($request->input('password'));
-        $user->phone=$request->input('phone');
+		DB::beginTransaction();
 
-        //determine user type (Donator or Benefactor) while register to system --> by shrouk
-        if ($type == 'Donator'){
-			$user->user_type_id = 4; 
-			$user->approved = 1;	
-		}
-		else{
-			$user->user_type_id = 3; 
-			$user->approved = 0;
-		}
-		//end of my code --> by shrouk
+		try {
+			$user= new User();
+	        $user->name = $request->input('name');
+	        $user->email = $request->input('email');
+	        $user->password = bcrypt($request->input('password'));
+	        $user->phone=$request->input('phone');
 
-		$user->save();
+	        //determine user type (Donator or Benefactor) while register to system --> by shrouk
+	        if ($type == 'Donator'){
+				$user->user_type_id = 4; 
+				$user->approved = 1;	
+			}
+			else{
+				$user->user_type_id = 3; 
+				$user->approved = 0;
+			}
+			//end of my code --> by shrouk
+
+			$user->save();
+		} catch(ValidationException $e)
+		{
+		    // Rollback and then redirect
+		    // back to form with errors
+		    DB::rollback();
+		    return Redirect::to('/form')
+		        ->withErrors( $e->getErrors() )
+		        ->withInput();
+		} catch(\Exception $e)
+		{
+		    DB::rollback();
+		    throw $e;
+		}
 		
+		try{
+			
+			$user_info = new UserInfo();
+			
+			$user_info->nationalid = $request->input("nationalid");
+	        $user_info->address = $request->input("address");
+	        $user_info->firstName=$request->input("firstName");
+	        $user_info->lastName=$request->input("lastName");
+	        $user_info->birthdate = $request->input("birthdate");
+	        $user_info->gender = $request->input("gender");
+	        $user_info->user_id = $user->id;
+	        $user_info->city_id=$request->input("city");
+	        $user_info->governorate_id =$request->input("level");
+			$user_info->save();
+	     	
+	     } catch(ValidationException $e)
+		{
+		    // Rollback and then redirect
+		    // back to form with errors
+		    DB::rollback();
+		    return Redirect::to('/form')
+		        ->withErrors( $e->getErrors() )
+		        ->withInput();
+		} catch(\Exception $e)
+		{
+		    DB::rollback();
+		    throw $e;
+		}
 		
-		$user_info = new UserInfo();
-		$user_info->nationalid = $request->input("nationalid");
-        $user_info->address = $request->input("address");
-        $user_info->firstName=$request->input("firstName");
-        $user_info->lastName=$request->input("lastName");
-        $user_info->birthdate = $request->input("birthdate");
-        $user_info->gender = $request->input("gender");
-        $user_info->user_id = $user->id;
-        $user_info->city_id=$request->input("city");
-        $user_info->governorate_id =$request->input("level");
-		$user_info->save();
-     	
+		DB::commit();
+
      	return \Redirect::to('login');
 		// return redirect()->route('user_infos.index')->with('message', 'Item created successfully.');
 	}
@@ -139,16 +174,15 @@ class UserInfoController extends Controller {
 	 */
 	public function edit(Request $request, $id)
 	{
-		//
+		
 		$governorates=Governorate::all();
-		//
 		$user_info = UserInfo::findOrFail($id);
 		$user= User::findOrFail($user_info->user_id);
 		$city= City::findOrFail($user_info->city_id);
 		$gov= Governorate::findOrFail($user_info->governorate_id);
 		if(Auth::guest() || Auth::user()->user_type_id == 4){
             
-            return view('user_infos.editprofile',  compact('gov','city','user','user_info'));
+            return view('user_infos.editprofile',  compact('gov','city','user','user_info','governorates'));
         }
         else{
 			return view('user_infos.edit', compact('gov','city','user','user_info','governorates'));
@@ -174,7 +208,8 @@ class UserInfoController extends Controller {
         $user_info->address = $request->input("address");
         $user_info->firstName = $request->input("firstName");
         $user_info->lastName = $request->input("lastName");
-    	$city->name=$request->input("cityname");
+    	$city->name=$request->input("city_id");
+    	$gov->name=$request->input("governorate_id");
         $user->email=$request->input("email");;
         $user_info->birthdate = $request->input("birthdate");
         $user->phone = $request->input("phone");

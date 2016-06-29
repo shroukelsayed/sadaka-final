@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
             $compagins=array();
             $compa=usercompaign::where('checked','=','0')->get();
                 foreach ($compa as $k) {
-                    if(Auth::user()->id==$k->compaign->user->id){ 
+                    if(Auth::user()->id == $k->compaign->user->id){ 
                     
                        array_push($compagins,$k);
 

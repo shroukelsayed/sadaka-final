@@ -16,6 +16,16 @@ use Illuminate\Http\Request;
 use App\City;
 use App\Governorate;
 
+
+Route::resource("interval_types","IntervalTypeController");
+Route::resource("person_statuses","PersonStatusController"); 
+Route::resource("donation_types","DonationTypeController");
+Route::resource("user_types","UserTypeController");
+Route::resource("compaign_donate_types","CompaignDonateTypeController");
+Route::resource("cities","CityController");
+Route::resource("governorates","GovernorateController");
+
+
 Route::group(['middleware' => ['web']], function () {
     Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => 'LanguageController@switchLang']);
 
@@ -31,7 +41,8 @@ Route::group(['middleware' => ['web']], function () {
 	Route::group(['middleware' => ['auth' ,'role']], function () {
 		
 		// routes --> by shrouk 
-
+		Route::get('/approveCompaignDonation/{id}','UserCompaignController@approveCompaignDonation');
+		Route::get('/approveDonation/{id}','UserpersonController@approveDonation');
 		Route::get('/changePassword/{id}','UserInfoController@changePassword');
 		Route::post('/change','UserInfoController@change');
 

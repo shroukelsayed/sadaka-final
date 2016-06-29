@@ -80,7 +80,7 @@
                     <div class="form-group">
                       <label for="amount">City </label>
                       <br>
-                      <select required name="city" id="city">
+                      <select required name="city" id="city" class="form-control">
 
                       </select>
                     </div>

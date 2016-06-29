@@ -48,7 +48,7 @@ class PersonController extends Controller {
 	
 	public function cases()
 	{
-		$people = PersonInfo::orderBy('id', 'desc')->paginate(10);
+		$people = Person::where('person_status_id','!=','3')->limit(8)->get();
 
 		return view('people.case', compact('people'));
 	}

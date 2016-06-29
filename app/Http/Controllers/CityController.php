@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\City;
+use App\Governorate;
 use Illuminate\Http\Request;
 
 class CityController extends Controller {
@@ -27,7 +28,8 @@ class CityController extends Controller {
 	 */
 	public function create()
 	{
-		return view('cities.create');
+		$governorates = Governorate::all();
+		return view('cities.create',compact('governorates'));
 	}
 
 	/**
@@ -41,7 +43,7 @@ class CityController extends Controller {
 		$city = new City();
 
 		$city->name = $request->input("name");
-		$city->governorate_id = 1;
+		$city->governorate_id = $request->input("governorate_id");
 		$city->save();
 
 		return redirect()->route('cities.index')->with('message', 'Item created successfully.');

@@ -6,6 +6,8 @@ use App\Governorate;
 use App\City;
 use App\Charity;
 use Auth;
+use DB;
+
 use App\Compaign;
 use App\DonationType;
 use App\Person;
@@ -18,8 +20,9 @@ class CharityController extends Controller {
 
 	public function __construct()
 	{
-		$this->middleware('auth',['except' =>[ 'create','store','check']]);
+		$this->middleware('auth',['except' =>[ 'show','create','store','check']]);
 		$this->middleware('admin',['only' =>[ 'index','approve','disapprove']]);
+	    
 	}
 
 	/**
@@ -32,6 +35,8 @@ class CharityController extends Controller {
 
 		$charities=Charity::all();
 		return view('charities.index', compact('charities'));
+		// $personinfo= PersonInfo::all();
+		// return view('people.index', compact('personinfo'));
 	}
 
 	/**
@@ -44,7 +49,7 @@ class CharityController extends Controller {
 	public function home()
 	{
 
-	$compaigns=Compaign::where('owner','=',Auth::user()->id)->get();
+	$compaigns=Compaign::where('user_id','=',Auth::user()->id)->get();
 	$cases=Person::where('user_id','=',Auth::user()->id)->get();
 	return view('charities.home', compact('compaigns','cases'));
 
@@ -66,63 +71,106 @@ class CharityController extends Controller {
 	 */
 	public function store(Request $request)
 	{
-		$user= new User();
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->password = bcrypt($request->input('password'));
-        $user->phone=$request->input('phone');
-        $user->user_type_id = 2;
-		$user->save();
+		DB::beginTransaction();
 
-		$charity = new Charity();
-		$charity->taxnum = $request->input("taxnum");
-        $charity->publishdate = $request->input("publishdate");
-        $charity->credit=$request->input("credit");
-        $charity->user_id =$user->id;
-		$charity->save();
-
-		$charityAddress=new CharityAddress();
-		$charityAddress->address=$request->input('address');
-		$charityAddress->charity_id=$charity->id;
-		$charityAddress->city_id=$request->input('city');
-		$charityAddress->governorate_id=$request->input('level');
+		try {
+			$user= new User();
+	        $user->name = $request->input('name');
+	        $user->email = $request->input('email');
+	        $user->password = bcrypt($request->input('password'));
+	        $user->phone=$request->input('phone');
+	        $user->user_type_id = 2;
+			$user->save();
+		} catch(ValidationException $e)
+		{
+		    // Rollback and then redirect
+		    // back to form with errors
+		    DB::rollback();
+		    return Redirect::to('/form')
+		        ->withErrors( $e->getErrors() )
+		        ->withInput();
+		} catch(\Exception $e)
+		{
+		    DB::rollback();
+		    throw $e;
+		}
 		
-		$charityAddress->save();
+		try{
+			$charity = new Charity();
+			$charity->taxnum = $request->input("taxnum");
+	        $charity->publishdate = $request->input("publishdate");
+	        $charity->credit=$request->input("credit");
+	        $charity->user_id =$user->id;
+			$charity->save();
+		} catch(ValidationException $e)
+		{
+		    // Rollback and then redirect
+		    // back to form with errors
+		    DB::rollback();
+		    return Redirect::to('/form')
+		        ->withErrors( $e->getErrors() )
+		        ->withInput();
+		} catch(\Exception $e)
+		{
+		    DB::rollback();
+		    throw $e;
+		}
+		
+		try{
+			$charityAddress=new CharityAddress();
+			$charityAddress->address=$request->input('address');
+			$charityAddress->charity_id=$charity->id;
+			$charityAddress->city_id=$request->input('city');
+			$charityAddress->governorate_id=$request->input('level');
+			
+			$charityAddress->save();
 
 		
-		if ($request->hasFile('image')) {
-        $file = array('image' => Input::file('image'));
-        $destinationPath = 'img/'; // upload path
-        $extension = Input::file('image')->getClientOriginalExtension(); 
-        $fileName = rand(11111,99999).'.'.$extension; // renaming image
-        Input::file('image')->move($destinationPath, $fileName);
-        $doc = new CharityDocument();
-    		$doc->doc=$fileName;
-    		$doc->charity_id=$charity->id;
-    		$doc->save();
-        }
-        else
-       {
-        echo "Please Upload Your Profile Image!";
-       }
-        if ($request->hasFile('image1')) {
-        $file1 = array('image1' => Input::file('image1'));
-        $destinationPath = 'img/'; // upload path
-        $extension = Input::file('image1')->getClientOriginalExtension(); 
-        $fileName1 = rand(11111,99999).'.'.$extension; // renaming image
-        Input::file('image1')->move($destinationPath, $fileName1);
-    	$doc1 = new CharityDocument();
-    		$doc1->doc=$fileName1;
-    		$doc1->charity_id=$charity->id;
-    		$doc1->save();
+			if ($request->hasFile('image')) {
+	        $file = array('image' => Input::file('image'));
+	        $destinationPath = 'img/'; // upload path
+	        $extension = Input::file('image')->getClientOriginalExtension(); 
+	        $fileName = rand(11111,99999).'.'.$extension; // renaming image
+	        Input::file('image')->move($destinationPath, $fileName);
+	        $doc = new CharityDocument();
+	    		$doc->doc=$fileName;
+	    		$doc->charity_id=$charity->id;
+	    		$doc->save();
+	        }
+	        else
+	       {
+	        echo "Please Upload Your Profile Image!";
+	       }
+	        if ($request->hasFile('image1')) {
+	        $file1 = array('image1' => Input::file('image1'));
+	        $destinationPath = 'img/'; // upload path
+	        $extension = Input::file('image1')->getClientOriginalExtension(); 
+	        $fileName1 = rand(11111,99999).'.'.$extension; // renaming image
+	        Input::file('image1')->move($destinationPath, $fileName1);
+	    	$doc1 = new CharityDocument();
+	    		$doc1->doc=$fileName1;
+	    		$doc1->charity_id=$charity->id;
+	    		$doc1->save();
 
-    }
-    		
-    else
-    {
-        echo "Please Upload Your Profile Image!";
-    }
-
+	    	}	
+	    	else
+	    	{
+	        	echo "Please Upload Your Profile Image!";
+	    	}
+	    } catch(ValidationException $e)
+		{
+		    // Rollback and then redirect
+		    // back to form with errors
+		    DB::rollback();
+		    return Redirect::to('/form')
+		        ->withErrors( $e->getErrors() )
+		        ->withInput();
+		} catch(\Exception $e)
+		{
+		    DB::rollback();
+		    throw $e;
+		}
+		DB::commit();
 		
     	return \Redirect::to('login');
 		// return redirect()->route('charities.index')->with('message', 'Item created successfully.');
@@ -138,7 +186,9 @@ class CharityController extends Controller {
 	{
 		$charity = Charity::findOrFail($id);
 
+
 		return view('charities.show', compact('charity'));
+
 	}
 
 	/**
@@ -150,8 +200,16 @@ class CharityController extends Controller {
 	public function edit($id)
 	{
 		$charity = Charity::findOrFail($id);
+		$governorates=Governorate::all();
 
-		return view('charities.edit', compact('charity'));
+		$docs = $charity->charityDocument;
+		$d1 = $docs[0];
+		$d2 = $docs[1];
+
+		// {
+			// var_dump($d->doc) or die;
+		// }
+		return view('charities.edit', compact('charity','governorates','d2','d1'));
 	}
 
 	/**
@@ -165,8 +223,50 @@ class CharityController extends Controller {
 	{
 		$charity = Charity::findOrFail($id);
 
-		$charity->taxnum = $request->input("taxnum");
+		
+        $charity->user->name= $request->input("name");
+        $charity->user->email = $request->input("email");
+        $charity->user->phone = $request->input("phone");
+        $charity->taxnum = $request->input("taxnum");
+        $charity->credit = $request->input("credit");
+
+        $charity->charityAddress->governorate_id=$request->input("governorate_id");
+
+        $charity->charityAddress->city_id= $request->input("city_id");
+
+        $charity->charityAddress->address= $request->input("address");
+
         $charity->publishdate = $request->input("publishdate");
+
+        // var_dump($request->hasFile('image')) or die;
+        $docs = $charity->charityDocument;
+        	
+		if ($request->hasFile('image1')) {
+	        $file = array('image1' =>\Input::file('image1'));
+	        $destinationPath = 'img/'; // upload path
+	        $extension = \Input::file('image1')->getClientOriginalExtension(); 
+	        $fileName = rand(11111,99999).'.'.$extension; // renaming image1
+	        \Input::file('image1')->move($destinationPath, $fileName);
+
+        	$docs[0]->doc=$fileName;
+        	$docs[0]->charity_id=$charity->id;
+        	$docs[0]->save();
+	    	
+	    }
+
+	    if ($request->hasFile('image2')) {
+	        $file = array('image2' =>\Input::file('image2'));
+	        $destinationPath = 'img/'; // upload path
+	        $extension = \Input::file('image2')->getClientOriginalExtension(); 
+	        $fileName = rand(11111,99999).'.'.$extension; // renaming image2
+	        \Input::file('image2')->move($destinationPath, $fileName);
+
+        	$docs[1]->doc=$fileName;
+        	$docs[1]->charity_id=$charity->id;
+        	$docs[1]->save();
+	    	
+	    }
+
 
 		$charity->save();
 

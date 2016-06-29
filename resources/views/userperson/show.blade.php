@@ -17,6 +17,9 @@
 
             <fieldset style="border: 2px solid lightgray;padding: 20px;margin-bottom: 20px;">
                   <legend>Donator Information</legend>
+                  @if($person_info->checked === 0)
+                  <a style="margin-top: -30px;" class="btn btn-primary pull-right" role="group" href="{{ URL::to('approveDonation', $person_info->id) }}"><i class="glyphicon glyphicon-edit"></i> Approve Donation</a>
+                  @endif
                 <div class="row">
                   <div class="col-md-6">
                   <div class="row">
@@ -90,7 +93,7 @@
                  </fieldset>
                 <fieldset style="border: 2px solid lightgray;padding: 20px;margin-bottom: 20px;">
                 <legend>Case Information</legend>
-                @if($person_info->person->donation_type_id === 1)
+                <!-- @if($person_info->person->donation_type_id === 1)
                 	<a style="margin-top: -30px;" class="btn btn-primary pull-right" role="group" href="{{ route('bloods.edit', $person_info->person->blood->id) }}"><i class="glyphicon glyphicon-edit"></i> Update</a>
                 @elseif($person_info->person->donation_type_id === 2)
                 	<a style="margin-top: -30px;" class="btn btn-primary pull-right" role="group" href="{{ route('money.edit', $person_info->person->money->id) }}"><i class="glyphicon glyphicon-edit"></i> Update</a>
@@ -98,7 +101,7 @@
                 	<a style="margin-top: -30px;" class="btn btn-primary pull-right" role="group" href="{{ route('medicines.edit', $person_info->person->medicine->id) }}"><i class="glyphicon glyphicon-edit"></i> Update</a>
                 @else
                 	<a style="margin-top: -30px;" class="btn btn-primary pull-right" role="group" href="{{ route('others.edit', $person_info->person->other->id) }}"><i class="glyphicon glyphicon-edit"></i> Update</a>
-                @endif
+                @endif -->
                 	<div class="row">
 	                  <div class="col-md-6">
 	                  <div class="row">

@@ -9,7 +9,7 @@
     <div class="page-header clearfix">
         <h1>
             <i class="glyphicon glyphicon-align-justify"></i> Compaigns
-            <a class="btn btn-success pull-right" href="{{ route('compaigns.create') }}"><i class="glyphicon glyphicon-plus"></i> Create</a>
+            
         </h1>
 
     </div>

@@ -20,8 +20,8 @@ class CreateCompaignsTable extends Migration {
             $table->date('enddate');
             $table->double('budget');
             $table->text('description');
-            $table->integer('owner')->unsigned()->index();
-            $table->foreign('owner')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('user_id')->unsigned()->index();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->integer('city_id')->unsigned()->index();
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');

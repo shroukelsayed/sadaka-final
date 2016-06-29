@@ -1,51 +1,33 @@
 @extends('layouts.header')
 @section('content')
 
-<div class="page-heading text-center">
-
-    <div class="container zoomIn animated">
-
-        <h1 class="page-title">OUR COMPAIGNS <span class="title-under"></span></h1>
-        <p class="page-description">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit Necessitatibus.
-        </p>
-
-    </div>
-
-</div>
 
 <div class="section-home our-causes animate-onscroll fadeIn">
 
     <div class="container">
         <div class="row">
         @foreach($comps as $comp)
-
+            <?php $id=$comp->id;
+            $img=$comp->image;
+                ?>
                 <div class="col-md-3 col-sm-6">
+                    <div class="cause"id="content">
+                         <img id="xx" src="{{ asset("compagin/$img") }}"alt="xxx">
+                            <h3 class="cause-title" ><a href="{{ route('compaigns.show',$id) }}"><h3> {{ $comp->title }}</h3></a></h2>
+                                <div class="cause-details" id="mycase">
+                                                <p><h4> {{$comp->description}}</h4></p>
+                                </div>
 
-                    <div class="cause">
-
-                        <div class="progress cause-progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 30%;">
-                                10$ / 500$
-                            </div>
-                        </div>
-                            <h2 class="cause-title" style='text-transform:uppercase'><a href="#"><h1> {{ $comp->title }}</h1></a></h2>
-                            <div class="cause-details">
-                               <label>BUDgET: </label> <span>{{ $comp->budget}} .LE</span><br/>
-                                <label>LOCATION: </label><span> {{ $comp->location }}</span><br/>
-                                <?php $id=$comp->id;?>
-                            </div>
-
-                            <div class="btn-holder text-center">
+                            <div  class="btn-holder text-center" id="btn">
 
                                 @if (Auth::guest())
-                                    <a href="{{ url('/login') }}" class="btn btn-primary" > </a>
+                                    <a href="{{ url('/login') }}" style="background-color: #5bc0de;"class="btn btn-primary mybtn">SHARE </a>
 
                                 @else
 
 
-                                    <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#donateModal"> SHARE</a>
-                                    <a class="is-active" href="{{ route('compaigns.show',$id) }}">see more</a>
+                                    <a href="#"  style="background-color: #5bc0de;"class="btn btn-primary mybtn" data-toggle="modal" data-target="#donateModal"> SHARE</a>
+                                    
                                 @endif
 
                             </div>
@@ -87,7 +69,7 @@
 
                     <div class="footer-col">
 
-                        <h4 class="footer-title">About us <span class="title-under"></span></h4>
+                        <h4 class="footer-title">@lang('validation.aboutus') <span class="title-under"></span></h4>
 
                         <div class="footer-content">
                             <p>
@@ -104,45 +86,11 @@
 
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-8">
 
                     <div class="footer-col">
 
-                        <h4 class="footer-title">LAST TWEETS <span class="title-under"></span></h4>
-
-                        <div class="footer-content">
-                            <ul class="tweets list-unstyled">
-                                <li class="tweet">
-
-                                    20 Surprise Eggs, Kinder Surprise Cars 2 Thomas Spongebob Disney Pixar  http://t.co/fTSazikPd4
-
-                                </li>
-
-                                <li class="tweet">
-
-                                    20 Surprise Eggs, Kinder Surprise Cars 2 Thomas Spongebob Disney Pixar  http://t.co/fTSazikPd4
-
-                                </li>
-
-                                <li class="tweet">
-
-                                    20 Surprise Eggs, Kinder Surprise Cars 2 Thomas Spongebob Disney Pixar  http://t.co/fTSazikPd4
-
-                                </li>
-
-                            </ul>
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="col-md-4">
-
-                    <div class="footer-col">
-
-                        <h4 id="contact" class="footer-title">Contact us <span class="title-under"></span></h4>pan></h4>
+                        <h4 id="contact" class="footer-title">@lang('validation.contact') <span class="title-under"></span></h4></h4>
 
                         <div class="footer-content">
 
@@ -201,7 +149,7 @@
     <div class="footer-bottom">
 
         <div class="container text-right">
-            Sadaka @ copyrights 2015 - by <a href="http://www.ouarmedia.com" target="_blank">Ouarmedia</a>
+            Sadaka @ copyrights 2015 - by <a href="mailto:sadakateam@gmail.com">sadakateam@gmail.com</a>
         </div>
     </div>
 
@@ -232,9 +180,9 @@
                             <label for="amount">SHARE TYPES </label>
                             <select name="type" id="sharetype">
 
-                                    <option value="1">SHARE</option>
-                                    <option value="2">DONATE</option>
-                                    <option value="3">SHARE AND DONATE</option>
+                                    <option value="1">Volunteer</option>
+                                    <option value="2">Donate</option>
+                                    <option value="3">Volunteer & Donate</option>
 
                             </select>
                         </div>
@@ -243,7 +191,7 @@
 
                     <div class="row">
 
-                        <div class="form-group col-md-12 " style="height:200px;" id="wel">
+                        <div class="form-group col-md-12 " id="wel">
                         </div>
 
                     </div>
@@ -301,12 +249,12 @@
               
                 var amountDiv = document.getElementById("wel");
                
-                var f = "<label>AMOUNT(€)</label><input type='text' class='form-control' name='amount' id='aa' />";
+                var f = "<label>AMOUNT(€)</label><input type='text' class='form-control' name='amount' required id='aa' />";
                 amountDiv.innerHTML =f;
             }
            else if (valueSelected == 3) {
                var amountDiv = document.getElementById("wel");
-               amountDiv.innerHTML = "<label>AMOUNT(€)</label><input type='text' class='form-control' name='amount' id='aa' />";
+               amountDiv.innerHTML = "<label>AMOUNT(€)</label><input type='text' class='form-control' name='amount' required id='aa' />";
            }
 
         });

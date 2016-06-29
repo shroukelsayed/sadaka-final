@@ -13,7 +13,7 @@
 
 @section('content')
 <div class="row">
-    @if($person_infos->count())
+    @if(count($person_infos))
 
         @foreach ($person_infos as $one)
         <div class="col-md-4">

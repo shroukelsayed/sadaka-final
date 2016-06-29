@@ -13,26 +13,34 @@ a.fancybox img {
 a.fancybox:hover img {
     position: relative; z-index: 999; -o-transform: scale(1.03,1.03); -ms-transform: scale(1.03,1.03); -moz-transform: scale(1.03,1.03); -webkit-transform: scale(1.03,1.03); transform: scale(1.03,1.03);
 }
-lable{
+label{
 
-        font-size: 30px;
-            color: #005384;
-        }
+        font-size: 15px;
+        color: #005384;
+    }
 #case{
     width:350px;
     height:60px;
 }
 #imgdosc{
 
-    width:350px;
-    height:350px;
-    margin-left:150px;
-}
+    width: 100%;
+    overflow: hidden;
+    margin: 10px 0px;
+    border: 1px dashed #DDD;
+    height: 400px;
+    }
  .payments-bar {
     background: none repeat scroll 0% 0% #31B0D5;
-    height: 30px;
+    height: 40px;
     color: #FFF;
     font-size: 15px;
+}
+#bb{
+    margin-left:150px;
+}
+#data{
+    height:70px;
 }
 </style>
 @endsection
@@ -59,51 +67,38 @@ lable{
             titlePosition: titlePosition
         });
         
-
     });
     $.noConflict();
 </script>
 
-    <div class="row" style="margin-top: 30px;">
-        <div class="col-md-6">
-                <div class="box-footer no-padding">
-                        
-                        <h3 style="margin-left: 40px;" class="form-control-static"> neaded amount</h3>
-                
-             
-                        <h1 style="margin-left: 40px; font-size:120px;" class="form-control-static">{{$other->amount}}</h1>
-                <div class="payments-bar">
-                    <div class="amount-paid-bar" style="width:80%">
-                    274
-                     </div>
-                </div>
-          
-                </div>
-                </div>
-                <div class="col-md-6">
+        <div class="row">
+
+            <div class="col-sm-6 right-section">
                 @foreach($other->person->personDocs as $doc)
                     <?php $img=$doc->document;?>
                 @endforeach
-                    <a>
-                    <br>
-                    <img id="imgdosc" class="fancybox" src="{{ asset("Case/PersonDocument/other/$img") }}" alt="$doc->document" />
-                    <br>
-                    </a>
+                        <a>
+                        <br>
+                        <img id="imgdosc" class="fancybox" src="{{ asset("Case/PersonDocument/other/$img") }}" alt="$doc->document" />
+                        <br>
+                        </a>                    
+            </div>
+            <div class="col-sm-6 left-section">
+                <div class="box-footer no-padding">
                     <div class="box box-widget widget-user-2">
-                      <h3 class="widget-user-username" style="margin-left:150px; ">{{$other->person->title}}</h3>
-                      <h7 class="widget-user-desc" style="margin-left:30px; ">        
+                        <h2 style="font-family:tahoma; "class="widget-user-username"  >{{$other->person->title}}</h2>
+                        <div id="data">
+                            <h4 class=""  ><p style="font-family:tahoma; ">{{$other->person->desc}}</p></h4> 
+                        </div>    
                     </div>
-                    <div class="box box-widget widget-user-2">
-                      <h5 class="" style="margin-left:150px; ">{{$other->person->desc}}</h5>
-                      <h7 class="" style="margin-left:30px; ">        
-                    </div>
-                <div class="container" style="margin-left: 50px;"> 
+                        <h1 style=" font-size:30px; font-family:tahoma; " class="form-control-static">This case need : {{$other->description}}</h1>
+             <div class="container" style="margin-top: 20px;"> 
                     @if (Auth::guest())
                         <a  class="btn btn-info btn-lg"  href="{{ url('/login') }}" > Donate Now</a>
                     @else
-                        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Donate Now</button>
+                        <button id="bb" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Donate Now</button>
                     @endif
-                 <!-- Modal --> <div class="modal fade" id="myModal" role="dialog">
+           <div class="modal fade" id="myModal" role="dialog">
                   <div class="modal-dialog"> <!-- Modal content--> 
                   <div class="modal-content"> 
                   <div class="modal-header">
@@ -139,10 +134,11 @@ lable{
                     </div> 
                    <div class="modal-footer"> 
                    </div> </div> </div> </div> </div>
-                    <a class="btn btn-link" href="{{ route('others.index') }}"><i class="glyphicon glyphicon-backward"></i>  Back</a>
+                </div>
             </div>
         </div>
     </div>
 
 
 @endsection
+

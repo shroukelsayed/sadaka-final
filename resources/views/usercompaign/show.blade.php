@@ -17,6 +17,9 @@
 
             <fieldset style="border: 2px solid lightgray;padding: 20px;margin-bottom: 20px;">
                   <legend>Donator Information</legend>
+                  @if($person_info->checked === 0)
+                    <a style="margin-top: -30px;" class="btn btn-primary pull-right" role="group" href="{{ URL::to('approveCompaignDonation', $person_info->id) }}"><i class="glyphicon glyphicon-edit"></i> Approve Donation</a>
+                  @endif
                 <div class="row">
                   <div class="col-md-6">
                   <div class="row">
@@ -114,6 +117,18 @@
 	                    </div> 
 	                   </div>
 	                </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-5">
+                          <label for="name-field"> Paid</label>
+                        </div>
+                        <div class="col-md-7">
+                          {{ $person_info->compaign->paid }}
+                        </div>
+                      </div> 
+                     </div>
+                  </div>
 	                <div class="row">
 	                  <div class="col-md-6">
 	                  <div class="row">

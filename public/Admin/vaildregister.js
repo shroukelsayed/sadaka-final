@@ -109,7 +109,7 @@ $(document).ready(function($) {
 
     //----------- vaild nationalid-----------------------
 
-    // $('#nationalid-field').blur(function() {
+    // $('#nationalid').blur(function() {
     //     $('span.error-keyup-2').remove();
     //     var inputVal = $(this).val();
     //     var characterReg = /^[0-9]{14}$/;

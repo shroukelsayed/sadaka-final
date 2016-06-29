@@ -13,26 +13,34 @@ a.fancybox img {
 a.fancybox:hover img {
     position: relative; z-index: 999; -o-transform: scale(1.03,1.03); -ms-transform: scale(1.03,1.03); -moz-transform: scale(1.03,1.03); -webkit-transform: scale(1.03,1.03); transform: scale(1.03,1.03);
 }
-lable{
+label{
 
-        font-size: 30px;
-            color: #005384;
-        }
+        font-size: 15px;
+        color: #005384;
+    }
 #case{
     width:350px;
     height:60px;
 }
 #imgdosc{
 
-    width:350px;
-    height:350px;
-    margin-left:150px;
-}
+    width: 100%;
+    overflow: hidden;
+    margin: 10px 0px;
+    border: 1px dashed #DDD;
+    height: 400px;
+    }
  .payments-bar {
     background: none repeat scroll 0% 0% #31B0D5;
-    height: 30px;
+    height: 40px;
     color: #FFF;
     font-size: 15px;
+}
+#bb{
+    margin-left:150px;
+}
+#data{
+    height:70px;
 }
 </style>
 @endsection
@@ -80,46 +88,41 @@ lable{
     $.noConflict();
 </script>
 
-    <div class="row" style="margin-top: 30px;">
-        <div class="col-md-6">
+        <div class="row">
+
+            <div class="col-sm-6 right-section">
+                    @foreach($money->person->personDocs as $doc)
+                        <?php $img=$doc->document;?>
+                    @endforeach
+                        <a>
+                        <br>
+                        <img id="imgdosc" class="fancybox" src="{{ asset("Case/PersonDocument/money/$img") }}" alt="$doc->document" />
+                        <br>
+                        </a>                    
+            </div>
+            <div class="col-sm-6 left-section">
                 <div class="box-footer no-padding">
-                        
-                        <h3 style="margin-left: 40px;" class="form-control-static"> neaded amount</h3>
-                
-             
-                        <h1 style="margin-left: 40px; font-size:120px;" class="form-control-static">{{$money->amount}}</h1>
-                <div class="payments-bar">
-                    <div class="amount-paid-bar" style="width:80%">
-                    274
-                     </div>
-                </div>
-          
-                </div>
-                </div>
-                <div class="col-md-6">
-                @foreach($money->person->personDocs as $doc)
-                    <?php $img=$doc->document;?>
-                @endforeach
-                    <a>
-                    <br>
-                    <img id="imgdosc" class="fancybox" src="{{ asset("Case/PersonDocument/money/$img") }}" alt="$doc->document" />
-                    <br>
-                    </a>
                     <div class="box box-widget widget-user-2">
-                      <h3 class="widget-user-username" style="margin-left:150px; ">{{$money->person->title}}</h3>
-                      <h7 class="widget-user-desc" style="margin-left:30px; ">        
+                        <h2 style="font-family:tahoma; "class="widget-user-username"  >{{$money->person->title}}</h2>
+                        <div id="data">
+                            <h4 class=""  ><p style="font-family:tahoma; ">{{$money->person->desc}}</p></h4> 
+                        </div>    
                     </div>
-                    <div class="box box-widget widget-user-2">
-                      <h5 class="" style="margin-left:150px; ">{{$money->person->desc}}</h5>
-                      <h7 class="" style="margin-left:30px; ">        
+                        <h2 class="form-control-static" style="font-family:tahoma; "> needed amount</h2>
+                        <h1 style=" font-size:50px; font-family:tahoma; " class="form-control-static">{{$money->amount}} .LE</h1>
+
+                    <div class="payments-bar">
+                        <div class="amount-paid-bar" style="width:80%">
+                            <p style="font-family:tahoma ; margin-left:30px;" > paied :{{ $money->paid}}</p>
+                         </div>
                     </div>
-                <div class="container" style="margin-left: 50px;"> 
+             <div class="container" style="margin-top: 20px;"> 
                     @if (Auth::guest())
                         <a  class="btn btn-info btn-lg"  href="{{ url('/login') }}" > Donate Now</a>
                     @else
-                        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Donate Now</button>
+                        <button id="bb" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Donate Now</button>
                     @endif
-                 <!-- Modal --> <div class="modal fade" id="myModal" role="dialog">
+                 <div class="modal fade" id="myModal" role="dialog">
                   <div class="modal-dialog"> <!-- Modal content--> 
                   <div class="modal-content"> 
                   <div class="modal-header">
@@ -135,21 +138,20 @@ lable{
                                 @if($money->person->user->user_type_id==2)
                                 <div class="row">
                                     <div class="form-group col-md-12" >
-                                        <label for="amount">PAYMENT TYPES </label>
-                                        <select name="type" id="type">
-
-                                                <option value="1">CREDIT</option>
+                                        <label for="amount">Payment Types </label>
+                                        <select name="type" id="type" style="width:30%">
                                                 <option value="2">OTHER</option>
+                                                <option value="1">CREDIT</option>
                                         </select>
                                         <input type='hidden' name='' id='credit' value='{{ $money->person->user->charity->credit}}'/>
                                         <input type='hidden' name='payment' value='1'/>
                                         <input type='hidden' name='person' value="{{$money->person_id}}"/>
-                                        
+                                         
                                        </div>
                                     </div>
                                 <div class="row">
 
-                                    <div class="form-group col-md-12 " style="height:200px;" id="wel">
+                                    <div class="form-group col-md-12 " id="wel">
                                     </div>
 
                                 </div>
@@ -157,9 +159,9 @@ lable{
                                 @else
                                 <div class="row">
                                     <div class="form-group col-md-12" >
-                                        <p> <span>YOU CAN CONTACT US THROUGH THIS NUMBER :</span>
+                                        <p> <span>You Can Contact Us Through This Number :</span>
                                            {{$money->person->user->phone }} </br>
-                                           <span>AND THIS EMAIL:</span>
+                                           <span>And This Email</span>
                                            {{$money->person->user->email}}
                                         </p>
                                         <input type='hidden' name='person' value="{{$money->person_id}}"/>
@@ -181,10 +183,12 @@ lable{
                     </div> 
                    <div class="modal-footer"> 
                    </div> </div> </div> </div> </div>
-                    <a class="btn btn-link" href="{{ route('money.index') }}"><i class="glyphicon glyphicon-backward"></i>  Back</a>
+
+                </div>
             </div>
         </div>
     </div>
 
 
 @endsection
+

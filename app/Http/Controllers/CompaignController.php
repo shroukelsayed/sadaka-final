@@ -29,13 +29,13 @@ class CompaignController extends Controller {
 	 */
 	public function index()
 	{
-		$compaigns = Compaign::orderBy('id', 'desc')->paginate(10);
+		$compaigns = Compaign::where('user_id','=',Auth::user()->id)->get();
 
 		return view('compaigns.index', compact('compaigns'));
 	}
 	public function comps()
 	{
-		$comps = Compaign::orderBy('id', 'desc')->paginate(10);
+		$comps = Compaign::orderBy('id', 'desc')->limit(4)->get();
 
 		return view('compaigns.compaign',compact('comps'));
 	}
@@ -73,7 +73,7 @@ class CompaignController extends Controller {
         $compaign->governorate_id = $request->input("governorate");
         $compaign->city_id = $request->input("city");
         
-        $compaign->owner=Auth::user()->id;
+        $compaign->user_id=Auth::user()->id;
 
         if ($request->hasFile('image')) {
         $file = array('image' => Input::file('image'));

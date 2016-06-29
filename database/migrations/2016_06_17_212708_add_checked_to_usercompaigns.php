@@ -12,7 +12,7 @@ class AddCheckedToUsercompaigns extends Migration
      */
     public function up()
     {
-         Schema::table('usercompaigns', function($table) {
+        Schema::table('usercompaigns', function($table) {
             $table->boolean('checked');
         });
     }

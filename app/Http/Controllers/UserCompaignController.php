@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Http\Requests;
 use App\usercompaign;
+use App\Compaign;
 
 class UserCompaignController extends Controller
 {
@@ -38,21 +39,22 @@ class UserCompaignController extends Controller
      */
     public function store(Request $request)
     {
-        $share = new usercompaign();
+         $share = new usercompaign();
       
         $share->user_id=Auth::user()->id;
         $share->compaign_id =$request->input("id");
         // var_dump($share->compaign_id);die;
         $type=$request->input("type");   
         $share->donate_type_id = $type;
-		if($type ==1) 
-		    {
-		       $share->amount = 0;
-		    }
-		    else
-		    {
-		        $share->amount = $request->input("amount");
-		    }
+        $share->checked = 0;
+        if($type ==1) 
+            {
+               $share->amount = 0;
+            }
+            else   
+            {
+                $share->amount = $request->input("amount");
+            }
         $share->save();
         return redirect()->action("CompaignController@comps")->with('message', 'Item created successfully.');
     }
@@ -104,5 +106,20 @@ class UserCompaignController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function approveCompaignDonation($id){
+        // var_dump($id) or die;
+        $compaignDonator = usercompaign::findOrFail($id);
+        $compaignDonator->checked = 1;
+
+        if( !($compaignDonator->compaign->donate_type_id == 1)){
+           $compaign = Compaign::findOrFail($compaignDonator->compaign->id);
+           $compaign->paid = $compaign->paid+$compaignDonator->amount;
+           $compaign->save();
+        }
+
+        $compaignDonator->save();
+        return redirect()->action('UserCompaignController@show',$id);
     }
 }

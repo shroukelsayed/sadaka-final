@@ -26,7 +26,7 @@
                 </div>
                 <div class="widget-user-image">
                 <a href="{{ route('compaigns.show', $compain->id) }}">
-                  <img class="img-circle" style="width: 120px;height: 100px;margin-left: -12px;margin-top: -8px;border:3px solid white;" src="{{ asset("compagin/1.png") }}" alt="User Avatar">
+                  <img class="img-circle" style="width: 120px;height: 100px;margin-left: -12px;margin-top: -8px;border:3px solid white;" src="{{ asset("compagin/1.jpg") }}" alt="User Avatar">
                 </a>
                 </div>
                 <div class="box-footer">

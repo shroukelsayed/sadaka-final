@@ -165,7 +165,7 @@ a.fancybox:hover img {
                                 <div class="row">
                                     <div class="col-md-3"><strong><i class="fa fa-map-marker margin-r-5"></i>
                                 <label for="address">Hospital Address</label></strong></div>
-                                 <div class="col-md-9"><h7 style="margin-left: 40px;" class="form-control-static">{{$p->blood->governorate->name}}, {{$p->blood->city->name}}, {{$p->blood->address}}</h7></div>
+                                 <div class="col-md-9"><h7 style="margin-left: 40px;" class="form-control-static">{{$p->blood->address}}</h7></div>
                                  </div>
                             </a></li>
                             <li><a>

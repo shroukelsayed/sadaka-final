@@ -7,16 +7,8 @@
 @section('header')
  
  <div class="page-header">
-        <h1>Compaigns / Show #{{$compaign->id}}</h1>
-        <form action="{{ route('compaigns.destroy', $compaign->id) }}" method="POST" style="display: inline;" onsubmit="if(confirm('Delete? Are you sure?')) { return true } else {return false };">
-            <input type="hidden" name="_method" value="DELETE">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            <div class="btn-group pull-right" role="group" aria-label="...">
-                <a id="apro" class="btn btn-warning btn-group" role="group" href="{{ route('compaigns.edit', $compaign->id) }}"><i class="glyphicon glyphicon-edit"></i> Edit</a>
-                <button id="apro1" type="submit" class="btn btn-danger">Delete <i class="glyphicon glyphicon-trash"></i></button>
-            </div>
-        </form>
-    </div>   
+    <h1>Compaigns</h1>
+</div>   
 
 
 <link rel="stylesheet" type="text/css" media="screen" href="http://cdnjs.cloudflare.com/ajax/libs/fancybox/1.3.4/jquery.fancybox-1.3.4.css" />
@@ -36,24 +28,18 @@ a.fancybox:hover img {
 
     width:250px;
     height:150px;
-    margin-left:150px;
+    margin-left:45px;
 }
 
 #apro{
 
-     margin-top:30px;
-     z-index: 6;
-     margin-right:40px;
-     position:relative;
+     margin-top:-80px;
+     margin-left:700px;
+     width: 100px;
+     height: 40px;
+     font-size: 16px;
 }
 
-#apro1{
-
-     margin-top:30px;
-     z-index: 6;
-     margin-right:100px;
-      position:relative;
-}
 
 </style>
 
@@ -68,7 +54,7 @@ a.fancybox:hover img {
 
 
 
-    <div class="row" style="margin-top: 10px;">
+    <div class="row" >
         <div class="col-md-12">
              <!-- Widget: user widget style 1 -->
                <div id="info" class="box box-widget widget-user-2">
@@ -79,51 +65,76 @@ a.fancybox:hover img {
                   </div><!-- /.widget-user-image -->
                   <h3 class="widget-user-username" style="margin-left:150px; ">{{$compaign->title}}</h3>
                   <h5 class="widget-user-desc" style="margin-left:160px; ">Compagin</h5>
+                  <a id="apro" class="btn btn-warning btn-group" role="group" href="{{ route('compaigns.edit', $compaign->id) }}"><i class="glyphicon glyphicon-edit"></i> Edit</a>
                 </div>
                 <div class="box-footer no-padding">
                   <ul class="nav nav-stacked">
                     <li><a>
-                        <label for="nationalid">LOCATION</label>
-                        <h7 style="margin-left: 40px;" class="form-control-static">{{$compaign->location}}</h7>
+                        <div class="row">
+                            <div class="col-md-3"><strong>
+                            <label for="nationalid">LOCATION</label></strong></div>
+                             <div class="col-md-9">
+                            <h7 style="margin-left: 40px;" class="form-control-static">{{$compaign->location}}</h7></div>
+                        </div>
                     </a></li>
                     <li><a>
-                        <label for="gender">STARTDATE</label>
-                        <h7 style="margin-left: 40px;" class="form-control-static">{{$compaign->startdate}}</h7>
-                    </a></li>
-
-                    <li><a>
-                        <label for="gender">ENDDATE</label>
-                        <h7 style="margin-left: 40px;" class="form-control-static">{{$compaign->enddate}}</h7>
-                    </a></li>
-
-                    <li><a>
-                        <label for="birthdate">BUDGET</label>
-                        <h7 style="margin-left: 40px;" class="form-control-static">{{$compaign->budget}}</h7>
+                        <div class="row">
+                            <div class="col-md-3"><strong>
+                            <label for="gender">STARTDATE</label></strong></div>
+                            <div class="col-md-9">
+                            <h7 style="margin-left: 40px;" class="form-control-static">{{$compaign->startdate}}</h7></div>
+                        </div>
                     </a></li>
 
                     <li><a>
-                        <strong><i class="fa fa-map-marker margin-r-5"></i>
-                        <label for="address">Address</label></strong>
-                        <h7 style="margin-left: 40px;" class="form-control-static">
-                            {{$compaign->governorate->name}},
-                            {{$compaign->city->name}},
-                        </h7>
+                         <div class="row">
+                            <div class="col-md-3"><strong>
+                            <label for="gender">ENDDATE</label></strong></div>
+                            <div class="col-md-9">
+                            <h7 style="margin-left: 40px;" class="form-control-static">{{$compaign->enddate}}</h7></div>
+                        </div>
+                    </a></li>
+
+                    <li><a>
+                    <div class="row">
+                            <div class="col-md-3"><strong>
+                            <label for="birthdate">BUDGET</label></strong></div>
+                            <div class="col-md-9">
+                            <h7 style="margin-left: 40px;" class="form-control-static">{{$compaign->budget}}</h7></div>
+                        </div>
+                    </a></li>
+
+                    <li><a>
+                    <div class="row">
+                            <div class="col-md-3">
+                            <strong><i class="fa fa-map-marker margin-r-5"></i></strong>
+                            <strong><label for="address">Address</label></strong></div>
+                            <div class="col-md-9">
+                            <h7 style="margin-left: 40px;" class="form-control-static">
+                                {{$compaign->governorate->name}},
+                                {{$compaign->city->name}},
+                            </h7></div>
+                        </div>
                     </a></li>
                     
 
                     <li><a>
-                        <label for="birthdate">Description</label>
-                        <h7 style="margin-left: 40px;" class="form-control-static">{{$compaign->description}}</h7>
+                        <div class="row">
+                            <div class="col-md-3"><strong>
+                            <label for="birthdate">Description</label></strong></div>
+                            <div class="col-md-9">
+                            <h7  style="margin-left: 40px;" class="form-control-static">{{$compaign->description}}</h7></div>
+                        </div>
                     </a></li>
  
-                    
-                    
-
-                    <div>
-                        <label for="address">Image</label>    
-                        <li>   
-                            <img id="imgdosc" class="fancybox" src="{{asset("compagin/$compaign->image")}}" >
-                        </li>
+                    <li><a>
+                        <div class="row">
+                            <div class="col-md-3"><strong>
+                            <label for="address">Image</label></strong></div>
+                            <div class="col-md-9">      
+                            <img id="imgdosc" class="fancybox" src="{{asset("compagin/$compaign->image")}}" ></div>
+                        </div>
+                    </a></li>  
                     </div>
                     <br>
                   </ul>
@@ -176,5 +187,4 @@ a.fancybox:hover img {
 
 
 @endsection
-
 

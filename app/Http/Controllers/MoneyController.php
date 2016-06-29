@@ -18,7 +18,7 @@ use Carbon\Carbon;
 use App\PersonStatus;
 use Validator;
 use App\PersonDocument;
-
+use App\Userperson;
 use App\Money;
 use Illuminate\Http\Request;
 
@@ -258,6 +258,11 @@ class MoneyController extends Controller {
 		$person->person_status_id = $request->input("status_type_id");
 
 		$money->amount = $request->input("amount");
+
+		if($request->input("paid")){
+			$money->paid = $money->paid+$request->input("paid");
+		}
+
 
 		if ($request->hasFile('case_doc')) {
 

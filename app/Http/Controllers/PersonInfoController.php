@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 
 use App\Governorate;
 use App\City;
-
+use Auth;
 use App\PersonInfo;
 use Illuminate\Http\Request;
 
@@ -22,7 +22,15 @@ class PersonInfoController extends Controller {
 	 */
 	public function index()
 	{
-		$person_infos = PersonInfo::orderBy('id', 'desc')->paginate(10);
+		$person_infos = array();
+		$persons = PersonInfo::orderBy('id', 'desc')->paginate(10);
+	    foreach ($persons as $p) {
+	    	foreach ($p->people as $per) {
+	    		if(Auth::user()->id == $per->user_id){
+		    		array_push($person_infos,$p);
+		    	}
+	    	}
+	     } 
 
 		return view('person_infos.index', compact('person_infos'));
 	}

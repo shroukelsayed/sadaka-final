@@ -6,7 +6,7 @@
  
 <script src="/Admin/jquery-1.11.3.min.js" type="text/javascript"></script>
 <script src="/Admin/jquery-ui.min.js" type="text/javascript"></script>
- <script src="/assets/js/user_validation.js"></script>
+ <script src="/Admin/user_validation.js"></script>
  <script src="/Admin/vaildregister.js"></script>
  
     <!-- <div class="page-header">
@@ -103,6 +103,9 @@ $(document).ready(function($) {
   margin-left:300px;
   margin-bottom:30px;
 }
+span{
+  font-size: 14px;
+}
 </style>
     
 @endsection
@@ -138,7 +141,7 @@ $(document).ready(function($) {
                    <i class="fa fa-user" aria-hidden="true"></i>
                        <label for="name-field">Username</label>
                     <input type="text" id="name" name="name" placeholder=" Username" class="form-control register-input" value="{{ old("name") }}" required/>
-                       <span id="uspan" class="help-block"></span>
+                       <span id="uspan" class="help-block" style="font-size: 14px;"></span>
                        @if($errors->has("name"))
                         <span class="help-block">{{ $errors->first("name") }}</span>
                        @endif
@@ -163,7 +166,7 @@ $(document).ready(function($) {
                     <i class="fa fa-at"></i>
                        <label for="email-field">Email</label>
                     <input type="text" id="email" name="email" placeholder=" example@gmail.com" class="form-control register-input" value="{{ old("email") }}" required/>
-                      <span id="upan" class="help-block"></span>
+                      <span id="upan" class="help-block" style="font-size: 14px;"></span>
                        @if($errors->has("email"))
                         <span class="help-block">{{ $errors->first("email") }}</span>
                        @endif
@@ -190,7 +193,7 @@ $(document).ready(function($) {
                   <i class="fa fa-newspaper-o" aria-hidden="true"></i>
                        <label for="nationalid-field">Nationalid</label>
                     <input type="text" id="nationalid" name="nationalid" placeholder=" National Id" class="form-control register-input" value="{{ old("nationalid") }}" required/>
-                    <span id="idspan" class="help-block"></span>
+                    <span id="idspan" class="help-block" style="font-size: 14px;"></span>
                        @if($errors->has("nationalid"))
                         <span class="help-block">{{ $errors->first("nationalid") }}</span>
                        @endif

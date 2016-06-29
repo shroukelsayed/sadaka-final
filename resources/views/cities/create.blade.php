@@ -16,7 +16,17 @@
 
             <form action="{{ route('cities.store') }}" method="POST">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
+                <div class="form-group @if($errors->has('name')) has-error @endif">
+                   <i class="fa fa-flag" aria-hidden="true"></i>
+                       <label for="governorate-field">Select Your Governorate</label>
+                         <select class="form-control register-input" name="governorate_id" id="governorate" required>
+                         option>
+                          @foreach ($governorates as $key => $value)
+                              <option value="{{ $value['id'] }}">{{ $value['name'] }}</option>
+                          @endforeach
+                      </select>
+                   
+                    </div>
                 <div class="form-group @if($errors->has('name')) has-error @endif">
                        <label for="name-field">Name</label>
                     <input type="text" id="name-field" name="name" class="form-control" value="{{ old("name") }}"/>

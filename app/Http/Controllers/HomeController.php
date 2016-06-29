@@ -26,7 +26,7 @@ class HomeController extends Controller
         }elseif(isset(Auth::user()->id) and (Auth::user()->user_type_id == 2)){
 
             if(isset(Auth::user()->id) and (Auth::user()->approved == 1 )){
-                return \Redirect::to('/people');
+                return \Redirect::to('/home');
             }else{
                 \Session::flush();
                 return view('approved');
@@ -34,7 +34,7 @@ class HomeController extends Controller
         }elseif(isset(Auth::user()->id) and (Auth::user()->user_type_id == 3)){
 
             if(isset(Auth::user()->id) and (Auth::user()->approved == 1 )){
-                return \Redirect::to('/people');
+                return \Redirect::to('/home');
             }else{
                 \Session::flush();
                 return view('approved');

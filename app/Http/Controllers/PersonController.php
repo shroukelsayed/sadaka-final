@@ -39,7 +39,7 @@ class PersonController extends Controller {
 	 */
 	public function index()
 	{
-		$personinfo = Person::where('person_status_id','!=','3')->where('user_id','=',Auth::user()->id)->get();
+	$personinfo = Person::where('person_status_id','!=','3')->where('user_id','=',Auth::user()->id)->get();
 		
         $cities = DB::table('cities')->select('name')->get();
         $statuses = DB::table('person_statuses')->select('type')->get();
